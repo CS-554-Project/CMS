@@ -1,5 +1,5 @@
 /******************************************
- *  Author : Harsh Jagdishbhai Kevadia   
+ *  Author : Harsh Jagdishbhai Kevadia
  *  Created On : Thu Nov 30 2017
  *  File : StructuresListLeftNav.js
  *******************************************/
@@ -12,24 +12,41 @@ class StructuresListLeftNav extends Component {
   }
 
   render() {
-    let body = (
-      <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-        <ul className="navbar-nav mr-auto">
+    let body = null;
+    if (this.props.structures.length !== 0) {
+      const structureNavigation = this.props.structures.map(structure => {
+        return (
           <li className="nav-item">
-            <a>Home</a>
+            <Link to={"/Structure/" + structure.slug}>{structure.name}</Link>
           </li>
-          <li className="nav-item">
-            <a>Settings</a>
-          </li>
-          <li className="nav-item">
-            <a>Profile</a>
-          </li>
-          <li className="nav-item">
-            <a>Help</a>
-          </li>
-        </ul>
-      </nav>
-    );
+        );
+      });
+      body = (
+        <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+          <ul className="navbar-nav mr-auto">{structureNavigation}</ul>
+        </nav>
+      );
+    } else {
+      body = <div className="row">No Pokemons yet!</div>;
+    }
+    // let body = (
+    //   <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+    //     <ul className="navbar-nav mr-auto">
+    //       <li className="nav-item">
+    //         <a>Home</a>
+    //       </li>
+    //       <li className="nav-item">
+    //         <a>Settings</a>
+    //       </li>
+    //       <li className="nav-item">
+    //         <a>Profile</a>
+    //       </li>
+    //       <li className="nav-item">
+    //         <a>Help</a>
+    //       </li>
+    //     </ul>
+    //   </nav>
+    // );
     return body;
   }
 }

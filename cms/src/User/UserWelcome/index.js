@@ -13,11 +13,16 @@ class UserWelcome extends Component {
   }
 
   render() {
+    var structures = [
+      {name:'Structure one',slug:'One'},
+      {name:'Structure Two',slug:'Two'}
+    ]; 
+    
     let body = (
       <div className="row">
         <div class="span6">
           <div class="mycontent-left">
-            <StructuresListLeftNav />
+            <StructuresListLeftNav structures={structures}/>
           </div>
         </div>
         <div class="span6">
