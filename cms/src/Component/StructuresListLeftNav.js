@@ -27,26 +27,12 @@ class StructuresListLeftNav extends Component {
         </nav>
       );
     } else {
-      body = <div className="row">No Pokemons yet!</div>;
+      body = (
+        <div>
+          There is no structure define
+        </div>
+      );
     }
-    // let body = (
-    //   <nav className="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-    //     <ul className="navbar-nav mr-auto">
-    //       <li className="nav-item">
-    //         <a>Home</a>
-    //       </li>
-    //       <li className="nav-item">
-    //         <a>Settings</a>
-    //       </li>
-    //       <li className="nav-item">
-    //         <a>Profile</a>
-    //       </li>
-    //       <li className="nav-item">
-    //         <a>Help</a>
-    //       </li>
-    //     </ul>
-    //   </nav>
-    // );
     return body;
   }
 }

@@ -5,7 +5,8 @@
  *******************************************/
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import UserWelcome from "./UserWelcome";
+import UserWelcome from "./UserWelcome/UserWelcome";
+import Structure from "./Structure/Structure";
 
 class User extends Component {
   render() {
@@ -14,9 +15,7 @@ class User extends Component {
 
     return (
       <Switch>
-        {/* <Route path="/pokemon" component={Pokemon} />
-        <Route path="/berries" component={Berries} />
-        <Route path="/machines" component={Machines} /> */}
+        <Route path="/Structure/:stucture" component={Structure} />
         <Route path="/" component={UserWelcome} />
       </Switch>
     );
