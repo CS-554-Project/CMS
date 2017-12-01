@@ -1,9 +1,9 @@
-const MongoClient = require("mongodb").MongoClient;;
+const MongoClient = require("mongodb").MongoClient;
 
 const settings = {
     mongoConfig: {
-        serverUrl: "mongodb://localhost:27017/",
-        database: "CMS"
+        serverUrl: "mongodb://127.0.0.1:27017/",
+        database: "lab7-recipes"
     }
 };
 
@@ -17,8 +17,8 @@ let connectDb = () => {
                 return db;
             });
     }
-
     return _connection;
 };
 
 module.exports = connectDb;
+
