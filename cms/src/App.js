@@ -9,6 +9,7 @@ import {
 //import logo from './logo.svg';
 import "./App.css";
 import User from "./user";
+import Admin from "./admin";
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
         <Switch>
           {/* <Route path="/404" component={Error404} /> */}
           <Route path="/" component={User} />
+          <Route path="/admin" component={Admin} />
         </Switch>
       </Router>
     );
