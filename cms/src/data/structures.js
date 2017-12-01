@@ -1,6 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
 const structures = mongoCollections.structures;
-const structure_entries = mongoCollections.structure_entries;
+
 const users=mongoCollections.users;
 const uuid = require('uuid/v4');
 
@@ -22,16 +22,22 @@ let exportedMethods = {
         });  
     },
 
-    getEntriesBySlug(slug){
-        if(!slug) return Promise.reject("No Slug provided");
-        
-                return structure_entries().then((structureCollection) => {
-                    return structureCollection.findOne({slug: slug}).then((structure) => {
-                        if(!structure) throw("Structure not found");
-                        return structure;
-                    });
-                });  
+    getAllEntriesByStructureSlugName(slug){
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne({ slug: slug }).then((entry) => {
+                if (!entry) throw "Entry not found";
+                let result = entry.entries;
+                result.forEach(function (e) {
+                    e.name = entry.name;
+                    e.slug = entry.slug;
+                    return e;
+                });
+                return result;
+            });
+        });
     },
+
+
 
     getStructureById(id) {
         return structures().then((structuresCollection) => {
@@ -42,14 +48,16 @@ let exportedMethods = {
         });
     },
 
-    addStructure(name, slug, description, pagesize) {
+    addStructure(name, slug, description, pagesize,fields) {
         return structures().then((structuresCollection) => {
             let newStructure = {
                 _id: uuid(),
                 name: name,
                 slug: slug,
                 description: description,
-                pagesize:pagesize
+                pagesize:pagesize,
+                entries:null,
+                fields:null
             };
 
             return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
@@ -60,71 +68,68 @@ let exportedMethods = {
         });
     },
 
-    addEntries(title, type, url, blurb,author,created_date,fields,comments) {
-        return structure_entries().then((structuresCollection) => {
-            let newEntry = {
-                _id: uuid(),
+    addEntries(structure_id,title, type, url, blurb,author,created_date,fields,comments) {
+        return structures().then((structuresCollection) => {
+            entryID = uuid()
+            let newEntryObject = {
+                _id: entryID,
                 title: title,
+                slug:slug,
                 type: type,
-                url: url,
+                url:url,
                 blurb:blurb,
                 author:author,
-                created_date:null,
-                fields:null,
-                comments:null
+                created_date:created_date,
+                fields:fields,
+                comments:comments
             };
 
-            return structuresCollection.insertOne(newEntry).then((newInsertInformation) => {
-                return newInsertInformation.insertedId;
-            }).then((newId) => {
-                return this.getEntryById(newId);
+            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "entries": newEntryObject } }).then(function () {
+                return exportedMethods.getEntryByEntryID(entryID).then((entry) => {
+                    return entry;
+                }, (error) => {
+                    return Promise.reject("Can not add this Entry");
+                });
             });
         });
     },
 
-    getUserById(id) {
-        return users().then((usersCollection) => {
-            return usersCollection.findOne({ _id: id }).then((user) => {
-                if (!user) throw "User not found";
-                return user;
+    getEntryByEntryID(id) {
+        id = String(id);
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne({ $where: "this.entries._id = '" + id + "'" }).then((structure) => {
+                if (!structure) throw "Structure_Entry not found";
+                let result = structure.entries.filter(function (obj) {
+                    return obj._id == id;
+                })[0];
+                if (!result) throw "Entry not found";
+                result.name = structure.name;
+                result.slug = structure.slug;
+                return result;
             });
         });
     },
 
-
-    getUserById(id) {
-        return users().then((usersCollection) => {
-            return usersCollection.findOne({ _id: id }).then((user) => {
-                if (!user) throw "User not found";
-                return user;
+    getEntryByEntrySlugName(slug) {
+        slug = String(slug);
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((structure) => {
+                if (!structure) throw "Structure_Entry not found";
+                let result = structure.entries.filter(function (obj) {
+                    return obj._id == id;
+                })[0];
+                return result;
             });
         });
     },
-
-
-
-    addUser(firstname, lastname, role) {
-        return users().then((usersCollection) => {
-            let newUser = {
-                _id: uuid(),
-                firstname: firstname,
-                lastname: lastname,
-                role: role
-            };
-
-            return usersCollection.insertOne(newUser).then((newInsertInformation) => {
-                return newInsertInformation.insertedId;
-            }).then((newId) => {
-                return this.getUserById(newId);
-            });
-        });
-    },
-
     
 
-    getAllUsers() {
-        return users().then((usersCollection) => {
-            return usersCollection.find({}).toArray();
+    getEntryById(id) {
+        return structure_entries().then((structuresCollection) => {
+            return structuresCollection.findOne({ _id: id }).then((entry) => {
+                if (!entry) throw "Entry not found";
+                return entry;
+            });
         });
     },
 
@@ -134,9 +139,9 @@ let exportedMethods = {
 module.exports = exportedMethods;
 
 
-exportedMethods.getAllStructures().then(function (data) {
-    console.log(data);
-});
+// exportedMethods.getAllStructures().then(function (data) {
+//     console.log(data);
+// });
 
 
 // exportedMethods.getStructureBySlug("slug").then(function (data) {
@@ -146,6 +151,22 @@ exportedMethods.getAllStructures().then(function (data) {
 // // exportedMethods.addUser("Ruchika","Sutariya","Admin").then(function(data){
 // //     console.log(data);
 // // });
+
+// exportedMethods.addEntries("title", "type", "url", "blurb","author","created_date","fields","comments").then(function(data){
+//     console.log(data);
+// });
+
+exportedMethods.getEntryById("f2d039b1-13f0-4af0-85d9-943415b1bae2").then(function(data){
+    console.log(data);
+});
+
+// exportedMethods.getUserById("8d5f76e3-95f7-43df-82a8-4eea17b04170").then(function(data){
+//     console.log(data);
+// });
+
+// exportedMethods.getStructureById("aa9e0b1b-d483-46a8-a0d2-851819ab9444").then(function(data){
+//     console.log(data);
+// });
 
 // // exportedMethods.addStructure("name","slug","description","pagesize").then(function(data){
 // //     console.log(data);

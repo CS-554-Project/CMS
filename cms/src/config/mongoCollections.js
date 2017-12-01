@@ -14,6 +14,5 @@ let getCollectionFn = (collection) => {
 
 module.exports = {
     users: getCollectionFn("users"),
-    structures: getCollectionFn("structures"),
-    structure_entries: getCollectionFn("structure_entries")
+    structures: getCollectionFn("structures")
 };
