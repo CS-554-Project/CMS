@@ -68,6 +68,66 @@ let exportedMethods = {
         });
     },
 
+
+    addStructureFields(structure_id,label,type, number) {
+        return structures().then((structuresCollection) => {
+            fieldID = uuid()
+            let newfieldObject = {
+                _id: fieldID,
+                label: label,
+                type: type,
+                number:number
+            };
+
+            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "fields": newfieldObject } }).then(function () {
+                return exportedMethods.getFieldByFieldID(fieldID).then((field) => {
+                    return field;
+                }, (error) => {
+                    return Promise.reject("Can not add this Field");
+                });
+            });
+        });
+    },
+
+    addFields(label,type, number) {
+        return structures().then((structuresCollection) => {
+            let newfieldObject = {
+                _id: uuid(),
+                label: label,
+                type: type,
+                number:number
+            };
+
+            return structuresCollection.insertOne(newfieldObject).then((newInsertInformation) => {
+                return newInsertInformation.insertedId;
+            }).then((newId) => {
+                return this.getFieldById(newId);
+            });
+        });
+    },
+
+    getFieldById(id) {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne({ _id: id }).then((structure) => {
+                if (!structure) throw "User not found";
+                return structure;
+            });
+        });
+    },
+
+    getFieldByFieldID(id) {
+        id = String(id);
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne({ $where: "this.fields._id = '" + id + "'" }).then((structure) => {
+                if (!structure) throw "Structure_Field not found";
+                let result = structure.fields.filter(function (obj) {
+                    return obj._id == id;
+                })[0];
+                return result;
+            });
+        });
+    },
+
     addEntries(structure_id,title,slug, type, url, blurb,author,created_date,fields,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
@@ -142,9 +202,23 @@ module.exports = exportedMethods;
 // //     console.log(data);
 // // });
 
-exportedMethods.addEntries("5f227ee0-62fe-44db-8ff9-59bd6fe6b2b0","title","slug", "type", "url", "blurb","author","created_date").then(function(data){
+exportedMethods.addStructureFields("d8ee4fa4-994e-415d-90da-01e34e071e46","label","type","number").then(function(data){
     console.log(data);
 });
+
+    // exportedMethods.addFields("label","type","number").then(function(data){
+    //     console.log(data);
+    // });
+
+// exportedMethods.getFieldByFieldID("284ad6b2-152e-400a-a870-70ffb70361f1").then(function (data) {
+//     console.log(data);
+// });
+
+// exportedMethods.addEntries("5f227ee0-62fe-44db-8ff9-59bd6fe6b2b0","title","slug", "type", "url", "blurb","author","created_date").then(function(data){
+//     console.log(data);
+// });
+
+
 
 // exportedMethods.getEntryById("f2d039b1-13f0-4af0-85d9-943415b1bae2").then(function(data){
 //     console.log(data);
