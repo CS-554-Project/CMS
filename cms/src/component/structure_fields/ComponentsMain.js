@@ -46,7 +46,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "checkbox":
             return (
@@ -55,7 +54,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "text-area":
             return (
@@ -64,7 +62,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "image-uploader":
             return (
@@ -73,7 +70,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "link":
             return (
@@ -82,7 +78,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "wysiwyg-editor":
             return (
@@ -91,7 +86,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "datepicker":
             return (
@@ -100,7 +94,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
 
             case "embeddable-youtube":
             return (
@@ -109,7 +102,6 @@ class ComponentsMain extends Component {
                     <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
                 </div>
             )
-            break;
         
             default:
                 break;

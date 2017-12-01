@@ -17,8 +17,8 @@ class App extends Component {
       <Router>
         <Switch>
           {/* <Route path="/404" component={Error404} /> */}
-          <Route path="/" component={User} />
           <Route path="/admin" component={Admin} />
+          <Route path="/" component={User} />
         </Switch>
       </Router>
     );

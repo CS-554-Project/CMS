@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import AddStructure from './AddStructure';
+import AddStructure from './structure/AddStructure';
 
 class Admin extends Component {
     render() {
-        return (
+        const { match } = this.props;
+        const { url } = match;
+        return (     
             <div className="container">                
                 <div className="admin-panel">
                     <h1>Admin Panel</h1>
@@ -12,12 +14,12 @@ class Admin extends Component {
                 <Router>
                     <div>
                         <ul className="admin-panel-routes">
-                            <li><Link to='/structures/new'>Add Structure</Link></li>
+                            <li><Link to={`${url}/structures/new`}>Add Structure</Link></li>
                             <li><Link to='/structures'>List Structures</Link></li>
                             <li><Link to='/users'>List User(s)</Link></li>
                         </ul>
                         <Switch>
-                            <Route exact path='/admin/structures/new' component={AddStructure}/>
+                            <Route exact path={`${url}/structures/new`} component={AddStructure}/>
                             {/* <Route exact path='/admin/structures/:slug/new' component={EntryFormContainer}/>
                             <Route exact path='/admin/structures/:slug' component={EditStructurePage}/>
                             <Route exact path="/admin/structures/:slug/list" component={StructureEntries} /> 
