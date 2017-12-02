@@ -160,6 +160,16 @@ let exportedMethods = {
         });
     },
 
+    removeRecipe(id) {
+        return recipes().then((recipeCollection) => {
+            return recipeCollection.removeOne({ _id: id }).then((deletionInfo) => {
+                if (deletionInfo.deletedCount === 0) {
+                    throw (`Could not recipe user with id of ${id}`)
+                }
+            });
+        });
+    },
+
     // getEntryByEntryID(id) {
     //     id = String(id);
     //     return structures().then((structuresCollection) => {
@@ -251,9 +261,7 @@ module.exports = exportedMethods;
 // });
 
 
-// exportedMethods.getStructureById("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function(data){
-//     console.log(data);
-// });
+// 
 
 // exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug1", "type", "url", "blurb","author","created_date","comments").then(function(data){
 //     //console.log(data);
