@@ -17,7 +17,6 @@ class ListStructure extends Component {
 
     async _getStructureList() {
         let response = await axiosInstance.get("/admin/liststructures");
-        console.log(response);
         this.setState({
             structureList: response.data
         });   
@@ -32,10 +31,10 @@ class ListStructure extends Component {
 
     async _deleteStructure(structure) {
         let payload = {
-            slug: structure.slug,
-            name: structure.name
+            slug: structure.slug
         }
-        let response = await axiosInstance.delete("/admin/deletestructure", payload);
+        let response = await axiosInstance.delete("/admin/deletestructure", {data : payload});
+        this._getStructureList();
 
         // axios.delete('/remove-structure', deletePayload).then((response) => {
         //     console.log(response);
@@ -67,12 +66,12 @@ class ListStructure extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.structureList.map(structure =>
-                            <tr key={structure.key}>
-                                <td key={structure.key}>{structure.name}</td>
-                                <td key={structure.key}>{structure.description}</td>                           
-                                <td key={structure.key}><button className="btn btn-info" onClick={() => this._editStructure(structure)} value={structure.slug}>Edit</button></td>                            
-                                <td key={structure.key}><button className="btn btn-danger" onClick={() => this._deleteStructure(structure)} value={structure.slug}>Delete</button></td>                            
+                        {this.state.structureList.map((structure, index) =>
+                            <tr key={index}>
+                                <td>{structure.name}</td>
+                                <td>{structure.description}</td>                           
+                                <td><button className="btn btn-info" onClick={() => this._editStructure(structure)} value={structure.slug}>Edit</button></td>                            
+                                <td><button className="btn btn-danger" onClick={() => this._deleteStructure(structure)} value={structure.slug}>Delete</button></td>                            
                             </tr>
                         )}  
                     </tbody>          
@@ -81,7 +80,7 @@ class ListStructure extends Component {
             )
         } else {
             return (
-                <div>
+                <div className="error">
                     No Structure entry yet !!
                 </div>
             )

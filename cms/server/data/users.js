@@ -18,12 +18,14 @@ let exportedMethods = {
 
 
 
-    addUser(firstname, lastname, role) {
+    addUser(firstname, lastname,username, role, password) {
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid(),
                 firstname: firstname,
                 lastname: lastname,
+                username:username,
+                hashedPassword: bcrypt.hashSync(password, saltRounds),
                 role: role
             };
 
@@ -35,7 +37,14 @@ let exportedMethods = {
         });
     },
 
-    
+    getUserByUsername(username) {
+        return users().then((usersCollection) => {
+            return usersCollection.findOne({ username: username }).then((user) => {
+                if (!user) throw "Email not found in DB";
+                return user;
+            });
+        });
+    },
 
     getAllUsers() {
         return users().then((usersCollection) => {
