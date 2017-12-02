@@ -7,7 +7,7 @@ const uuid = require('uuid/v4');
 let exportedMethods = {
     getAllStructures() {
         return structures().then((structuresCollection) => {
-            return structuresCollection.find({}).toArray();
+            return structuresCollection.find({}).project({ _id: 1, name: 1, slug:1, description:1, pagesize:1, fields:1 }).toArray()
         });
     },
     
@@ -38,11 +38,6 @@ let exportedMethods = {
             return structuresCollection.findOne({ slug: slug }).then((entry) => {
                 if (!entry) throw "Entry not found";
                 let result = entry.entries;
-                result.forEach(function (e) {
-                    e.name = entry.name;
-                    e.slug = entry.slug;
-                    return e;
-                });
                 return result;
             });
         });
@@ -59,22 +54,31 @@ let exportedMethods = {
 
     addStructure(name, slug, description, pagesize, entries, fields) {
         return structures().then((structuresCollection) => {
-            let newStructure = {
-                _id: uuid(),
-                name: name,
-                slug: slug,
-                description: description,
-                pagesize:pagesize,
-                entries:[],
-                fields:[]
-            };
-
-            return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
-                return newInsertInformation.insertedId;
-            }).then((newId) => {
-                return this.getStructureById(newId);
+            return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
+                if(existingInformation)
+                    throw("Structure with slug is already inserted");
+                else
+                {
+                    let newStructure = {
+                        _id: uuid(),
+                        name: name,
+                        slug: slug,
+                        description: description,
+                        pagesize:pagesize,
+                        entries:[],
+                        fields:[]
+                    };
+                   // console.log(newStructure);
+                    return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
+                        return newInsertInformation.insertedId;
+                    }).then((newId) => {
+                        return this.getStructureById(newId);
+                    });
+                }
             });
+            
         });
+    
     },
 
 
@@ -140,7 +144,7 @@ let exportedMethods = {
     },
 
     
-    addStructureEntries(structure_id,title,slug, type, url, blurb,author,created_date,comments) {
+    addStructureEntries(structure_id,title,slug, type, blurb,author,created_date,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
@@ -148,10 +152,9 @@ let exportedMethods = {
                 title: title,
                 slug:slug,
                 type: type,
-                url:url,
                 blurb:blurb,
                 author:author,
-                created_date:created_date,
+                created_date:new Date(),
                 comments:[]
             };
 
@@ -184,13 +187,14 @@ let exportedMethods = {
     // },
 
     getEntryByEntrySlugName(slug) {
-        slug = String(slug);
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((structure) => {
                 if (!structure) throw "Structure_Entry not found";
+                
                 let result = structure.entries.filter(function (obj) {
-                    return obj._id == id;
+                    return obj.slug == slug;
                 })[0];
+               // console.log(result);
                 return result;
             });
         });
@@ -210,11 +214,11 @@ module.exports = exportedMethods;
 // });
 
 
-// exportedMethods.getStructureBySlug("slug").then(function (data) {
+// exportedMethods.getStructureBySlug("slug4").then(function (data) {
 //     console.log(data);
 // });
 
-// exportedMethods.getStructureByID("36c7e84b-c047-4ab3-a257-7f3722d1be27").then(function (data) {
+// exportedMethods.getStructureByID("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function (data) {
 //     console.log(data);
 // });
 
@@ -238,7 +242,7 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.addEntries("5f227ee0-62fe-44db-8ff9-59bd6fe6b2b0","title","slug", "type", "url", "blurb","author","created_date").then(function(data){
+// exportedMethods.addEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title","slug5", "type", "url", "blurb","author","created_date").then(function(data){
 //     console.log(data);
 // });
 
@@ -256,14 +260,22 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug1", "description", "pagesize").then(function(data){
+// exportedMethods.getEntryByEntrySlugName("slug5").then(function(data){
 //     console.log(data);
 // });
+
+// exportedMethods.getAllEntriesByStructureSlugName("slug4").then(function(data){
+//     console.log(data);
+// });
+
+exportedMethods.addStructure("name", "slug7", "description", "pagesize").then(function(data){
+    console.log(data);
+});
 
 
 // 
 
-// exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug1", "type", "url", "blurb","author","created_date","comments").then(function(data){
+// exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug5", "type", "blurb","author","comments").then(function(data){
 //     //console.log(data);
 // });
 
@@ -271,3 +283,5 @@ module.exports = exportedMethods;
 // exportedMethods.deleteStructure("slug1").then(function(data){
 //     console.log("deleted");
 // });
+
+
