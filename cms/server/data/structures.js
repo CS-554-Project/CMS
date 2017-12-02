@@ -94,22 +94,22 @@ let exportedMethods = {
             });
     },
 
-    getFieldByFieldID(id) {
-        id = String(id);
-      //  console.log(id);
-        return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ $where: "this.fields._id = '" + id + "'" }).then((structure) => {
-                if (!structure) throw "Structure_Field not found";
-                let result = structure.fields.filter(function (obj) {
-                    return obj._id == id;
-                })[0];
-                if(!result) throw "Field not Found";
-                result.name = structure.name;
-                result.slug = structure.slug;
-                return result;
-            });
-        });
-    },
+    // getFieldByFieldID(id) {
+    //     id = String(id);
+    //   //  console.log(id);
+    //     return structures().then((structuresCollection) => {
+    //         return structuresCollection.findOne({ $where: "this.fields._id = '" + id + "'" }).then((structure) => {
+    //             if (!structure) throw "Structure_Field not found";
+    //             let result = structure.fields.filter(function (obj) {
+    //                 return obj._id == id;
+    //             })[0];
+    //             if(!result) throw "Field not Found";
+    //             result.name = structure.name;
+    //             result.slug = structure.slug;
+    //             return result;
+    //         });
+    //     });
+    // },
 
 
     // addFields(label,type, number) {
@@ -139,7 +139,7 @@ let exportedMethods = {
     },
 
     
-    addEntries(structure_id,title,slug, type, url, blurb,author,created_date,fields,comments) {
+    addStructureEntries(structure_id,title,slug, type, url, blurb,author,created_date,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
@@ -151,16 +151,10 @@ let exportedMethods = {
                 blurb:blurb,
                 author:author,
                 created_date:created_date,
-                fields:[],
                 comments:[]
             };
 
             return structuresCollection.updateOne({ _id: structure_id }, { $push: { "entries": newEntryObject } }).then(function () {
-                return exportedMethods.getEntryByEntryID(entryID).then((entry) => {
-                    return entry;
-                }, (error) => {
-                    return Promise.reject("Can not add this Entry");
-                });
             });
         });
     },
@@ -251,6 +245,13 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug", "description", "pagesize").then(function(data){
+exportedMethods.addStructure("name", "slug", "description", "pagesize").then(function(data){
+    console.log(data);
+});
+
+
+
+
+// exportedMethods.addStructureEntries("36c7e84b-c047-4ab3-a257-7f3722d1be27","label1","type1","number1").then(function(data){
 //     console.log(data);
 // });
