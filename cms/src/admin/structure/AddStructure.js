@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
-import ComponentsMain from '../../component/structure_fields/ComponentsMain';
+import ListFields from '../../component/ListFields';
 
 class AddStructure extends Component {
     constructor(props) {
@@ -11,17 +11,21 @@ class AddStructure extends Component {
             structureDescription: "",
             structurePageSize: 1,
             structureFields: [],
-            componentLabel: "",
-            selectedComponent: "small-text-input",
-            componentNumber: 0
+            fieldLabel: "",
+            selectedField: "small-text-input",
+            fieldNumber: 0
         }
-        this._handleChange = this._handleChange.bind(this);
-        this._addComponent = this._addComponent.bind(this);
         this._addStructure = this._addStructure.bind(this);
+        this._addField = this._addField.bind(this);
+        this._handleChange = this._handleChange.bind(this);
+        this._validateFields = this._validateFields.bind(this);   
+        this._removeField = this._removeField.bind(this);
     }
 
     async _addStructure(e) {
         e.preventDefault();
+        //if(!this._validateFields()) return;
+ 
         let payload = {
             name: this.state.structureName,
             slug: this.state.structureSlug,
@@ -32,15 +36,24 @@ class AddStructure extends Component {
         let response = await axiosInstance.post("/admin/addstructure", payload);
     }
 
-    _addComponent(e) {
+    _addField(e) {
         e.preventDefault();
         this.setState({
             structureFields: [...this.state.structureFields, {
-                label: this.state.componentLabel,
-                type: this.state.selectedComponent,
-                number: this.state.componentNumber+1
+                label: this.state.fieldLabel,
+                type: this.state.selectedField,
+                number: ++this.state.fieldNumber
             }],
-            componentLabel: ""          
+            fieldLabel: ""          
+        });
+    }
+
+    _removeField(number) {
+        let updatedFields = this.state.structureFields.filter((field) => {
+            return field.number !== number
+        });
+        this.setState({
+            structureFields: updatedFields
         });
     }
 
@@ -54,53 +67,103 @@ class AddStructure extends Component {
         });
     }    
 
+    _validateFields() {
+        if(this.state.structureName === "" || this.state.structureName === undefined) {
+            alert("Structure Name Required");
+            return false;
+        }
+        if(this.state.structureSlug === "" || this.state.structureSlug === undefined) {
+            alert("Structure Slug Required");
+            return false;
+        }
+        if(this.state.structureDescription === "" || this.state.structureDescription === undefined) {
+            alert("Structure Description Required");
+            return false;
+        }
+        if(this.state.structurePageSize === 0 || this.state.structurePageSize === undefined) {
+            alert("Structure Page Size Required");
+            return false;
+        }
+    }
+
     render() {
         return (
             <div className="container">
+                
                 <h1>Create Structure</h1>
-                <form onSubmit={this._addComponent}>
-                    <input type="text" className="form-control" id="componentLabel" placeholder="Component Label" value={this.state.componentLabel} onChange={this._handleChange}/>
-                    <select id="selectedComponent" value={this.state.selectedComponent} onChange={this._handleChange}>     
-                        <option value="small-text-input">Small Text Input</option>
-                        <option value="number-input">Number Input</option>
-                        <option value="checkbox">Checkbox</option>
-                        <option value="text-area">Text Area</option>
-                        <option value="image-uploader">Image Uploader</option>
-                        <option value="link">Link</option>
-                        <option value="wysiwyg-editor">WYSIWYG Editor</option>
-                        <option value="datepicker">Datepicker</option>
-                        <option value="embeddable-youtube">Embeddable Youtube</option>
-                        <option value="reference-entry">Reference Entry</option>
-                        <option value="file-uploader">Upload File</option>
-                    </select>
-                    <input className="btn btn-primary" type="submit" value="Add Component" />
-                </form>
-                <br/>
-                <form onSubmit={this._addStructure}>
-                <div className="form-group">
-                    <label>Structure Name: </label>
-                    <input type="text" id="structureName" className="form-control" placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
+
+                <form>
+
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Structure Name</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="structureName" className="form-control" required placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
+                    </div>
+                </div>         
+
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Structure Slug</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="structureSlug" className="form-control" placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
+                    </div>
                 </div>
-                <br/>                        
-                <div className="form-group">
-                    <label>Structure Slug: </label>
-                    <input type="text" id="structureSlug" className="form-control" placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
+
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Structure Desc</label>
+                    <div className="col-sm-10">
+                        <input type="text" id="structureDescription" className="form-control" placeholder="Structure Description" value={this.state.structureDescription} onChange={this._handleChange} />
+                    </div>
                 </div>
-                <br/>
-                <div className="form-group">
-                    <label>Structure Description: </label>
-                    <input type="text" id="structureDescription" className="form-control" placeholder="Structure Description" value={this.state.structureDescription} onChange={this._handleChange} />
+
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Structure Page Size</label>
+                    <div className="col-sm-10">
+                        <input type="number" id="structurePageSize" className="form-control" placeholder="Structure Page Size" value={this.state.structurePageSize} onChange={this._handleChange} />
+                    </div>
                 </div>
-                <br/>
-                <div className="form-group">
-                    <label>Structure Page Size: </label>
-                    <input type="number" id="structurePageSize" className="form-control" placeholder="Structure Page Size" value={this.state.structurePageSize} onChange={this._handleChange} />
-                </div>
-                <br/>
-                <button className="btn btn-success" onClick={this._addStructure}>Add Structure</button>
+                
                 </form>
 
-                <ComponentsMain structureFields = {this.state.structureFields} />
+                <form onSubmit={this._addField}>
+                
+                    <div className="form-group row">
+                        <label className="col-sm-2 col-form-label">Field Label</label>
+                        <div className="col-sm-10">
+                            <input type="text" className="form-control" id="fieldLabel" placeholder="Field Label" value={this.state.fieldLabel} onChange={this._handleChange}/>
+                        </div>
+                    </div>
+
+                    <div className="form-row align-items-center">
+                    <label className="col-sm-2 col-form-label">Field Type</label>
+                        <div className="col-auto">
+                            <select id="selectedField" className="custom-select mb-2 mr-sm-2 mb-sm-0" value={this.state.selectedField} onChange={this._handleChange}>     
+                                <option value="small-text-input">Small Text Input</option>
+                                <option value="number-input">Number Input</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="text-area">Text Area</option>
+                                <option value="image-uploader">Image Uploader</option>
+                                <option value="link">Link</option>
+                                <option value="wysiwyg-editor">WYSIWYG Editor</option>
+                                <option value="datepicker">Datepicker</option>
+                                <option value="embeddable-youtube">Embeddable Youtube</option>
+                                <option value="reference-entry">Reference Entry</option>
+                                <option value="file-uploader">Upload File</option>
+                            </select>    
+                        </div>
+
+                        <div className="col-auto">
+                            <input className="btn btn-secondary dropdown-toggle" type="submit" value="Add Field" />
+                        </div>
+                    </div> 
+                </form>
+
+                <br/>
+                <ListFields data={this.state.structureFields} removeField={this._removeField}/>
+                <br/>
+
+                <form onSubmit={this._addStructure}>
+                    <button className="btn btn-success">Add Structure</button>
+                </form>
                 
             </div>
         );
