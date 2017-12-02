@@ -22,6 +22,17 @@ let exportedMethods = {
         });  
     },
 
+    getStructureByID(id) {
+        if(!id) return Promise.reject("No ID provided");
+
+        return structures().then((structureCollection) => {
+            return structureCollection.findOne({_id: id}).then((structure) => {
+                if(!structure) throw("Structure not found");
+                return structure;
+            });
+        });  
+    },
+
     getAllEntriesByStructureSlugName(slug){
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ slug: slug }).then((entry) => {
@@ -36,8 +47,6 @@ let exportedMethods = {
             });
         });
     },
-
-
 
     getStructureById(id) {
         return structures().then((structuresCollection) => {
@@ -72,62 +81,64 @@ let exportedMethods = {
     addStructureFields(structure_id,label,type, number) {
         return structures().then((structuresCollection) => {
             fieldID = uuid()
+            console.log(fieldID);
+            console.log(structure_id);
             let newfieldObject = {
                 _id: fieldID,
                 label: label,
                 type: type,
                 number:number
             };
-
-            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "fields": newfieldObject } }).then(function () {
-                return exportedMethods.getFieldByFieldID(fieldID).then((field) => {
-                    return field;
-                }, (error) => {
-                    return Promise.reject("Can not add this Field");
-                });
+            //console.log(newfieldObject);
+            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "fields": newfieldObject } });
             });
-        });
-    },
-
-    addFields(label,type, number) {
-        return structures().then((structuresCollection) => {
-            let newfieldObject = {
-                _id: uuid(),
-                label: label,
-                type: type,
-                number:number
-            };
-
-            return structuresCollection.insertOne(newfieldObject).then((newInsertInformation) => {
-                return newInsertInformation.insertedId;
-            }).then((newId) => {
-                return this.getFieldById(newId);
-            });
-        });
-    },
-
-    getFieldById(id) {
-        return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ _id: id }).then((structure) => {
-                if (!structure) throw "User not found";
-                return structure;
-            });
-        });
     },
 
     getFieldByFieldID(id) {
         id = String(id);
+      //  console.log(id);
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.fields._id = '" + id + "'" }).then((structure) => {
                 if (!structure) throw "Structure_Field not found";
                 let result = structure.fields.filter(function (obj) {
                     return obj._id == id;
                 })[0];
+                if(!result) throw "Field not Found";
+                result.name = structure.name;
+                result.slug = structure.slug;
                 return result;
             });
         });
     },
 
+
+    // addFields(label,type, number) {
+    //     return structures().then((structuresCollection) => {
+    //         let newfieldObject = {
+    //             _id: uuid(),
+    //             label: label,
+    //             type: type,
+    //             number:number
+    //         };
+
+    //         return structuresCollection.insertOne(newfieldObject).then((newInsertInformation) => {
+    //             return newInsertInformation.insertedId;
+    //         }).then((newId) => {
+    //             return this.getFieldById(newId);
+    //         });
+    //     });
+    // },
+
+    getFieldById(id) {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne({ _id: id }).then((structure) => {
+                if (!structure) throw "Field not found";
+                return structure;
+            });
+        });
+    },
+
+    
     addEntries(structure_id,title,slug, type, url, blurb,author,created_date,fields,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
@@ -198,19 +209,27 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
+// exportedMethods.getStructureByID("36c7e84b-c047-4ab3-a257-7f3722d1be27").then(function (data) {
+//     console.log(data);
+// });
+
 // // exportedMethods.addUser("Ruchika","Sutariya","Admin").then(function(data){
 // //     console.log(data);
 // // });
 
-exportedMethods.addStructureFields("d8ee4fa4-994e-415d-90da-01e34e071e46","label","type","number").then(function(data){
-    console.log(data);
-});
+// exportedMethods.addStructureFields("36c7e84b-c047-4ab3-a257-7f3722d1be27","label1","type1","number1").then(function(data){
+//     console.log(data);
+// });
 
     // exportedMethods.addFields("label","type","number").then(function(data){
     //     console.log(data);
     // });
 
-// exportedMethods.getFieldByFieldID("284ad6b2-152e-400a-a870-70ffb70361f1").then(function (data) {
+// exportedMethods.getFieldByFieldID("415b55a9-402c-4e8f-a621-ef27990ef5d6").then(function (data) {
+//     console.log(data);
+// });
+
+// exportedMethods.getFieldById("dde50956-51c6-4e57-919b-3d684890be34").then(function (data) {
 //     console.log(data);
 // });
 
