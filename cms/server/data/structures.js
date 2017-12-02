@@ -7,7 +7,7 @@ const uuid = require('uuid/v4');
 let exportedMethods = {
     getAllStructures() {
         return structures().then((structuresCollection) => {
-            return structuresCollection.find({}).toArray();
+            return structuresCollection.find({}).project({ _id: 1, name: 1, slug:1, description:1, pagesize:1, fields:1 }).toArray()
         });
     },
     
@@ -140,7 +140,7 @@ let exportedMethods = {
     },
 
     
-    addStructureEntries(structure_id,title,slug, type, url, blurb,author,created_date,comments) {
+    addStructureEntries(structure_id,title,slug, type, blurb,author,created_date,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
@@ -148,10 +148,9 @@ let exportedMethods = {
                 title: title,
                 slug:slug,
                 type: type,
-                url:url,
                 blurb:blurb,
                 author:author,
-                created_date:created_date,
+                created_date:new Date(),
                 comments:[]
             };
 
@@ -205,9 +204,9 @@ let exportedMethods = {
 module.exports = exportedMethods;
 
 
-// exportedMethods.getAllStructures().then(function (data) {
-//     console.log(data);
-// });
+exportedMethods.getAllStructures().then(function (data) {
+    console.log(data);
+});
 
 
 // exportedMethods.getStructureBySlug("slug").then(function (data) {
@@ -252,22 +251,22 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.getStructureById("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function(data){
+// exportedMethods.getStructureById("ccc52d3f-9152-4326-bc30-e8d524bd32a6").then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug1", "description", "pagesize").then(function(data){
+// exportedMethods.addStructure("name", "slug2", "description", "pagesize").then(function(data){
 //     console.log(data);
 // });
 
 
 // 
 
-// exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug1", "type", "url", "blurb","author","created_date","comments").then(function(data){
+// exportedMethods.addStructureEntries("ccc52d3f-9152-4326-bc30-e8d524bd32a6","title1","slug3", "type", "blurb","author","comments").then(function(data){
 //     //console.log(data);
 // });
 
 
-exportedMethods.deleteStructure("slug1").then(function(data){
-    console.log("deleted");
-});
+// exportedMethods.deleteStructure("slug1").then(function(data){
+//     console.log("deleted");
+// });
