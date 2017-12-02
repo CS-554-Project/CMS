@@ -268,6 +268,6 @@ module.exports = exportedMethods;
 // });
 
 
-exportedMethods.deleteStructure("slug1").then(function(data){
-    console.log("deleted");
-});
+// exportedMethods.deleteStructure("slug1").then(function(data){
+//     console.log("deleted");
+// });
