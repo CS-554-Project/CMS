@@ -10,9 +10,7 @@ router.get("/structures", (req, res) => {
 });
 
 router.get("/entries", (req, res) => {
-    console.log(req.params.slug);
     structureData.getStructureBySlug("slug").then((response) => {
-        console.log(response);
         res.status(200).json(response);
     });
 });

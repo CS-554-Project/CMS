@@ -21,7 +21,7 @@ class SingleStructure extends Component {
   async getStructureEntries(slug) {
     try {
       this.setState({ loading: true });
-      console.log("/user/entries?slug=" + slug);
+      //zconsole.log("/user/entries?slug=" + slug);
       let response = await axiosInstance.get("/user/entries?slug=" + slug);
       //console.log(response.data);
       const structureData = response.data;
@@ -89,7 +89,7 @@ class SingleStructure extends Component {
                 <h2>{this.state.structure.name}</h2>
               </div>
               <div className="row">
-                <p>{this.state.structure.blurb}</p>
+                <p>{this.state.structure.description}</p>
               </div>
               <hr />
               <EntriesListCardView structure={this.state.structure} />
