@@ -57,7 +57,7 @@ let exportedMethods = {
         });
     },
 
-    addStructure(name, slug, description, pagesize,entries,fields) {
+    addStructure(name, slug, description, pagesize, entries, fields) {
         return structures().then((structuresCollection) => {
             let newStructure = {
                 _id: uuid(),

@@ -15,11 +15,13 @@ class Admin extends Component {
                     <div>
                         <ul className="admin-panel-routes">
                             <li><Link to={`${url}/structures/new`}>Add Structure</Link></li>
-                            <li><Link to='/structures'>List Structures</Link></li>
+                            <li><Link to={`${url}/structures`}>List Structures</Link></li>
                             <li><Link to='/users'>List User(s)</Link></li>
                         </ul>
                         <Switch>
+                            <Route exact path={`${url}/structures/:slug`} component={EditStructurePage}/> 
                             <Route exact path={`${url}/structures/new`} component={AddStructure}/>
+                            <Route exact path={`${url}/structures`} component={ListStructure}/>
                             {/* <Route exact path='/admin/structures/:slug/new' component={EntryFormContainer}/>
                             <Route exact path='/admin/structures/:slug' component={EditStructurePage}/>
                             <Route exact path="/admin/structures/:slug/list" component={StructureEntries} /> 
