@@ -54,22 +54,31 @@ let exportedMethods = {
 
     addStructure(name, slug, description, pagesize, entries, fields) {
         return structures().then((structuresCollection) => {
-            let newStructure = {
-                _id: uuid(),
-                name: name,
-                slug: slug,
-                description: description,
-                pagesize:pagesize,
-                entries:[],
-                fields:[]
-            };
-
-            return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
-                return newInsertInformation.insertedId;
-            }).then((newId) => {
-                return this.getStructureById(newId);
+            return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
+                if(existingInformation)
+                    throw("Structure with slug is already inserted");
+                else
+                {
+                    let newStructure = {
+                        _id: uuid(),
+                        name: name,
+                        slug: slug,
+                        description: description,
+                        pagesize:pagesize,
+                        entries:[],
+                        fields:[]
+                    };
+                   // console.log(newStructure);
+                    return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
+                        return newInsertInformation.insertedId;
+                    }).then((newId) => {
+                        return this.getStructureById(newId);
+                    });
+                }
             });
+            
         });
+    
     },
 
 
@@ -205,9 +214,9 @@ module.exports = exportedMethods;
 // });
 
 
-exportedMethods.getStructureBySlug("slug4").then(function (data) {
-    console.log(data);
-});
+// exportedMethods.getStructureBySlug("slug4").then(function (data) {
+//     console.log(data);
+// });
 
 // exportedMethods.getStructureByID("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function (data) {
 //     console.log(data);
@@ -259,9 +268,9 @@ exportedMethods.getStructureBySlug("slug4").then(function (data) {
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug4", "description", "pagesize").then(function(data){
-//     console.log(data);
-// });
+exportedMethods.addStructure("name", "slug7", "description", "pagesize").then(function(data){
+    console.log(data);
+});
 
 
 // 
