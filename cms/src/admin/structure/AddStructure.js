@@ -30,7 +30,6 @@ class AddStructure extends Component {
             fields: this.state.structureFields
         }
         let response = await axiosInstance.post("/admin/addstructure", payload);
-        console.log(response);
     }
 
     _addComponent(e) {

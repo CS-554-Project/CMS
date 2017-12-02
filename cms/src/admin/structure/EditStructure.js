@@ -9,26 +9,25 @@ class EditStructure extends Component {
             structureName: this.props.location.state.structure.name,
             structureSlug: this.props.location.state.structure.slug,
             structureDescription: this.props.location.state.structure.description,
-            structurePageSize: this.props.location.state.structure.pageSize,
+            structurePageSize: this.props.location.state.structure.pagesize,
             structureFields: this.props.location.state.structure.fields,
             componentLabel: "",
             selectedComponent: "small-text-input"
         }
         this._handleChange = this._handleChange.bind(this);
         this._addComponent = this._addComponent.bind(this);
-        this._addStructure = this._addStructure.bind(this);
+        this._updateStructure = this._updateStructure.bind(this);
     }
 
-    async _addStructure(e) {
+    async _updateStructure(e) {
         e.preventDefault();
         let payload = {
             name: this.state.structureName,
-            slug: this.state.structureSlug,
             description: this.state.structureDescription,
             pagesize: this.state.structurePageSize,
             fields: this.state.structureFields
         }
-        let response = await axiosInstance.post("/admin/addstructure", payload);
+        let response = await axiosInstance.post("/admin/editstructure", payload);
         console.log(response);
     }
 
@@ -76,7 +75,7 @@ class EditStructure extends Component {
                     <input className="btn btn-primary" type="submit" value="Add Component" />
                 </form>
                 <br/>
-                <form onSubmit={this._addStructure}>
+                <form onSubmit={this._updateStructure}>
                 <div className="form-group">
                     <label>Structure Name: </label>
                     <input type="text" id="structureName" className="form-control" placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
