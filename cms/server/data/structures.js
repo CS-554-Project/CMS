@@ -38,11 +38,6 @@ let exportedMethods = {
             return structuresCollection.findOne({ slug: slug }).then((entry) => {
                 if (!entry) throw "Entry not found";
                 let result = entry.entries;
-                result.forEach(function (e) {
-                    e.name = entry.name;
-                    e.slug = entry.slug;
-                    return e;
-                });
                 return result;
             });
         });
@@ -183,13 +178,14 @@ let exportedMethods = {
     // },
 
     getEntryByEntrySlugName(slug) {
-        slug = String(slug);
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((structure) => {
                 if (!structure) throw "Structure_Entry not found";
+                
                 let result = structure.entries.filter(function (obj) {
-                    return obj._id == id;
+                    return obj.slug == slug;
                 })[0];
+               // console.log(result);
                 return result;
             });
         });
@@ -204,16 +200,16 @@ let exportedMethods = {
 module.exports = exportedMethods;
 
 
-exportedMethods.getAllStructures().then(function (data) {
-    console.log(data);
-});
+// exportedMethods.getAllStructures().then(function (data) {
+//     console.log(data);
+// });
 
 
 // exportedMethods.getStructureBySlug("slug").then(function (data) {
 //     console.log(data);
 // });
 
-// exportedMethods.getStructureByID("36c7e84b-c047-4ab3-a257-7f3722d1be27").then(function (data) {
+// exportedMethods.getStructureByID("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function (data) {
 //     console.log(data);
 // });
 
@@ -237,7 +233,7 @@ exportedMethods.getAllStructures().then(function (data) {
 //     console.log(data);
 // });
 
-// exportedMethods.addEntries("5f227ee0-62fe-44db-8ff9-59bd6fe6b2b0","title","slug", "type", "url", "blurb","author","created_date").then(function(data){
+// exportedMethods.addEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title","slug5", "type", "url", "blurb","author","created_date").then(function(data){
 //     console.log(data);
 // });
 
@@ -251,18 +247,26 @@ exportedMethods.getAllStructures().then(function (data) {
 //     console.log(data);
 // });
 
-// exportedMethods.getStructureById("ccc52d3f-9152-4326-bc30-e8d524bd32a6").then(function(data){
+// exportedMethods.getStructureById("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug2", "description", "pagesize").then(function(data){
+// exportedMethods.getEntryByEntrySlugName("slug5").then(function(data){
+//     console.log(data);
+// });
+
+// exportedMethods.getAllEntriesByStructureSlugName("slug4").then(function(data){
+//     console.log(data);
+// });
+
+// exportedMethods.addStructure("name", "slug4", "description", "pagesize").then(function(data){
 //     console.log(data);
 // });
 
 
 // 
 
-// exportedMethods.addStructureEntries("ccc52d3f-9152-4326-bc30-e8d524bd32a6","title1","slug3", "type", "blurb","author","comments").then(function(data){
+// exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug5", "type", "blurb","author","comments").then(function(data){
 //     //console.log(data);
 // });
 
@@ -270,3 +274,5 @@ exportedMethods.getAllStructures().then(function (data) {
 // exportedMethods.deleteStructure("slug1").then(function(data){
 //     console.log("deleted");
 // });
+
+
