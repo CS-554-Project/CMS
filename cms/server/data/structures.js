@@ -12,7 +12,7 @@ let exportedMethods = {
     },
     
     getStructureBySlug(slug) {
-        if(!slug) return Promise.reject("No Slug provided");
+        if(typeof slug !== "string") return Promise.reject("No Slug provided");
 
         return structures().then((structureCollection) => {
             return structureCollection.findOne({slug: slug}).then((structure) => {
@@ -150,7 +150,7 @@ let exportedMethods = {
     },
 
     
-    addStructureEntries(structure_id,title,slug, type, blurb,author,created_date,comments) {
+    addStructureEntries(structure_slug,title,slug, type, blurb,author,created_date,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
@@ -164,7 +164,7 @@ let exportedMethods = {
                 comments:[]
             };
 
-            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "entries": newEntryObject } }).then(function () {
+            return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
             });
         });
     },
@@ -279,7 +279,7 @@ module.exports = exportedMethods;
 // });
 
 
-// 
+// // 
 
 // exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug5", "type", "blurb","author","comments").then(function(data){
 //     //console.log(data);
