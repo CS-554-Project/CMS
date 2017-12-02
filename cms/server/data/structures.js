@@ -52,7 +52,7 @@ let exportedMethods = {
         });
     },
 
-    addStructure(name, slug, description, pagesize, entries, fields) {
+    addStructure(name, slug, description, pagesize, fields) {
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
                 if(existingInformation)
@@ -68,9 +68,14 @@ let exportedMethods = {
                         entries:[],
                         fields:[]
                     };
-                   // console.log(newStructure);
+                   
                     return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
-                        return newInsertInformation.insertedId;
+                        
+                        //return newInsertInformation.insertedId;
+                        this.addStructureFields(newInsertInformation.insertedId, fields).then((addFieldsReponse) => {
+                            return Promise.resolve("Structure Added");
+                        });
+
                     }).then((newId) => {
                         return this.getStructureById(newId);
                     });
@@ -82,7 +87,8 @@ let exportedMethods = {
     },
 
 
-    addStructureFields(structure_id,label,type, number) {
+    addStructureFields(structureId, fields) {
+        
         return structures().then((structuresCollection) => {
             fieldID = uuid()
            // console.log(fieldID);
@@ -268,9 +274,9 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-exportedMethods.addStructure("name", "slug7", "description", "pagesize").then(function(data){
-    console.log(data);
-});
+// exportedMethods.addStructure("name", "slug7", "description", "pagesize").then(function(data){
+//     console.log(data);
+// });
 
 
 // 

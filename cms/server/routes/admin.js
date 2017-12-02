@@ -4,7 +4,7 @@ const data = require("../data");
 const structureData = data.structures;
 
 router.post("/addstructure", (req, res) => {
-    structureData.addStructure(req.body.name, req.body.slug, req.body.description, req.body.pagesize, req.body.fields).then((response) => {
+    structureData.addStructure(req.body.name, req.body.slug, req.body.description, req.body.pagesize).then((response) => {
         res.status(200).json(response);
     });
 });
