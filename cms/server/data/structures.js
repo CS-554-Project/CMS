@@ -62,12 +62,11 @@ let exportedMethods = {
                         fields: fields
                     };
                    
-                    return structuresCollection.insertOne(newStructure).then((newInsertInformation) => {
-                        
+                    return structuresCollection.insertOne(newStructure).then((newInsertInformation) => { 
                         return newInsertInformation.insertedId;
 
                     }).then((newId) => {
-                        return this.getStructureById(newId);
+                        return this.getStructureByID(newId);
                     });
                 }
             });
@@ -183,9 +182,7 @@ let exportedMethods = {
     deleteStructure(slug) {
         return structures().then((structuresCollection) => {
             return structuresCollection.removeOne({ slug: slug }).then((deletionInfo) => {
-                if (deletionInfo.deletedCount === 0) {
-                    throw (`Could not delete structure with id of ${slug}`)
-                }
+                
             });
         });
     },
@@ -230,24 +227,42 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
+// let fields=
+// [{ label: 'Name', type: 'small-text-input', number: 1 },
+// { label: 'Number', type: 'number-input', number: 2 },
+// { label: 'CheckBox', type: 'checkbox', number: 3 }];
 
-// exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10).then(function(data){
+// exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("Struct2", "st2", "Structure 2", 5).then(function(data){
+// let fields=
+// [{ label: 'Text Area', type: 'text-area', number: 1 },
+// { label: 'Link', type: 'link', number: 2 }];
+
+
+// exportedMethods.addStructure("Struct2", "st2", "Structure 2", 5,fields).then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("Struct3", "st3", "Structure 3", 6).then(function(data){
+// let fields=
+// [{ label: 'Name', type: 'small-text-input', number: 1 },
+// { label: 'Number', type: 'number-input', number: 2 },
+// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+
+// exportedMethods.addStructure("Struct3", "st3", "Structure 3", 6,fields).then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("Struct4", "st", "Structure ", 6).then(function(data){
+// let fields=
+// [{ label: 'Text Area', type: 'text-area', number: 1 },
+// { label: 'Link', type: 'link', number: 2 }];
+
+// exportedMethods.addStructure("Struct4", "st4", "Structure 4 ", 6, fields).then(function(data){
 //     console.log(data);
 // });
 
-
+// exportedMethods.deleteStructure("st3");
 
 // // 
 
@@ -275,12 +290,8 @@ module.exports = exportedMethods;
 // });
 
 
-// let fields=[{ label: 'Name', type: 'small-text-input', number: 1 },
-// { label: 'Number', type: 'number-input', number: 2 },
-// { label: 'CheckBox', type: 'checkbox', number: 3 }];
-// exportedMethods.addStructureFields("f9a4d0de-ad58-45a8-9d43-ffad9a973218",fields).then(function(data){
-//     //console.log(data);
-// });
+
+
 
 
 

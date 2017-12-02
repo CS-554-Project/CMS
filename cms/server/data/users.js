@@ -3,6 +3,8 @@ const structures = mongoCollections.structures;
 
 const users=mongoCollections.users;
 const uuid = require('uuid/v4');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 let exportedMethods = {
     
@@ -18,7 +20,7 @@ let exportedMethods = {
 
 
 
-    addUser(firstname, lastname,username, role, password) {
+    addUser(firstname, lastname,username, password, role) {
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid(),
@@ -60,10 +62,18 @@ module.exports = exportedMethods;
 
 
 
-// exportedMethods.addUser("Ruchika","Sutariya","Admin").then(function(data){
-//     console.log(data);
-// });
+exportedMethods.addUser("Ruchika","Sutariya","admin","admin","admin").then(function(data){
+    console.log(data);
+});
 
+
+exportedMethods.addUser("Harsh","Kevadiya","user1","user1","user").then(function(data){
+    console.log(data);
+});
+
+exportedMethods.addUser("Kishan","Gajjar","user2","user2","user").then(function(data){
+    console.log(data);
+});
 
 
 
