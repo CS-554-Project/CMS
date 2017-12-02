@@ -268,9 +268,17 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug7", "description", "pagesize").then(function(data){
-//     console.log(data);
-// });
+exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10).then(function(data){
+    console.log(data);
+});
+
+exportedMethods.addStructure("Struct2", "st2", "Structure 2", 5).then(function(data){
+    console.log(data);
+});
+
+exportedMethods.addStructure("Struct3", "st3", "Structure 3", 6).then(function(data){
+    console.log(data);
+});
 
 
 // // 
