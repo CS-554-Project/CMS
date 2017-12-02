@@ -205,9 +205,9 @@ module.exports = exportedMethods;
 // });
 
 
-// exportedMethods.getStructureBySlug("slug").then(function (data) {
-//     console.log(data);
-// });
+exportedMethods.getStructureBySlug("slug4").then(function (data) {
+    console.log(data);
+});
 
 // exportedMethods.getStructureByID("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function (data) {
 //     console.log(data);
