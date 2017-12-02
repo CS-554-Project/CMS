@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
 import ComponentsMain from '../../component/structure_fields/ComponentsMain';
 
-class AddStructure extends Component {
+class EditStructure extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            structureName: "",
-            structureSlug: "",
-            structureDescription: "",
-            structurePageSize: 1,
-            structureFields: [],
+            structureName: this.props.location.state.structure.name,
+            structureSlug: this.props.location.state.structure.slug,
+            structureDescription: this.props.location.state.structure.description,
+            structurePageSize: this.props.location.state.structure.pageSize,
+            structureFields: this.props.location.state.structure.fields,
             componentLabel: "",
-            selectedComponent: "small-text-input",
-            componentNumber: 0
+            selectedComponent: "small-text-input"
         }
         this._handleChange = this._handleChange.bind(this);
         this._addComponent = this._addComponent.bind(this);
@@ -85,7 +84,7 @@ class AddStructure extends Component {
                 <br/>                        
                 <div className="form-group">
                     <label>Structure Slug: </label>
-                    <input type="text" id="structureSlug" className="form-control" placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
+                    <input type="text" id="structureSlug" disabled className="form-control" placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
                 </div>
                 <br/>
                 <div className="form-group">
@@ -108,4 +107,4 @@ class AddStructure extends Component {
     }
 }
 
-export default AddStructure;
+export default EditStructure;

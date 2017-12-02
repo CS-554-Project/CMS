@@ -6,5 +6,5 @@ import registerServiceWorker from './registerServiceWorker';
 
 const title = "CMS";
 
-ReactDOM.render(<App title={title} author="Harsh Jagdishbhai Kevadia"/>, document.getElementById('root'));
+ReactDOM.render(<App title={title} />, document.getElementById('root'));
 registerServiceWorker();

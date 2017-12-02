@@ -28,13 +28,13 @@ class ComponentsMain extends Component {
 
     _addComponentToStructure(component, index) {
 
-        switch (component.component) {
+        switch (component.type) {
             
             case "small-text-input":
             return (
                 <div key={index}>
                     <SmallTextInput component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
             break;
@@ -43,7 +43,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <NumberInput component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -51,7 +51,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <CheckBox component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -59,7 +59,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <TextArea component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -67,7 +67,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <ImageUpload component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -75,7 +75,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <Link component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -83,7 +83,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     {/* <WysiwygEditor component={component} /> */}
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -91,7 +91,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <DatePicker component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
 
@@ -99,7 +99,7 @@ class ComponentsMain extends Component {
             return (
                 <div key={index}>
                     <YouTube component={component} />
-                    <button className="btn btn-danger" value={component.componentLabel}>Remove</button>
+                    <button className="btn btn-danger" value={component.label}>Remove</button>
                 </div>
             )
         
