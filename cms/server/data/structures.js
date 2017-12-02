@@ -81,8 +81,8 @@ let exportedMethods = {
     addStructureFields(structure_id,label,type, number) {
         return structures().then((structuresCollection) => {
             fieldID = uuid()
-            console.log(fieldID);
-            console.log(structure_id);
+           // console.log(fieldID);
+           // console.log(structure_id);
             let newfieldObject = {
                 _id: fieldID,
                 label: label,
@@ -90,8 +90,9 @@ let exportedMethods = {
                 number:number
             };
             //console.log(newfieldObject);
-            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "fields": newfieldObject } });
-            });
+            return structuresCollection.updateOne({ _id: structure_id }, { $push: { "fields": newfieldObject } }).then(function () {
+            });;
+        });
     },
 
     // getFieldByFieldID(id) {
@@ -159,18 +160,18 @@ let exportedMethods = {
         });
     },
 
-    getEntryByEntryID(id) {
-        id = String(id);
-        return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ $where: "this.entries._id = '" + id + "'" }).then((structure) => {
-                if (!structure) throw "Structure_Entry not found";
-                let result = structure.entries.filter(function (obj) {
-                    return obj._id == id;
-                })[0];
-                return result;
-            });
-        });
-    },
+    // getEntryByEntryID(id) {
+    //     id = String(id);
+    //     return structures().then((structuresCollection) => {
+    //         return structuresCollection.findOne({ $where: "this.entries._id = '" + id + "'" }).then((structure) => {
+    //             if (!structure) throw "Structure_Entry not found";
+    //             let result = structure.entries.filter(function (obj) {
+    //                 return obj._id == id;
+    //             })[0];
+    //             return result;
+    //         });
+    //     });
+    // },
 
     getEntryByEntrySlugName(slug) {
         slug = String(slug);
@@ -211,7 +212,7 @@ module.exports = exportedMethods;
 // //     console.log(data);
 // // });
 
-// exportedMethods.addStructureFields("36c7e84b-c047-4ab3-a257-7f3722d1be27","label1","type1","number1").then(function(data){
+// exportedMethods.addStructureFields("14cf1bfc-510d-4046-9e34-ea23a973088e","label1","type1","number1").then(function(data){
 //     console.log(data);
 // });
 
@@ -241,17 +242,19 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.getStructureById("aa9e0b1b-d483-46a8-a0d2-851819ab9444").then(function(data){
+// exportedMethods.getStructureById("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function(data){
 //     console.log(data);
 // });
 
-exportedMethods.addStructure("name", "slug", "description", "pagesize").then(function(data){
-    console.log(data);
-});
-
-
-
-
-// exportedMethods.addStructureEntries("36c7e84b-c047-4ab3-a257-7f3722d1be27","label1","type1","number1").then(function(data){
+// exportedMethods.addStructure("name", "slug", "description", "pagesize").then(function(data){
 //     console.log(data);
+// });
+
+
+// exportedMethods.getStructureById("14cf1bfc-510d-4046-9e34-ea23a973088e").then(function(data){
+//     console.log(data);
+// });
+
+// exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug1", "type", "url", "blurb","author","created_date","comments").then(function(data){
+//     //console.log(data);
 // });
