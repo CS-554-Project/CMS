@@ -51,9 +51,9 @@ module.exports = exportedMethods;
 
 
 
-// // exportedMethods.addUser("Ruchika","Sutariya","Admin").then(function(data){
-// //     console.log(data);
-// // });
+// exportedMethods.addUser("Ruchika","Sutariya","Admin").then(function(data){
+//     console.log(data);
+// });
 
 
 
