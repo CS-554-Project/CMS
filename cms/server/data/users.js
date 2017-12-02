@@ -62,18 +62,18 @@ module.exports = exportedMethods;
 
 
 
-exportedMethods.addUser("Ruchika","Sutariya","admin","admin","admin").then(function(data){
-    console.log(data);
-});
+// exportedMethods.addUser("Ruchika","Sutariya","admin","admin","admin").then(function(data){
+//     console.log(data);
+// });
 
 
-exportedMethods.addUser("Harsh","Kevadiya","user1","user1","user").then(function(data){
-    console.log(data);
-});
+// exportedMethods.addUser("Harsh","Kevadiya","user1","user1","user").then(function(data){
+//     console.log(data);
+// });
 
-exportedMethods.addUser("Kishan","Gajjar","user2","user2","user").then(function(data){
-    console.log(data);
-});
+// exportedMethods.addUser("Kishan","Gajjar","user2","user2","user").then(function(data){
+//     console.log(data);
+// });
 
 
 
