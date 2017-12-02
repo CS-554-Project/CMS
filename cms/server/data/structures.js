@@ -160,11 +160,11 @@ let exportedMethods = {
         });
     },
 
-    removeRecipe(id) {
-        return recipes().then((recipeCollection) => {
-            return recipeCollection.removeOne({ _id: id }).then((deletionInfo) => {
+    deleteStructure(slug) {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.removeOne({ slug: slug }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
-                    throw (`Could not recipe user with id of ${id}`)
+                    throw (`Could not delete structure with id of ${slug}`)
                 }
             });
         });
@@ -256,7 +256,7 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.addStructure("name", "slug", "description", "pagesize").then(function(data){
+// exportedMethods.addStructure("name", "slug1", "description", "pagesize").then(function(data){
 //     console.log(data);
 // });
 
@@ -266,3 +266,8 @@ module.exports = exportedMethods;
 // exportedMethods.addStructureEntries("14cf1bfc-510d-4046-9e34-ea23a973088e","title1","slug1", "type", "url", "blurb","author","created_date","comments").then(function(data){
 //     //console.log(data);
 // });
+
+
+exportedMethods.deleteStructure("slug1").then(function(data){
+    console.log("deleted");
+});
