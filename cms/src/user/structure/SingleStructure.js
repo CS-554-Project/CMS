@@ -18,10 +18,10 @@ class SingleStructure extends Component {
     };
   }
 
-  async getStructureEntries(reqSlug) {
+  async getStructure(reqSlug) {
     try {
       this.setState({ loading: true });
-     console.log("/user/entries?slug=" + reqSlug);
+     //console.log("/user/entries?slug=" + reqSlug);
       let response = await axiosInstance.get("/user/entries",{
         params: {
           slug: reqSlug
@@ -40,7 +40,7 @@ class SingleStructure extends Component {
 
   async componentDidMount() {
     let structureSlug = this.props.match.params.structure;
-    await this.getStructureEntries(structureSlug);
+    await this.getStructure(structureSlug);
   }
 
   render() {
@@ -74,7 +74,7 @@ class SingleStructure extends Component {
     // };
     //structures = [];
 
-    let body = "Harsh Kevadia";
+    let body = null;
     if (this.state.loading) {
       body = (
         <div className="row">Loading...</div>

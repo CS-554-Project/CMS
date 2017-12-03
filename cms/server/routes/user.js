@@ -16,4 +16,12 @@ router.get("/entries", (req, res) => {
   });
 });
 
+router.get("/entry", (req, res) => {
+  let slug = req.query.slug;
+  structureData.getEntryByEntrySlugName(slug).then(response => {
+    console.log(response);
+    res.status(200).json(response);
+  });
+});
+
 module.exports = router;
