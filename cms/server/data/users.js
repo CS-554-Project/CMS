@@ -42,7 +42,7 @@ let exportedMethods = {
     getUserByUsername(username) {
         return users().then((usersCollection) => {
             return usersCollection.findOne({ username: username }).then((user) => {
-                if (!user) throw "Email not found in DB";
+                if (!user) throw "Username not found in DB";
                 return user;
             });
         });
@@ -77,7 +77,11 @@ module.exports = exportedMethods;
 
 
 
-// exportedMethods.getUserById("8d5f76e3-95f7-43df-82a8-4eea17b04170").then(function(data){
+// exportedMethods.getUserByUsername("user2").then(function(data){
 //     console.log(data);
 // });
 
+
+// exportedMethods.getAllUsers().then(function(data){
+//     console.log(data);
+// });

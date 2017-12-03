@@ -280,7 +280,7 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.deleteStructure("st3");
+// exportedMethods.deleteStructure("st4");
 
 // // 
 
@@ -310,11 +310,6 @@ module.exports = exportedMethods;
 
 
 
-// let data = {
-//     name: "Struct44",
-
-    
-// };
 
 // exportedMethods.editStructure("st4",data)
 
