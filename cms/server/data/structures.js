@@ -77,7 +77,7 @@ let exportedMethods = {
 
     editStructure(name, slug, description, pagesize, fields) {
         return this.getStructureBySlug(slug).then((currentStructure) => {
-            let updateddata = {
+            let updatedStructure = {
                 
                 name: name,
                 slug: currentStructure.slug,
@@ -87,7 +87,7 @@ let exportedMethods = {
                 fields: fields
             };
             return structures().then((structuresCollection) => {
-                return structuresCollection.updateOne({ slug: slug }, updateCommand).then(() => {
+                return structuresCollection.updateOne({ slug: slug }, updatedStructure).then(() => {
                     return this.getStructureBySlug(slug);
                 });
             });
@@ -310,13 +310,13 @@ module.exports = exportedMethods;
 
 
 
-let data = {
-    name: "Struct44",
+// let data = {
+//     name: "Struct44",
 
     
-};
+// };
 
-exportedMethods.editStructure("st4",data)
+// exportedMethods.editStructure("st4",data)
 
 
 
