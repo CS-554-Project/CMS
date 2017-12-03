@@ -133,31 +133,15 @@ let exportedMethods = {
             });
         });
     },
-
-    
-
-    // getEntryByEntryID(id) {
-    //     id = String(id);
-    //     return structures().then((structuresCollection) => {
-    //         return structuresCollection.findOne({ $where: "this.entries._id = '" + id + "'" }).then((structure) => {
-    //             if (!structure) throw "Structure_Entry not found";
-    //             let result = structure.entries.filter(function (obj) {
-    //                 return obj._id == id;
-    //             })[0];
-    //             return result;
-    //         });
-    //     });
-    // },
-
-    getEntryByEntrySlugName(slug) {
+    getEntryByEntrySlug(slug) {
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((structure) => {
-                if (!structure) throw "Structure_Entry not found";
-                
+                // if (!structure) throw "Structure_Entry not found";
+                console.log(structure.entries);
                 let result = structure.entries.filter(function (obj) {
                     return obj.slug == slug;
                 })[0];
-               // console.log(result);
+             //   console.log(result);
                 return result;
             });
         });
@@ -235,7 +219,9 @@ module.exports = exportedMethods;
 // });
 
 
-
+exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
+ // console.log(data);
+});
 // exportedMethods.editStructure("st4",data)
 
 
