@@ -75,6 +75,28 @@ let exportedMethods = {
     
     },
 
+    editStructure(name, slug, description, pagesize, fields) {
+        return this.getStructureBySlug(slug).then((currentStructure) => {
+            let updateddata = {
+                
+                name: name,
+                slug: currentStructure.slug,
+                description: description,
+                pagesize:pagesize,
+                entries:[],
+                fields: fields
+            };
+            return structures().then((structuresCollection) => {
+                return structuresCollection.updateOne({ slug: slug }, updateCommand).then(() => {
+                    return this.getStructureBySlug(slug);
+                });
+            });
+        });
+
+
+    },
+
+
 
 //     addStructureFields(structureId, fields) {
 //         return this.getStructureByID(structureId).then((structure) => { 
@@ -213,10 +235,6 @@ let exportedMethods = {
             });
         });
     },
-    
-
-    
-
  
 }
 
@@ -290,6 +308,15 @@ module.exports = exportedMethods;
 // });
 
 
+
+
+let data = {
+    name: "Struct44",
+
+    
+};
+
+exportedMethods.editStructure("st4",data)
 
 
 
