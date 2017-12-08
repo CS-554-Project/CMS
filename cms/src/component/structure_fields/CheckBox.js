@@ -4,9 +4,12 @@ class CheckBox extends Component {
     render() {
         return (
             <div className="form-group">
-                <label>{this.props.component.componentLabel}</label>
-                <input type="checkbox" id={this.props.component.componentLabel} checked={this.props.component.value} value={this.props.component.value} onChange={this.props.handleChange} />
+            <div className="form-check">
+              <label className="form-check-label">
+                <input type="checkbox" id={this.props.data.label} className="form-check-input" checked={this.props.data.value} onChange={this.props.handleChange}/> {this.props.data.label}
+              </label>
             </div>
+          </div>
         )
     }
 }

@@ -24,13 +24,15 @@ class DatePicker extends Component {
   
     render() {
       return (
-        <div className="form-group">
-        <label>{this.props.component.componentLabel}</label>
-        <DatePickerModule
-            id={this.props.component.componentLabel}
-            selected={this.state.startDate}
-            onChange={this.handleChange}
-        />
+        <div className="form-group row">
+        <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
+          <div className="col-sm-10">
+            <DatePickerModule
+                id={this.props.data.label}
+                selected={this.state.startDate}
+                onChange={this.handleChange}
+            />
+          </div>
         </div>
       ) 
     }
