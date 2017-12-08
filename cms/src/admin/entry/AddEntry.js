@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
-import Fields from '../../component/structure_fields/Fields';
+import FieldsLoading from '../components/FieldsLoading';
 import moment from 'moment';
 
 class AddEntry extends Component {
@@ -68,7 +68,7 @@ class AddEntry extends Component {
                 </form>
 
                 <br/>
-                <Fields data={this.state.structureFields}/>
+                <FieldsLoading data={this.state.structureFields}/>
 
                 <form onSubmit={this._addStructure}>
                     <button className="btn btn-success">Add Entry</button>

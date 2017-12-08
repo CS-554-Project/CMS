@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
-import ListFields from '../../component/ListFields';
+import ListFields from '../structure/ListFields';
 
 class AddStructure extends Component {
     constructor(props) {

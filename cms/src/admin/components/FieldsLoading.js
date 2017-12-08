@@ -10,7 +10,7 @@ import Link from './Link';
 import DatePicker from './DatePicker';
 import YouTube from './YouTube';
 
-class Fields extends Component {
+class FieldsLoading extends Component {
 
     constructor(props) {
         super(props);
@@ -112,4 +112,4 @@ class Fields extends Component {
     }
 }
 
-export default Fields;
+export default FieldsLoading;
