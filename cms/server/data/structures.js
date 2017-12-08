@@ -24,7 +24,6 @@ let exportedMethods = {
 
     getStructureByID(id) {
         if(!id) return Promise.reject("No ID provided");
-
         return structures().then((structureCollection) => {
             return structureCollection.findOne({_id: id}).then((structure) => {
                 if(!structure) throw("Structure not found");
@@ -42,8 +41,6 @@ let exportedMethods = {
             });
         });
     },
-
-    
 
     addStructure(name, slug, description, pagesize, fields) {
         return structures().then((structuresCollection) => {
@@ -69,16 +66,13 @@ let exportedMethods = {
                         return this.getStructureByID(newId);
                     });
                 }
-            });
-            
+            }); 
         });
-    
     },
 
     editStructure(name, slug, description, pagesize, fields) {
         return this.getStructureBySlug(slug).then((currentStructure) => {
             let updatedStructure = {
-                
                 name: name,
                 slug: currentStructure.slug,
                 description: description,
@@ -92,104 +86,24 @@ let exportedMethods = {
                 });
             });
         });
-
-
     },
 
-
-
-//     addStructureFields(structureId, fields) {
-//         return this.getStructureByID(structureId).then((structure) => { 
-
-//             console.log(fields);
-
-//             // let structure_field = {
-//             //     label: "",
-//             //     type: "",
-//             //     number: 0
-//             // }
-//             // let structure_fields = [];
-
-//             // fields.map((field) => {
-//             //     structure_field.label = field.label,
-//             //     structure_field.type = field.type,
-//             //     structure_field.number = field.number
-//             // });
-
-//             // if ('type' in fields) {
-//             //     structure_fields.type = fields.type;
-//             // }
-//             // if ('label' in fields) {
-//             //     structure_fields.label = fields.label;
-//             // }
-//             // if ('number' in fields) {
-//             //     structure_fields.number = fields.number;
-//             // }
-
-//             // let newfieldObject = {
-//             //     $set: structure_fields
-//             // };
-//             return structures().then((structuresCollection) => {
-//             return structuresCollection.updateOne({ _id: structureId }, { $push: { "fields": fields } }).then(function () {
-               
-//             });
-//         });
-//     });
-// },
-
-    // getFieldByFieldID(id) {
-    //     id = String(id);
-    //   //  console.log(id);
-    //     return structures().then((structuresCollection) => {
-    //         return structuresCollection.findOne({ $where: "this.fields._id = '" + id + "'" }).then((structure) => {
-    //             if (!structure) throw "Structure_Field not found";
-    //             let result = structure.fields.filter(function (obj) {
-    //                 return obj._id == id;
-    //             })[0];
-    //             if(!result) throw "Field not Found";
-    //             result.name = structure.name;
-    //             result.slug = structure.slug;
-    //             return result;
-    //         });
-    //     });
-    // },
-
-
-    // addFields(label,type, number) {
-    //     return structures().then((structuresCollection) => {
-    //         let newfieldObject = {
-    //             _id: uuid(),
-    //             label: label,
-    //             type: type,
-    //             number:number
-    //         };
-
-    //         return structuresCollection.insertOne(newfieldObject).then((newInsertInformation) => {
-    //             return newInsertInformation.insertedId;
-    //         }).then((newId) => {
-    //             return this.getFieldById(newId);
-    //         });
-    //     });
-    // },
-
-    getFieldById(id) {
+    deleteStructure(slug) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ _id: id }).then((structure) => {
-                if (!structure) throw "Field not found";
-                return structure;
+            return structuresCollection.removeOne({ slug: slug }).then((deletionInfo) => {
+                
             });
         });
     },
-
     
-    
-    addStructureEntries(structure_slug,title,slug, blurb,author,created_date,comments) {
+    addStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
                 _id: entryID,
                 title: title,
                 slug:slug,
+                url:url,
                 blurb:blurb,
                 author:author,
                 created_date:new Date(),
@@ -201,36 +115,33 @@ let exportedMethods = {
         });
     },
 
-    deleteStructure(slug) {
+    editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.removeOne({ slug: slug }).then((deletionInfo) => {
-                
+            entryID = uuid()
+            let newEntryObject = {
+                _id: entryID,
+                title: title,
+                slug:slug,
+                url:url,
+                blurb:blurb,
+                author:author,
+                created_date:new Date(),
+                comments:[]
+            };
+
+            return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
             });
         });
     },
-
-    // getEntryByEntryID(id) {
-    //     id = String(id);
-    //     return structures().then((structuresCollection) => {
-    //         return structuresCollection.findOne({ $where: "this.entries._id = '" + id + "'" }).then((structure) => {
-    //             if (!structure) throw "Structure_Entry not found";
-    //             let result = structure.entries.filter(function (obj) {
-    //                 return obj._id == id;
-    //             })[0];
-    //             return result;
-    //         });
-    //     });
-    // },
-
-    getEntryByEntrySlugName(slug) {
+    getEntryByEntrySlug(slug) {
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((structure) => {
-                if (!structure) throw "Structure_Entry not found";
-                
+                // if (!structure) throw "Structure_Entry not found";
+                console.log(structure.entries);
                 let result = structure.entries.filter(function (obj) {
                     return obj.slug == slug;
                 })[0];
-               // console.log(result);
+             //   console.log(result);
                 return result;
             });
         });
@@ -280,7 +191,7 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.deleteStructure("st3");
+// exportedMethods.deleteStructure("st4");
 
 // // 
 
@@ -308,14 +219,9 @@ module.exports = exportedMethods;
 // });
 
 
-
-
-// let data = {
-//     name: "Struct44",
-
-    
-// };
-
+exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
+ // console.log(data);
+});
 // exportedMethods.editStructure("st4",data)
 
 

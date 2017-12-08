@@ -18,11 +18,15 @@ class SingleStructure extends Component {
     };
   }
 
-  async getStructureEntries(slug) {
+  async getStructure(reqSlug) {
     try {
       this.setState({ loading: true });
-      //zconsole.log("/user/entries?slug=" + slug);
-      let response = await axiosInstance.get("/user/entries?slug=" + slug);
+     //console.log("/user/entries?slug=" + reqSlug);
+      let response = await axiosInstance.get("/user/entries",{
+        params: {
+          slug: reqSlug
+        }
+      });
       //console.log(response.data);
       const structureData = response.data;
       this.setState({
@@ -36,11 +40,11 @@ class SingleStructure extends Component {
 
   async componentDidMount() {
     let structureSlug = this.props.match.params.structure;
-    await this.getStructureEntries(structureSlug);
+    await this.getStructure(structureSlug);
   }
 
   render() {
-    console.log(this.state.structure);
+    //console.log(this.state.structure);
     // let entries = [
     //   { name: "Entry one", slug: "One", blurb: "This is Entry one blurb" },
     //   { name: "Entry Two", slug: "Two", blurb: "This is Entry two blurb" },
@@ -70,7 +74,7 @@ class SingleStructure extends Component {
     // };
     //structures = [];
 
-    let body = "Harsh Kevadia";
+    let body = null;
     if (this.state.loading) {
       body = (
         <div className="row">Loading...</div>

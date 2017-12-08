@@ -14,15 +14,16 @@ class EntriesListCardView extends Component {
   render() {
     let body = null;
     if (this.props.structure.entries.length !== 0) {
+      const structureSlug = this.props.structure.slug;
       const entryCardView = this.props.structure.entries.map(entry => {
         return (
           <div className="col-md-4 custom-card">
             <div className="card">
               <div className="card-block custom-card">
-                <h3 className="card-title">{entry.name}</h3>
+                <h3 className="card-title">{entry.title}</h3>
                 <p className="card-text">{entry.blurb}</p>
-                <Link to={"/Structure/" + this.props.structure.structureSlug + "/" + entry.slug}>
-                  <button className="btn btn-primary">{entry.name}</button>
+                <Link to={"/Structure/" + structureSlug + "/" + entry.slug}>
+                  <button className="btn btn-primary">{entry.title}</button>
                 </Link>
               </div>
             </div>

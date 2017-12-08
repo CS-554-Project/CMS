@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
 });
 
 passport.use(new LocalStrategy(
-    function (email, password, done) {
+    function (username, password, done) {
         let user = data.users.getUserByusername(username);
         if (user === undefined) {
             return done("User is not found");
@@ -35,21 +35,19 @@ passport.use(new LocalStrategy(
     }
 ));
 
-passport.serializeUser((vendor, obj) => {
-    obj(null, vendor._id);
+passport.serializeUser((user, obj) => {
+    obj(null, user._id);
 });
 
 passport.deserializeUser((id, obj) => {
-    let vendorDetails = data.vendors.getVendorById(id);
-    if (vendorDetails === undefined) {
+    let userDetails = data.users.getUserById(id);
+    if (userDetails === undefined) {
         return obj("There is error");
     }
     else {
-        obj(null, vendorDetails);
+        obj(null, userDetails);
     }
 });
-
-
 
 
 

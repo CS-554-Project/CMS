@@ -14,10 +14,11 @@ class EntriesListLeftNav extends Component {
   render() {
     let body = null;
     if (this.props.structure.entries.length !== 0) {
+      let structureSlug = this.props.structure.slug;
       const entriesNavigation = this.props.structure.entries.map(entry => {
         return (
           <li className="nav-item">
-            <Link to={"/Structure/" + this.props.structure.structureSlug + "/" + entry.slug}>{entry.name}</Link>
+            <Link to={"/Structure/" + structureSlug + "/" + entry.slug}>{entry.title}</Link>
           </li>
         );
       });
