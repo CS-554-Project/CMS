@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Dropzone from 'react-dropzone';
 
-class ImageUpload extends Component {
+class FilesUpload extends Component {
   // constructor(props) {
   //     super(props);
   //     this.state = {
@@ -54,4 +54,4 @@ class ImageUpload extends Component {
   }
 }
 
-export default ImageUpload;
+export default FilesUpload;

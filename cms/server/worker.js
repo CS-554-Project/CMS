@@ -116,7 +116,7 @@ redisConnection.on('delete-structure:request:*', (message, channel) => {
     });
 });
 
-redisConnection.on('add-structure-entry:request:*', (message, channel) => {
+redisConnection.on('add-entry:request:*', (message, channel) => {
     
     let requestId = message.requestId;
     let eventName = message.eventName;

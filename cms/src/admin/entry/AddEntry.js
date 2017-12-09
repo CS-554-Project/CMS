@@ -33,6 +33,7 @@ class AddEntry extends Component {
     async _addEntry(e) {
         e.preventDefault();
         //if(!this._validateFields()) return;
+
         let payload = {
             structureslug: this.state.structureSlug,
             title: this.state.entryTitle,
@@ -42,7 +43,7 @@ class AddEntry extends Component {
             createdDate: this.state.createdDate,
             fields: this.state.structureFields
         }
-        let response = await axiosInstance.post('/admin/addstructureentry', payload);
+        let response = await axiosInstance.post('/admin/addentry', payload);
     }
 
     _handleChange(e) {
@@ -57,11 +58,30 @@ class AddEntry extends Component {
 
     _handleInputChange(e) {
         let value = '';
-        if(e.target.type === 'checkbox') {
-            value = e.target.checked;
-        } else {
-            value = e.target.value;
+
+        switch(e.target.type) {
+
+            case "checkbox":
+                value = e.target.checked;  
+            break;
+
+            case 'file':
+                let temp = e.target.value.split('\\');
+                value = temp[temp.length-1];
+                let formData = new FormData();
+                formData.append('image', e.target.files[0]);
+                axiosInstance.post('/admin/uploadimage', formData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    }
+                });
+            break;
+
+            default:
+                value = e.target.value;
+            break;
         }
+
         for(let i = 0; i < this.state.structureFields.length; i++) {
             if(this.state.structureFields[i].label === e.target.id) {
                 this.state.structureFields[i].value = value
@@ -70,6 +90,7 @@ class AddEntry extends Component {
         this.setState({
             structureFields: this.state.structureFields
         });
+        console.log(this.state.structureFields);
     }
 
     _addFieldsToForm(field, index) {
@@ -107,7 +128,7 @@ class AddEntry extends Component {
                     case "image-uploader":
                     return (
                         <div key={index}>
-                            <ImageUpload data={field} />
+                            <ImageUpload data={field} handleInputChange={this._handleInputChange}/>
                         </div>
                     )
         

@@ -46,7 +46,7 @@ let exportedMethods = {
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
                 if(existingInformation)
-                    Promise.Fu("Structure with slug is already inserted");
+                    Promise.reject("Structure with slug is already inserted");
                 else
                 {
                     let newStructure = {
@@ -167,14 +167,14 @@ module.exports = exportedMethods;
 // });
 
 
-let fields=
-[{ label: 'Name', type: 'small-text-input' },
-{ label: 'Number', type: 'number-input' },
-{ label: 'CheckBox', type: 'checkbox'}];
+// let fields=
+// [{ label: 'Name', type: 'small-text-input' },
+// { label: 'Number', type: 'number-input' },
+// { label: 'CheckBox', type: 'checkbox'}];
 
-exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
-    console.log(data);
-});
+// exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
+//     console.log(data);
+// });
 
 // let fields=
 // [{ label: 'Text Area', type: 'text-area', number: 1 },
