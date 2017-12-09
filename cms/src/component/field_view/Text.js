@@ -20,3 +20,5 @@ class Text extends Component {
     );
   }
 }
+
+export default Text;

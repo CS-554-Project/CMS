@@ -23,16 +23,20 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .mycontent-left {
   border-right: 1px solid #333;
 }
 
-.mycontent-right{
+.mycontent-right {
   margin: 1%;
 }
-.custom-card{
+.custom-card {
   padding: 12px;
 }

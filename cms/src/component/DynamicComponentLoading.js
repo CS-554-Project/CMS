@@ -10,8 +10,8 @@ import Number from "./field_view/Number";
 //import CheckBox from "./field_view/CheckBox";
 import ImageView from "./field_view/ImageView";
 import Link from "./field_view/Link";
-import DateDisplay from "./field_view/DateDisplay";
-import YouTube from "./field_view/YouTube";
+//import DateDisplay from "./field_view/DateDisplay";
+//import YouTube from "./field_view/YouTube";
 
 class DynamicComponentLoading extends Component {
   constructor(props) {
@@ -23,26 +23,20 @@ class DynamicComponentLoading extends Component {
         return <Text data={field} />;
       case "number-input":
         return <Number data={field} />;
-      // case "checkbox":
-      // return (
-      //     <CheckBox data={field} />
-      // )
+    //   case "checkbox":
+    //     return <CheckBox data={field} />;
       case "text-area":
         return <Text data={field} />;
       case "image-uploader":
         return <ImageView data={field} />;
       case "link":
         return <Link data={field} />;
-      // case "wysiwyg-editor":
-      // return (
-      //   <WysiwygEditor component={component} />
-      // )
-      case "datepicker":
-        return <DateDisplay data={field} />;
-      // case "embeddable-youtube":
-      // return (
-      //         <YouTube component={component} />
-      // )
+    //   case "wysiwyg-editor":
+    //     return <WysiwygEditor component={component} />;
+    //   case "datepicker":
+    //     return <DateDisplay data={field} />;
+    //   case "embeddable-youtube":
+    //     return <YouTube component={component} />;
       default:
         break;
     }
