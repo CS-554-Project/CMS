@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import AddStructure from './structure/AddStructure';
 import ListStructure from './structure/ListStructure';
 import EditStructure from './structure/EditStructure';
+import AddEntry from './entry/AddEntry';
 
 class Admin extends Component {
     render() {
@@ -22,6 +23,7 @@ class Admin extends Component {
                         </ul>
                         <Switch>
                             <Route exact path={`${url}/structures/new`} component={AddStructure}/>
+                            <Route exact path={`${url}/structures/:slug/new`} component={AddEntry}/> 
                             <Route exact path={`${url}/structures/:slug`} component={EditStructure}/>                             
                             <Route exact path={`${url}/structures`} component={ListStructure}/>
 

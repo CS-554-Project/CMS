@@ -4,7 +4,7 @@ class ListFields extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            structureFields: []
+            structureFields: props.data
         }
     }
 

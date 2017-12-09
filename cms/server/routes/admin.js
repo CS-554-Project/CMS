@@ -4,7 +4,7 @@ const data = require("../data");
 const structureData = data.structures;
 
 router.post("/addstructure", (req, res) => {
-    structureData.addStructure(req.body.name, req.body.slug, req.body.description, req.body.pagesize).then((response) => {
+    structureData.addStructure(req.body.name, req.body.slug, req.body.description, req.body.pagesize, req.body.fields).then((response) => {
         res.status(200).json(response);
     });
 });
@@ -15,10 +15,23 @@ router.get("/liststructures", (req, res) => {
     });
 });
 
+router.put("/editstructure", (req, res) => {
+    structureData.editStructure(req.body.name, req.body.slug, req.body.description, req.body.pagesize, req.body.fields).then((response) => {
+        res.status(200).json(response);
+    });
+});
+
 router.delete("/deletestructure", (req, res) => {
     structureData.deleteStructure(req.body.slug).then((response) => {
         res.status(200).json(response);
     });
 });
+
+router.get("/getstructuredetails/:slug", (req, res) => {
+    structureData.getStructureBySlug(req.params.slug).then((response) => {
+        res.status(200).json(response);
+    });
+});
+
 
 module.exports = router;

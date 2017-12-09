@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axiosInstance from '../../utils/AxiosInstance';
-import ListFields from '../../component/ListFields';
+import ListFields from '../structure/ListFields';
 
 class AddStructure extends Component {
     constructor(props) {
@@ -97,7 +97,7 @@ class AddStructure extends Component {
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Structure Name</label>
                     <div className="col-sm-10">
-                        <input type="text" id="structureName" className="form-control" required placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
+                        <input type="text" id="structureName" className="form-control" placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
                     </div>
                 </div>         
 
