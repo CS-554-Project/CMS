@@ -46,7 +46,7 @@ let exportedMethods = {
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
                 if(existingInformation)
-                    throw("Structure with slug is already inserted");
+                    Promise.Fu("Structure with slug is already inserted");
                 else
                 {
                     let newStructure = {
@@ -99,6 +99,9 @@ let exportedMethods = {
 
     
     addStructureEntries(structure_slug,title,slug, blurb,author,created_date,fields,comments) {
+//         fields=
+// [{ label: 'Text Area', type: 'text-area', value: "Hii," },
+// { label: 'Link', type: 'link', value: "www.link.com" }];
         return structures().then((structuresCollection) => {
                     let newEntryObject = {
                         _id: uuid(),
@@ -116,27 +119,7 @@ let exportedMethods = {
     },
 
 
-    // addStructureEntries(structure_slug,title,slug, blurb,author,created_date,comments,fields) {
-    //     return structures().then((structuresCollection) => {
-    //         console.log(fields);
-    //         entryID = uuid()
-    //         let newEntryObject = {
-    //             _id: entryID,
-    //             title: title,
-    //             slug:slug,
-    //             blurb:blurb,
-    //             author:author,
-    //             created_date:new Date(),
-    //             comments:[],
-    //             fields:fields
-                
-    //         };
-    //        // console.log(newEntryObject);
-    //         return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
-    //         });
-    //     });
-    // },
-
+   
     editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
@@ -156,16 +139,18 @@ let exportedMethods = {
     },
 
     getEntryByEntrySlug(slug) {
+        slug = String(slug);
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((data) => {
-                console.log(structuresCollection.data);
-                //console.log(data);
-                return data;
-           });
+            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((entry) => {
+                let result = entry.entries.filter(function (obj) {
+                    return obj.slug == slug;
+                })[0];
+                
+                return result;
+            });
         });
     },
 }
-
 module.exports = exportedMethods;
 
 
@@ -173,8 +158,8 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
-//   //console.log(data);
+// exportedMethods.getEntryByEntrySlug("st4entry1").then(function(data){
+//   console.log(data);
 // })
 
 
@@ -183,14 +168,14 @@ module.exports = exportedMethods;
 // });
 
 
-// let fields=
-// [{ label: 'Name', type: 'small-text-input' },
-// { label: 'Number', type: 'number-input' },
-// { label: 'CheckBox', type: 'checkbox'}];
+let fields=
+[{ label: 'Name', type: 'small-text-input' },
+{ label: 'Number', type: 'number-input' },
+{ label: 'CheckBox', type: 'checkbox'}];
 
-// exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
-//     console.log(data);
-// });
+exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
+    console.log(data);
+});
 
 // let fields=
 // [{ label: 'Text Area', type: 'text-area', number: 1 },
@@ -220,7 +205,7 @@ module.exports = exportedMethods;
 
 
 
-// exportedMethods.deleteStructure("st1");
+// exportedMethods.deleteStructure("st2");
 
 // let fields=
 // [{ label: 'Text Area', type: 'text-area', value: "Hii," },
@@ -251,7 +236,7 @@ module.exports = exportedMethods;
 //     //console.log(data);
 // });
 
-// exportedMethods.addStructureEntries("st2","Struct2: Entry1","st2entry1", "Structure 2 In Entry 1","Test1").then(function(data){
+// exportedMethods.addStructureEntries("st2","Struct2: Entry1","st1entry1", "Structure 2 In Entry 1","Test1").then(function(data){
 //     //console.log(data);
 // });
 
@@ -263,6 +248,10 @@ module.exports = exportedMethods;
 // });
 
 // exportedMethods.addStructureEntries("st3","Struct3: Entry1","st3entry1", "Structure 3 In Entry 1","Test1").then(function(data){
+//     //console.log(data);
+// });
+
+// exportedMethods.addStructureEntries("st4","Struct4: Entry1","st4entry1", "Structure 4 In Entry 1","Test1").then(function(data){
 //     //console.log(data);
 // });
 
