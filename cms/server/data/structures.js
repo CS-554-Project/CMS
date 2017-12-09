@@ -11,7 +11,6 @@ let exportedMethods = {
         });
     },
 
-    
     getStructureBySlug(slug) {
         if(typeof slug !== "string") return Promise.reject("No Slug provided");
 
@@ -58,6 +57,7 @@ let exportedMethods = {
                         pagesize:pagesize,
                         entries:[],
                         fields: fields
+                        
                     };
                    
                     return structuresCollection.insertOne(newStructure).then((newInsertInformation) => { 
@@ -96,61 +96,74 @@ let exportedMethods = {
             });
         });
     },
-    
-    addStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments) {
-        return structures().then((structuresCollection) => {
-            entryID = uuid()
-            let newEntryObject = {
-                _id: entryID,
-                title: title,
-                slug:slug,
-                url:url,
-                blurb:blurb,
-                author:author,
-                created_date:new Date(),
-                comments:[]
-            };
 
-            return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
+    
+    addStructureEntries(structure_slug,title,slug, blurb,author,created_date,fields,comments) {
+        return structures().then((structuresCollection) => {
+                    let newEntryObject = {
+                        _id: uuid(),
+                        title: title,
+                        slug: slug,
+                        blurb: blurb,
+                        author:author,
+                        created_date:new Date(),
+                        fields: fields,
+                        comments:[]
+                    };
+                    return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
+                    });        
             });
-        });
     },
 
-    editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments) {
+
+    // addStructureEntries(structure_slug,title,slug, blurb,author,created_date,comments,fields) {
+    //     return structures().then((structuresCollection) => {
+    //         console.log(fields);
+    //         entryID = uuid()
+    //         let newEntryObject = {
+    //             _id: entryID,
+    //             title: title,
+    //             slug:slug,
+    //             blurb:blurb,
+    //             author:author,
+    //             created_date:new Date(),
+    //             comments:[],
+    //             fields:fields
+                
+    //         };
+    //        // console.log(newEntryObject);
+    //         return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
+    //         });
+    //     });
+    // },
+
+    editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
                 _id: entryID,
                 title: title,
                 slug:slug,
-                url:url,
                 blurb:blurb,
                 author:author,
                 created_date:new Date(),
+                fields:fields,
                 comments:[]
             };
-
             return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
             });
         });
     },
 
     getEntryByEntrySlug(slug) {
-        
         return structures().then((structuresCollection) => {
-           
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((data) => {
-               
-                console.log(data.entries);
+                console.log(structuresCollection.data);
                 //console.log(data);
-               
-                
+                return data;
            });
         });
     },
-
-    
- 
 }
 
 module.exports = exportedMethods;
@@ -160,9 +173,9 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
-  //console.log(data);
-})
+// exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
+//   //console.log(data);
+// })
 
 
 // exportedMethods.getStructureBySlug("st1").then(function (data) {
@@ -171,9 +184,9 @@ exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
 
 
 // let fields=
-// [{ label: 'Name', type: 'small-text-input', number: 1 },
-// { label: 'Number', type: 'number-input', number: 2 },
-// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+// [{ label: 'Name', type: 'small-text-input' },
+// { label: 'Number', type: 'number-input' },
+// { label: 'CheckBox', type: 'checkbox'}];
 
 // exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
 //     console.log(data);
@@ -205,19 +218,36 @@ exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
 //     console.log(data);
 // });
 
+
+
 // exportedMethods.deleteStructure("st1");
 
-// // 
+// let fields=
+// [{ label: 'Text Area', type: 'text-area', value: "Hii," },
+// { label: 'Link', type: 'link', value: "www.link.com" }];
 
-// exportedMethods.addStructureEntries("st1","Struct1: Entry1","st1entry1", "Structure 1 In Entry 1","Test1").then(function(data){
+
+// exportedMethods.addStructureEntries("st1","Struct1: Entry1","st1entry1","Structure 1 In Entry 1","Test1").then(function(data){
+//     console.log(data);
+// });
+
+
+// let Entryfields=
+// [{ label: 'Name', type: 'small-text-input', number: 1 },
+// { label: 'Number', type: 'number-input', number: 2 },
+// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+// //console.log(Entryfields);
+// exportedMethods.addStructureEntries("st1","Struct1: Entry2","st1entry2", "Structure 1 In Entry 2","Test2",Entryfields).then(function(data){
 //     //console.log(data);
 // });
 
-// exportedMethods.addStructureEntries("st1","Struct1: Entry2","st1entry2", "Structure 1 In Entry 2","Test2").then(function(data){
-//     //console.log(data);
-// });
 
-// exportedMethods.addStructureEntries("st1","Struct1: Entry3","st1entry3", "Structure 1 In Entry 3","Test3").then(function(data){
+// let fields=
+// [{ label: 'Name', type: 'small-text-input', number: 1 },
+// { label: 'Number', type: 'number-input', number: 2 },
+// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+
+// exportedMethods.addStructureEntries("st1","Struct1: Entry3","st1entry3", "Structure 1 In Entry 3","Test3",fields).then(function(data){
 //     //console.log(data);
 // });
 
