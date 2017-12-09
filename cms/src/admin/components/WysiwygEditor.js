@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import React, { Component } from "react";
+import { EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import "../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 class WysiwygEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: EditorState.createEmpty(),
+      editorState: EditorState.createEmpty()
     };
     this._onEditorStateChange = this._onEditorStateChange.bind(this);
   }
 
-  _onEditorStateChange (editorState) {
+  _onEditorStateChange(editorState) {
     this.setState({
-      editorState,
+      editorState
     });
-  };
+  }
 
   render() {
     const { editorState } = this.state;
@@ -27,7 +27,7 @@ class WysiwygEditor extends Component {
         editorClassName="demo-editor"
         onEditorStateChange={this.onEditorStateChange}
       />
-    )
+    );
   }
 }
 
