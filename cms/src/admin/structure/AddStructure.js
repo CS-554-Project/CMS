@@ -6,14 +6,13 @@ class AddStructure extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            structureName: "",
-            structureSlug: "",
-            structureDescription: "",
+            structureName: '',
+            structureSlug: '',
+            structureDescription: '',
             structurePageSize: 1,
             structureFields: [],
-            fieldLabel: "",
-            selectedField: "small-text-input",
-            fieldNumber: 0
+            fieldLabel: '',
+            selectedField: 'small-text-input'
         }
         this._addStructure = this._addStructure.bind(this);
         this._addField = this._addField.bind(this);
@@ -25,7 +24,6 @@ class AddStructure extends Component {
     async _addStructure(e) {
         e.preventDefault();
         //if(!this._validateFields()) return;
- 
         let payload = {
             name: this.state.structureName,
             slug: this.state.structureSlug,
@@ -33,7 +31,7 @@ class AddStructure extends Component {
             pagesize: this.state.structurePageSize,
             fields: this.state.structureFields
         }
-        let response = await axiosInstance.post("/admin/addstructure", payload);
+        let response = await axiosInstance.post('/admin/addstructure', payload);
     }
 
     _addField(e) {
@@ -41,16 +39,15 @@ class AddStructure extends Component {
         this.setState({
             structureFields: [...this.state.structureFields, {
                 label: this.state.fieldLabel,
-                type: this.state.selectedField,
-                number: ++this.state.fieldNumber
+                type: this.state.selectedField
             }],
-            fieldLabel: ""          
+            fieldLabel: ''          
         });
     }
 
-    _removeField(number) {
+    _removeField(_field) {
         let updatedFields = this.state.structureFields.filter((field) => {
-            return field.number !== number
+            return field !== _field
         });
         this.setState({
             structureFields: updatedFields
@@ -59,66 +56,66 @@ class AddStructure extends Component {
 
     _handleChange(e) {
         e.preventDefault();
-        const target = e.target;
-        const value = target.value;
-        const name = target.id;
+        let target = e.target;
+        let value = target.value;
+        let name = target.id;
         this.setState({
           [name]: value
         });
     }    
 
     _validateFields() {
-        if(this.state.structureName === "" || this.state.structureName === undefined) {
-            alert("Structure Name Required");
+        if(this.state.structureName === '' || this.state.structureName === undefined) {
+            alert('Structure Name Required');
             return false;
         }
-        if(this.state.structureSlug === "" || this.state.structureSlug === undefined) {
-            alert("Structure Slug Required");
+        if(this.state.structureSlug === '' || this.state.structureSlug === undefined) {
+            alert('Structure Slug Required');
             return false;
         }
-        if(this.state.structureDescription === "" || this.state.structureDescription === undefined) {
-            alert("Structure Description Required");
+        if(this.state.structureDescription === '' || this.state.structureDescription === undefined) {
+            alert('Structure Description Required');
             return false;
         }
         if(this.state.structurePageSize === 0 || this.state.structurePageSize === undefined) {
-            alert("Structure Page Size Required");
+            alert('Structure Page Size Required');
             return false;
         }
     }
 
     render() {
         return (
-            <div className="container">
+            <div className='container'>
                 
                 <h1>Create Structure</h1>
 
                 <form>
 
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Structure Name</label>
-                    <div className="col-sm-10">
-                        <input type="text" id="structureName" className="form-control" placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
+                <div className='form-group row'>
+                    <label className='col-sm-2 col-form-label'>Structure Name</label>
+                    <div className='col-sm-10'>
+                        <input type='text' id='structureName' className='form-control' placeholder='Structure Name' value={this.state.structureName} onChange={this._handleChange} />
                     </div>
                 </div>         
 
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Structure Slug</label>
-                    <div className="col-sm-10">
-                        <input type="text" id="structureSlug" className="form-control" placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
+                <div className='form-group row'>
+                    <label className='col-sm-2 col-form-label'>Structure Slug</label>
+                    <div className='col-sm-10'>
+                        <input type='text' id='structureSlug' className='form-control' placeholder='Structure Slug' value={this.state.structureSlug} onChange={this._handleChange} />
                     </div>
                 </div>
 
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Structure Desc</label>
-                    <div className="col-sm-10">
-                        <input type="text" id="structureDescription" className="form-control" placeholder="Structure Description" value={this.state.structureDescription} onChange={this._handleChange} />
+                <div className='form-group row'>
+                    <label className='col-sm-2 col-form-label'>Structure Desc</label>
+                    <div className='col-sm-10'>
+                        <input type='text' id='structureDescription' className='form-control' placeholder='Structure Description' value={this.state.structureDescription} onChange={this._handleChange} />
                     </div>
                 </div>
 
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Structure Page Size</label>
-                    <div className="col-sm-10">
-                        <input type="number" id="structurePageSize" className="form-control" placeholder="Structure Page Size" value={this.state.structurePageSize} onChange={this._handleChange} />
+                <div className='form-group row'>
+                    <label className='col-sm-2 col-form-label'>Structure Page Size</label>
+                    <div className='col-sm-10'>
+                        <input type='number' id='structurePageSize' className='form-control' placeholder='Structure Page Size' value={this.state.structurePageSize} onChange={this._handleChange} />
                     </div>
                 </div>
                 
@@ -126,33 +123,33 @@ class AddStructure extends Component {
 
                 <form onSubmit={this._addField}>
                 
-                    <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Field Label</label>
-                        <div className="col-sm-10">
-                            <input type="text" className="form-control" id="fieldLabel" placeholder="Field Label" value={this.state.fieldLabel} onChange={this._handleChange}/>
+                    <div className='form-group row'>
+                        <label className='col-sm-2 col-form-label'>Field Label</label>
+                        <div className='col-sm-10'>
+                            <input type='text' className='form-control' id='fieldLabel' placeholder='Field Label' value={this.state.fieldLabel} onChange={this._handleChange}/>
                         </div>
                     </div>
 
-                    <div className="form-row align-items-center">
-                    <label className="col-sm-2 col-form-label">Field Type</label>
-                        <div className="col-auto">
-                            <select id="selectedField" className="custom-select mb-2 mr-sm-2 mb-sm-0" value={this.state.selectedField} onChange={this._handleChange}>     
-                                <option value="small-text-input">Small Text Input</option>
-                                <option value="number-input">Number Input</option>
-                                <option value="checkbox">Checkbox</option>
-                                <option value="text-area">Text Area</option>
-                                <option value="image-uploader">Image Uploader</option>
-                                <option value="link">Link</option>
-                                <option value="wysiwyg-editor">WYSIWYG Editor</option>
-                                <option value="datepicker">Datepicker</option>
-                                <option value="embeddable-youtube">Embeddable Youtube</option>
-                                <option value="reference-entry">Reference Entry</option>
-                                <option value="file-uploader">Upload File</option>
+                    <div className='form-row align-items-center'>
+                    <label className='col-sm-2 col-form-label'>Field Type</label>
+                        <div className='col-auto'>
+                            <select id='selectedField' className='custom-select mb-2 mr-sm-2 mb-sm-0' value={this.state.selectedField} onChange={this._handleChange}>     
+                                <option value='small-text-input'>Small Text Input</option>
+                                <option value='number-input'>Number Input</option>
+                                <option value='checkbox'>Checkbox</option>
+                                <option value='text-area'>Text Area</option>
+                                <option value='image-uploader'>Image Uploader</option>
+                                <option value='link'>Link</option>
+                                <option value='wysiwyg-editor'>WYSIWYG Editor</option>
+                                <option value='datepicker'>Datepicker</option>
+                                <option value='embeddable-youtube'>Embeddable Youtube</option>
+                                <option value='reference-entry'>Reference Entry</option>
+                                <option value='file-uploader'>Upload File</option>
                             </select>    
                         </div>
 
-                        <div className="col-auto">
-                            <input className="btn btn-secondary dropdown-toggle" type="submit" value="Add Field" />
+                        <div className='col-auto'>
+                            <input className='btn btn-secondary dropdown-toggle' type='submit' value='Add Field' />
                         </div>
                     </div> 
                 </form>
@@ -162,9 +159,9 @@ class AddStructure extends Component {
                 <br/>
 
                 <form onSubmit={this._addStructure}>
-                    <button className="btn btn-success">Add Structure</button>
+                    <button className='btn btn-success'>Add Structure</button>
                 </form>
-                
+
             </div>
         );
     }

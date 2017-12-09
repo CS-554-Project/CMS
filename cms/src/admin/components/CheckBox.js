@@ -6,14 +6,8 @@ class CheckBox extends Component {
       <div className="form-group">
         <div className="form-check">
           <label className="form-check-label">
-            <input
-              type="checkbox"
-              id={this.props.data.label}
-              className="form-check-input"
-              checked={this.props.data.value}
-              onChange={this.props.handleChange}
-            />{" "}
-            {this.props.data.label}
+            <input type="checkbox" id={this.props.data.label} className="form-check-input" onChange={this.props.handleInputChange} />
+              {this.props.data.label}
           </label>
         </div>
       </div>

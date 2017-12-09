@@ -12,8 +12,7 @@ class EditStructure extends Component {
             structurePageSize: this.props.location.state.structure.pagesize,
             structureFields: this.props.location.state.structure.fields,
             fieldLabel: "",
-            selectedField: "small-text-input",
-            fieldNumber: 0
+            selectedField: "small-text-input"
         }
         this._editStructure = this._editStructure.bind(this);
         this._addField = this._addField.bind(this);
@@ -40,16 +39,15 @@ class EditStructure extends Component {
         this.setState({
             structureFields: [...this.state.structureFields, {
                 label: this.state.fieldLabel,
-                type: this.state.selectedField,
-                number: ++this.state.fieldNumber
+                type: this.state.selectedField
             }],
             fieldLabel: ""          
         });
     }
 
-    _removeField(number) {
+    _removeField(_field) {
         let updatedFields = this.state.structureFields.filter((field) => {
-            return field.number !== number
+            return field !== _field
         });
         this.setState({
             structureFields: updatedFields
@@ -141,7 +139,7 @@ class EditStructure extends Component {
                     </div> 
                 </form>
                 <br/>
-                    <ListFields data={this.state.structureFields} removeField={this._removeField}/>
+                <ListFields data={this.state.structureFields} removeField={this._removeField}/>
                 <form onSubmit={this._editStructure}>
                     <button className="btn btn-success">Update Structure</button>
                 </form>
