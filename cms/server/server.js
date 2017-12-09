@@ -57,6 +57,6 @@ app.use(passport.session());
 
 configRoutes(app);
 
-const server = app.listen(3006, () => {
-  console.log("Server is running on http://localhost:3006");
+const server = app.listen(3001, () => {
+  console.log("Server is running on http://localhost:3001");
 });

@@ -50,9 +50,11 @@ router.get("/getstructuredetails/:slug", (req, res) => {
 });
 
 router.post("/addstructureentry", (req, res) => {
-    structureData.addStructureEntries(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb, req.body.author, req.body.createdDate, req.body.fields).then((response) => {
-        res.status(200).json(response);
-    });
+
+    console.log(req.body);
+    // structureData.addStructureEntries(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb, req.body.author, req.body.createdDate, req.body.fields).then((response) => {
+    //     res.status(200).json(response);
+    // });
 });
 
 module.exports = router;

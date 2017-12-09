@@ -25,6 +25,7 @@ class AddEntry extends Component {
             structureFields: this.props.location.state.structure.fields
         }
         this._getStructure = this._getStructure.bind(this);
+        this.__addEntry = this._addEntry.bind(this);
         this._handleChange = this._handleChange.bind(this);
         this._handleInputChange = this._handleInputChange.bind(this);
         this._addFieldsToForm = this._addFieldsToForm.bind(this);
