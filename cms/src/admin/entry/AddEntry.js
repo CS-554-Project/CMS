@@ -16,27 +16,18 @@ class AddEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            entryTitle: "",
             structureSlug: this.props.location.state.structure.slug,
+            entryTitle: "",
             entrySlug: "",
             entryBlurb: "",
             author: "admin",
             createdDate: moment().format('MM-DD-YYYY'),
             structureFields: this.props.location.state.structure.fields
         }
-        this._getStructure = this._getStructure.bind(this);
-        this.__addEntry = this._addEntry.bind(this);
+        this._addEntry = this._addEntry.bind(this);
         this._handleChange = this._handleChange.bind(this);
         this._handleInputChange = this._handleInputChange.bind(this);
         this._addFieldsToForm = this._addFieldsToForm.bind(this);
-    }
-
-    componentWillMount() {
-        this._getStructure(this.state.structureSlug);
-    }
-
-    async _getStructure(slug) {
-        let response = await axiosInstance.get(`/admin/getstructuredetails/${slug}`);
     }
 
     async _addEntry(e) {
@@ -44,9 +35,9 @@ class AddEntry extends Component {
         //if(!this._validateFields()) return;
         let payload = {
             structureslug: this.state.structureSlug,
-            title: this.state.structureName,
+            title: this.state.entryTitle,
             slug: this.state.entrySlug,
-            blurb: this.state.structureDescription,
+            blurb: this.state.entryBlurb,
             author: this.state.author,
             createdDate: this.state.createdDate,
             fields: this.state.structureFields
@@ -190,7 +181,7 @@ class AddEntry extends Component {
                     this._addFieldsToForm(field, index)
                 ))} 
 
-                <form onSubmit={this._addStructure}>
+                <form onSubmit={this._addEntry}>
                     <button className="btn btn-success">Add Entry</button>
                 </form>
                 
