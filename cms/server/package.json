@@ -10,9 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "node-redis-pubsub": "^1.0.3",
+    "node-uuid": "^1.4.8",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "redis": "^2.8.0"
   }
 }
