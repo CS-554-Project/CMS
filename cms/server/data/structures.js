@@ -98,7 +98,7 @@ let exportedMethods = {
     },
 
     
-    addStructureEntries(structure_slug,title,slug, blurb,author,created_date,fields,comments) {
+    addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
         return structures().then((structuresCollection) => {
                     let newEntryObject = {
                         _id: uuid(),
