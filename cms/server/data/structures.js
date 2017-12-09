@@ -106,7 +106,7 @@ let exportedMethods = {
                         slug: slug,
                         blurb: blurb,
                         author:author,
-                        created_date:new Date(),
+                        created_date:created_date,
                         fields: fields,
                         comments:[]
                     };
