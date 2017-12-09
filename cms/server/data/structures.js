@@ -10,6 +10,7 @@ let exportedMethods = {
             return structuresCollection.find({}).project({ _id: 1, name: 1, slug:1, description:1, pagesize:1, fields:1 }).toArray()
         });
     },
+
     
     getStructureBySlug(slug) {
         if(typeof slug !== "string") return Promise.reject("No Slug provided");
@@ -133,19 +134,22 @@ let exportedMethods = {
             });
         });
     },
+
     getEntryByEntrySlug(slug) {
+        
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((structure) => {
-                // if (!structure) throw "Structure_Entry not found";
-                console.log(structure.entries);
-                let result = structure.entries.filter(function (obj) {
-                    return obj.slug == slug;
-                })[0];
-             //   console.log(result);
-                return result;
-            });
+           
+            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((data) => {
+               
+                console.log(data.entries);
+                //console.log(data);
+               
+                
+           });
         });
     },
+
+    
  
 }
 
@@ -155,6 +159,16 @@ module.exports = exportedMethods;
 // exportedMethods.getAllStructures().then(function (data) {
 //     console.log(data);
 // });
+
+exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
+  //console.log(data);
+})
+
+
+// exportedMethods.getStructureBySlug("st1").then(function (data) {
+//     console.log(data);
+// });
+
 
 // let fields=
 // [{ label: 'Name', type: 'small-text-input', number: 1 },
@@ -191,7 +205,7 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.deleteStructure("st4");
+// exportedMethods.deleteStructure("st1");
 
 // // 
 
@@ -200,6 +214,10 @@ module.exports = exportedMethods;
 // });
 
 // exportedMethods.addStructureEntries("st1","Struct1: Entry2","st1entry2", "Structure 1 In Entry 2","Test2").then(function(data){
+//     //console.log(data);
+// });
+
+// exportedMethods.addStructureEntries("st1","Struct1: Entry3","st1entry3", "Structure 1 In Entry 3","Test3").then(function(data){
 //     //console.log(data);
 // });
 
@@ -219,11 +237,8 @@ module.exports = exportedMethods;
 // });
 
 
-exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
- // console.log(data);
-});
-// exportedMethods.editStructure("st4",data)
 
+// exportedMethods.editStructure("st4",data)
 
 
 
