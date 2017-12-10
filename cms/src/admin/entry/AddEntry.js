@@ -60,7 +60,7 @@ class AddEntry extends Component {
 
         switch(e.target.type) {
 
-            case "checkbox":
+            case 'checkbox':
                 value = e.target.checked;  
             break;
 
@@ -81,8 +81,18 @@ class AddEntry extends Component {
                 });
             break;
 
+            case 'date-picker':
+                value = e._d;
+            break;
+
             default:
-                value = e.target.value;
+                if(fieldType === 'embeddable-youtube') {
+                    let regex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+                    let videoId = (e.target.value).match(regex);
+                    value = videoId[1];
+                } else {
+                    value = e.target.value;
+                }
             break;
         }
 
@@ -91,6 +101,7 @@ class AddEntry extends Component {
                 this.state.structureFields[i].value = value
             }
         }
+
         this.setState({
             structureFields: this.state.structureFields
         });
@@ -152,16 +163,16 @@ class AddEntry extends Component {
                     case "datepicker":
                     return (
                         <div key={index}>
-                            <DatePicker data={field} />
+                            <DatePicker data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
                         </div>
                     )
         
-                    // case "embeddable-youtube":
-                    // return (
-                    //     <div key={index}>
-                    //         <YouTube data={field} />
-                    //     </div>
-                    // )
+                    case "embeddable-youtube":
+                    return (
+                        <div key={index}>
+                            <YouTube data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                        </div>
+                    )
 
                     // case "reference-entry":
                     // return (
