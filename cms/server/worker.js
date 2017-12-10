@@ -143,6 +143,31 @@ redisConnection.on('add-entry:request:*', (message, channel) => {
     });
 });
 
+redisConnection.on('list-all-structures:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+    
+        structureData.getAllStructuresFromCollection().then(response => {
+            let successMessage = response;
+            redisConnection.emit(successEvent, {
+                requestId: requestId,
+                data: successMessage,
+                eventName: eventName
+            });
+        }).catch(err => {
+            let errorMessage = err.message
+            redisConnection.emit(failedEvent, {
+                requestId: requestId,
+                data: errorMessage,
+                eventName: eventName
+            });
+        });
+    });
+
 const server = app.listen(3002, () => {
     console.log("Worker is running on http://localhost:3002");
 });

@@ -16,6 +16,7 @@
     "react-addons-css-transition-group": "^15.6.2",
     "react-addons-transition-group": "^15.6.2",
     "react-bootstrap": "^0.31.5",
+    "react-collapsible": "^2.0.3",
     "react-datepicker": "^0.61.0",
     "react-dom": "^16.2.0",
     "react-draft-wysiwyg": "^1.10.12",

@@ -11,6 +11,12 @@ let exportedMethods = {
         });
     },
 
+    getAllStructuresFromCollection() {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.find({}).toArray()
+        });
+    },
+
     getStructureBySlug(slug) {
         if(typeof slug !== "string") return Promise.reject("No Slug provided");
 

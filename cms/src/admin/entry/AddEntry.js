@@ -9,6 +9,7 @@ import Link from '../components/Link';
 //import WysiwygEditor from '../components/WysiwygEditor';
 import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
+import ReferenceEntry from '../components/ReferenceEntry';
 import FileUpload from '../components/FileUpload';
 import moment from 'moment';
 
@@ -83,6 +84,10 @@ class AddEntry extends Component {
 
             case 'date-picker':
                 value = e._d;
+            break;
+
+            case 'reference-entry':
+                value = e.entryID;
             break;
 
             default:
@@ -174,12 +179,12 @@ class AddEntry extends Component {
                         </div>
                     )
 
-                    // case "reference-entry":
-                    // return (
-                    //     <div key={index}>
-                    //         <YouTube data={field} />
-                    //     </div>
-                    // )
+                    case "reference-entry":
+                    return (
+                        <div key={index}>
+                            <ReferenceEntry data={field} structureSlug={this.state.structureSlug} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    );
 
                     case "file-uploader":
                     return (

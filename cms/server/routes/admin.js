@@ -135,6 +135,19 @@ router.post("/uploadfile", uploadFile.single('file'),  async (req, res) => {
   console.log("File Zipped");
 });
 
+router.get("/listallstructures", async (req, res) => {
+    try {
+      let response = await nrpSender.sendMessage({
+        redis: redisConnection,
+        eventName: 'list-all-structures',
+        expectsResponse: true
+      });
+      res.status(200).json(response);
+    } catch(err) {
+      console.log("error" + err);
+    }
+});
+
 // router.get("/getstructuredetails/:slug", (req, res) => {
 //   structureData.getStructureBySlug(req.params.slug).then(response => {
 //     res.status(200).json(response);
