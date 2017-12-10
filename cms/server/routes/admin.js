@@ -6,9 +6,10 @@ const client = redis.createClient();
 const nrpSender = require('../js/nrp-sender-shim');
 const data = require('../data');
 const structureData = data.structures;
+const fs = require('fs');
 const path = require('path');
 const multer  = require('multer');
-
+const zip = new require('node-zip')();
 
 const storageImages = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -123,11 +124,15 @@ router.get("/liststructures", async (req, res) => {
 });
 
 router.post("/uploadimage", uploadImage.single('image'),  async (req, res) => {
-  console.log("uploadimage", req.file);
+  console.log("Image Uploaded");
 });
 
-router.post("/uploadfile", uploadFile.single('image'),  async (req, res) => {
-  console.log("uploadimage", req.file);
+router.post("/uploadfile", uploadFile.single('file'),  async (req, res) => {
+  zip.file(req.file.filename, fs.readFileSync(path.join(__dirname, '../uploads/files/',  req.file.filename)));  
+  let data = zip.generate({ base64:false, compression: 'DEFLATE' });  
+  let fileName = path.parse(req.file.filename).name;
+  fs.writeFileSync(path.join(__dirname, '../uploads/files/',  fileName.concat('.zip')), data, 'binary');
+  console.log("File Zipped");
 });
 
 // router.get("/getstructuredetails/:slug", (req, res) => {

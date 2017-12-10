@@ -10,8 +10,10 @@ import Link from '../components/Link';
 import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
 import FileUpload from '../components/FileUpload';
-
 import moment from 'moment';
+import { exec } from 'child_process';
+
+const path = require('path');
 
 class AddEntry extends Component {
     constructor(props) {
@@ -27,7 +29,6 @@ class AddEntry extends Component {
         }
         this._addEntry = this._addEntry.bind(this);
         this._handleChange = this._handleChange.bind(this);
-        //this._handleInputChange = this._handleInputChange.bind(this);
         this._addFieldsToForm = this._addFieldsToForm.bind(this);
     }
 
@@ -68,9 +69,14 @@ class AddEntry extends Component {
 
             case 'file':
                 let temp = e.target.value.split('\\');
-                value = temp[temp.length-1];
+                if(fieldType === 'image-uploader') {
+                    value = temp[temp.length-1];
+                } else {
+                    let tempName = temp[temp.length-1];
+                    value = tempName.substr(0, tempName.lastIndexOf('.')).concat('.zip');
+                }
                 let formData = new FormData();
-                formData.append('image', e.target.files[0]);
+                fieldType === 'image-uploader' ? formData.append('image', e.target.files[0]) : formData.append('file', e.target.files[0]);
                 axiosInstance.post(fieldType === 'image-uploader' ? '/admin/uploadimage' : '/admin/uploadfile', formData, {
                     headers: {
                       'Content-Type': 'multipart/form-data'
