@@ -6,7 +6,7 @@ import CheckBox from '../components/CheckBox';
 import TextArea from '../components/TextArea';
 import ImageUpload from '../components/ImageUpload';
 import Link from '../components/Link';
-//import WysiwygEditor from '../components/WysiwygEditor';
+import WysiwygEditor from '../components/WysiwygEditor';
 import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
 import ReferenceEntry from '../components/ReferenceEntry';
@@ -90,6 +90,14 @@ class AddEntry extends Component {
                 value = e.entryID;
             break;
 
+            case 'link':
+                value = e.data;
+            break;
+
+            case 'wysiwyg-editor': 
+                value = e.data;
+            break;
+
             default:
                 if(fieldType === 'embeddable-youtube') {
                     let regex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
@@ -154,16 +162,16 @@ class AddEntry extends Component {
                     case "link":
                     return (
                         <div key={index}>
-                            <Link data={field} />
+                            <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
                         </div>
                     )
         
-                    // case "wysiwyg-editor":
-                    // return (
-                    //     <div key={index}>
-                    //         {/* <WysiwygEditor data={field} /> */}
-                    //     </div>
-                    // )
+                    case "wysiwyg-editor":
+                    return (
+                        <div key={index}>
+                            <WysiwygEditor data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                        </div>
+                    )
         
                     case "datepicker":
                     return (
