@@ -52,7 +52,7 @@ let exportedMethods = {
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
                 if(existingInformation)
-                    Promise.reject("Structure with slug is already inserted");
+                    throw new Error("Structure with slug is already inserted");
                 else
                 {
                     let newStructure = {
@@ -155,6 +155,20 @@ let exportedMethods = {
             });
         });
     },
+
+    deleteEntry(slug) {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.updateOne(
+                { "entries.slug": slug },
+                { $pull: { "entries.$.slug": slug } }
+            ).then((updationInfo) => {
+                if (updationInfo.updatedCount === 0) {
+                   // throw (`Could not ent with id of ${slug}`)
+                   console.log("Deleted");
+                }
+            });
+        });
+    }
 }
 module.exports = exportedMethods;
 
