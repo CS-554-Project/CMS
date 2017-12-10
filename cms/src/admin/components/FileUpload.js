@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Dropzone from 'react-dropzone';
 
-class FilesUpload extends Component {
+class FileUpload extends Component {
   // constructor(props) {
   //     super(props);
   //     this.state = {
@@ -42,16 +42,14 @@ class FilesUpload extends Component {
 
   render() {
     return (
-      <form onSubmit={this._handleSubmit}>
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
           <div className="col-sm-10">
             <input type="file" id={this.props.data.label} className="form-control" onChange={this.props.handleInputChange} />
           </div>
         </div>
-      </form>
     );
   }
 }
 
-export default FilesUpload;
+export default FileUpload;

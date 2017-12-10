@@ -6,7 +6,6 @@ const client = redis.createClient();
 const nrpSender = require('../js/nrp-sender-shim');
 const data = require('../data');
 const structureData = data.structures;
-const fs = require('fs');
 const path = require('path');
 const multer  = require('multer');
 
@@ -20,7 +19,18 @@ const storageImages = multer.diskStorage({
   }
 });
 
-const uploadDest = multer({ storage: storageImages});
+const uploadImage = multer({ storage: storageImages});
+
+const storageFiles = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/files')
+  },
+  filename: function (req, file, cb) {
+    cb(null,  file.originalname)
+  }
+});
+
+const uploadFile = multer({ storage: storageFiles});
 
 router.post('/addstructure', async (req, res) => {
   try {
@@ -112,7 +122,11 @@ router.get("/liststructures", async (req, res) => {
   }
 });
 
-router.post("/uploadimage", uploadDest.single('image'),  async (req, res) => {
+router.post("/uploadimage", uploadImage.single('image'),  async (req, res) => {
+  console.log("uploadimage", req.file);
+});
+
+router.post("/uploadfile", uploadFile.single('image'),  async (req, res) => {
   console.log("uploadimage", req.file);
 });
 

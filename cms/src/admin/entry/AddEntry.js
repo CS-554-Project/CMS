@@ -9,6 +9,7 @@ import Link from '../components/Link';
 //import WysiwygEditor from '../components/WysiwygEditor';
 import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
+import FileUpload from '../components/FileUpload';
 
 import moment from 'moment';
 
@@ -26,7 +27,7 @@ class AddEntry extends Component {
         }
         this._addEntry = this._addEntry.bind(this);
         this._handleChange = this._handleChange.bind(this);
-        this._handleInputChange = this._handleInputChange.bind(this);
+        //this._handleInputChange = this._handleInputChange.bind(this);
         this._addFieldsToForm = this._addFieldsToForm.bind(this);
     }
 
@@ -56,7 +57,7 @@ class AddEntry extends Component {
         });
     }
 
-    _handleInputChange(e) {
+    _handleInputChange(e, fieldType) {
         let value = '';
 
         switch(e.target.type) {
@@ -70,7 +71,7 @@ class AddEntry extends Component {
                 value = temp[temp.length-1];
                 let formData = new FormData();
                 formData.append('image', e.target.files[0]);
-                axiosInstance.post('/admin/uploadimage', formData, {
+                axiosInstance.post(fieldType === 'image-uploader' ? '/admin/uploadimage' : '/admin/uploadfile', formData, {
                     headers: {
                       'Content-Type': 'multipart/form-data'
                     }
@@ -90,7 +91,6 @@ class AddEntry extends Component {
         this.setState({
             structureFields: this.state.structureFields
         });
-        console.log(this.state.structureFields);
     }
 
     _addFieldsToForm(field, index) {
@@ -100,35 +100,35 @@ class AddEntry extends Component {
                     case "small-text-input":
                     return (
                         <div key={index}>
-                            <SmallTextInput data={field} handleInputChange={this._handleInputChange} />
+                            <SmallTextInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
                         </div>
                     )
         
                     case "number-input":
                     return (
                         <div key={index}>
-                            <NumberInput data={field} handleInputChange={this._handleInputChange}/>
+                            <NumberInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
                         </div>
                     )
         
                     case "checkbox":
                     return (
                         <div key={index}>
-                            <CheckBox data={field} handleInputChange={this._handleInputChange}/>
+                            <CheckBox data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
                         </div>
                     )
         
                     case "text-area":
                     return (
                         <div key={index}>
-                            <TextArea data={field} handleInputChange={this._handleInputChange}/>
+                            <TextArea data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
                         </div>
                     )
         
                     case "image-uploader":
                     return (
                         <div key={index}>
-                            <ImageUpload data={field} handleInputChange={this._handleInputChange}/>
+                            <ImageUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
                         </div>
                     )
         
@@ -159,6 +159,20 @@ class AddEntry extends Component {
                     //         <YouTube data={field} />
                     //     </div>
                     // )
+
+                    // case "reference-entry":
+                    // return (
+                    //     <div key={index}>
+                    //         <YouTube data={field} />
+                    //     </div>
+                    // )
+
+                    case "file-uploader":
+                    return (
+                        <div key={index}>
+                            <FileUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
                 
                     default:
                         break;
