@@ -145,8 +145,10 @@ let exportedMethods = {
 
     getEntryByEntrySlug(slug) {
         slug = String(slug);
+       // console.log();
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((entry) => {
+              //  console.log(entry);
                 let result = entry.entries.filter(function (obj) {
                     return obj.slug == slug;
                 })[0];
@@ -156,15 +158,13 @@ let exportedMethods = {
         });
     },
 
-    deleteEntry(slug) {
+    removeEntry(slug) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.updateOne(
-                { "entries.slug": slug },
-                { $pull: { "entries.$.slug": slug } }
-            ).then((updationInfo) => {
-                if (updationInfo.updatedCount === 0) {
-                   // throw (`Could not ent with id of ${slug}`)
-                   console.log("Deleted");
+            return structuresCollection.updateOne({ slug: slug }, {
+                $pull: {
+                    entries: {
+                        slug: slug
+                    }
                 }
             });
         });
@@ -275,9 +275,15 @@ module.exports = exportedMethods;
 // });
 
 
+// exportedMethods.deleteEntry("st3entry1").then(function(data){
+//     console.log(data);
+// });
+
 
 // exportedMethods.editStructure("st4",data)
 
 
 
-
+// exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
+//     console.log(data);
+// })
