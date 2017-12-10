@@ -52,7 +52,8 @@ class Link extends Component {
         </label>
         <div className="col-sm-10">
           <input type="text" onChange={e => this.handleChange(true, e.target.value)} placeholder="Title" className="form-control" value={this.state.title}/>
-          <input type="text" onChange={e => this.handleChange(false, e.target.value)} placeholder="Url"  className="form-control" value={this.state.url}/>
+          <br/>
+          <input type="text" onChange={e => this.handleChange(false, e.target.value)} placeholder="URL"  className="form-control" value={this.state.url}/>
         </div>
       </div>
     );

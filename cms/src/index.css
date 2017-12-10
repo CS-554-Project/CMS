@@ -48,3 +48,11 @@ code {
 @media (max-width: 320px) {
  
 }
+
+.rdw-editor-wrapper {
+  background-color: lightgray !important;
+}
+
+.Collapsible__trigger {
+  font-weight: bold;
+}

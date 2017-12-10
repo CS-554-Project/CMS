@@ -13,6 +13,8 @@ import ReferenceEntry from '../components/ReferenceEntry';
 import FileUpload from '../components/FileUpload';
 import moment from 'moment';
 
+const youTubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+
 class AddEntry extends Component {
     constructor(props) {
         super(props);
@@ -100,9 +102,11 @@ class AddEntry extends Component {
 
             default:
                 if(fieldType === 'embeddable-youtube') {
-                    let regex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
-                    let videoId = (e.target.value).match(regex);
-                    value = videoId[1];
+                    let videoId = (e.target.value).match(youTubeRegex);
+                    console.log(videoId);
+                    if(videoId) {
+                        value = videoId[1];
+                    }
                 } else {
                     value = e.target.value;
                 }

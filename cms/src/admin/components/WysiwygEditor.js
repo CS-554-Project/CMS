@@ -17,6 +17,7 @@ class WysiwygEditor extends Component {
         editorState: EditorState.createEmpty(),
       };
     // }
+
   }
 
   onEditorStateChange(editorState) {
@@ -28,15 +29,15 @@ class WysiwygEditor extends Component {
   }
   render() {
     return (
-      <div>
-        <Editor
-          wrapperClassName="demo-wrapper"
-          editorClassName="demo-editor"
-          onEditorStateChange={e => this.onEditorStateChange(e)}
-        />
-        <textarea disabled
-          value={draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))}
-        />
+      <div className="form-group row">
+            <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
+            <div className="col-sm-10">
+              <Editor
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                onEditorStateChange={e => this.onEditorStateChange(e)}
+              />
+            </div>
       </div>
     );
   }
