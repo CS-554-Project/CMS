@@ -11,9 +11,6 @@ import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
 import FileUpload from '../components/FileUpload';
 import moment from 'moment';
-import { exec } from 'child_process';
-
-const path = require('path');
 
 class AddEntry extends Component {
     constructor(props) {
