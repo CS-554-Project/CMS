@@ -10,6 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const multer  = require('multer');
 const zip = new require('node-zip')();
+const elasticSearch = require('../data/elasticsearch');
 
 const storageImages = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -104,7 +105,26 @@ router.post("/addentry", async (req, res) => {
       },
       expectsResponse: true  
     });
+    let output = undefined;
+
     console.log("response" + response);
+
+    // elasticSearch.addEntryToIndex(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb).then((output1) => {
+    //   console.log("addEntryToIndex", output1);
+
+    //   setTimeout(function() {
+    //     console.log('Blah blah blah blah extra-blah');
+
+    //     elasticSearch.countIndex().then((output2) => {
+    //       console.log("countIndex", output2);
+    //       elasticSearch.searchIndex('temp1').then((output3) => {
+    //         console.log("searchIndex", output3.hits);
+    //         res.json(output3.hits);
+    //       });
+    //     });
+    //   }, 5000);
+    // });
+    
   } catch(err) {
     console.log("error" + err);
   }

@@ -1,7 +1,7 @@
 const NRP = require("node-redis-pubsub");
 const config = {
   port: 6379, // Port of your locally running Redis server
-  scope: "lab_6" // Use a scope to prevent two NRPs from sharing messages
+  scope: "CMS" // Use a scope to prevent two NRPs from sharing messages
 };
 
 const nrp = new NRP(config); // This is the NRP client
