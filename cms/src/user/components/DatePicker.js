@@ -3,7 +3,6 @@ import DatePickerModule from "react-datepicker";
 import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
-
 // CSS Modules, react-datepicker-cssmodules.css
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
@@ -14,16 +13,7 @@ class DatePicker extends Component {
       startDate: moment(this.props.data.value)
     };
   }
-
-  // _handleChange(date) {
-  //   this.setState({
-  //     startDate: date
-  //   });
-
-  //   date.target = {type: 'date-picker', id: this.props.data.label};
-  //   this.props.handleInputChange(date);
-  // }
-
+  
   render() {
     return (
       <div className="form-group row">

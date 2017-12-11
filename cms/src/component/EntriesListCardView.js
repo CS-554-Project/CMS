@@ -22,7 +22,7 @@ class EntriesListCardView extends Component {
               <div className="card-block custom-card">
                 <h3 className="card-title">{entry.title}</h3>
                 <p className="card-text">{entry.blurb}</p>
-                <Link to={"/" + structureSlug + "/" + entry.slug}>
+                <Link to={"/Structure/" + structureSlug + "/" + entry.slug}>
                   <button className="btn btn-primary">{entry.title}</button>
                 </Link>
               </div>
