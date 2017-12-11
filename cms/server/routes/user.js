@@ -18,6 +18,7 @@ router.get("/entries", (req, res) => {
 
 router.get("/entry", (req, res) => {
   let slug = req.query.slug;
+  console.log(slug);
   structureData.getEntryByEntrySlug(slug).then(response => {
     console.log(response);
     res.status(200).json(response);

@@ -148,7 +148,8 @@ class SingleEntry extends Component {
       this._getEntry()
     }
 
-    async _getEntry() {
+    async _getEntry(reqSlug) {
+        console.log(reqSlug);
       try {
        this.setState({ loading: true });
         let response = await axiosInstance.get("/user/entry", {
@@ -283,12 +284,12 @@ class SingleEntry extends Component {
               </div>
           )
 
-          // case "link":
-          // return (
-          //     <div key={index}>
-          //         <Link data={field} />
-          //     </div>
-          // )
+          case "link":
+          return (
+              <div key={index}>
+                  <Link data={field} />
+              </div>
+          )
 
           // case "wysiwyg-editor":
           // return (

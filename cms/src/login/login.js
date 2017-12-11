@@ -10,6 +10,7 @@ class Login extends Component {
             password: "",
             errors: {},
             token: "",
+            state: "",
             loggedIn: false
         };
         this.handleUsernameChange= this.handleUsernameChange.bind(this);
@@ -27,6 +28,20 @@ class Login extends Component {
             password: event.target.value
         });
     }
+
+    // login(event) {
+    //     event.preventDefault();
+    //     Auth.login(this.state.user, this.state.password)
+    //       .catch((err) => {
+    //         this.setState(function(prevState, props){
+    //           return {status: "Error"}
+    //         });
+    //       });
+    //    }
+      
+
+
+
     handleSubmit(event) {
         event.preventDefault();
         if(this.state.username === '' || this.state.password === '') {            
@@ -79,7 +94,7 @@ class Login extends Component {
                                 <label htmlFor="password">Password</label>
                                 <input type="password" className="form-control" id="password" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}/>
                             </div>
-                            <button type="submit" className="btn btn-primary">Submit</button> 
+                            <button type="submit" onClick={this.login.bind(this)} className="btn btn-primary">Submit</button> 
                         </form>
                     </div>
                 </div>
