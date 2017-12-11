@@ -102,7 +102,7 @@ let exportedMethods = {
             });
         });
     },
-    
+
     addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
 
         return structures().then((structuresCollection) => {
@@ -141,15 +141,20 @@ let exportedMethods = {
 
     getEntryByEntrySlug(slug) {
         slug = String(slug);
-       // console.log();
+        //console.log(slug);
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((entry) => {
-              //  console.log(entry);
+            return structuresCollection.findOne(
+                {'entries.slug':slug},
+                {  entries:1}
+            
+                    
+                ).then((entry) => {
+              // console.log(entry);
                 let result = entry.entries.filter(function (obj) {
                     return obj.slug == slug;
                 })[0];
                 
-                return result;
+               return result;
             });
         });
     },
@@ -160,15 +165,17 @@ let exportedMethods = {
                 { },
                 { $pull: { entries: { slug: slug } }  },
                 { multi: true }
-                
             ).then((updationInfo) => {
                // console.log("Hi");
                 if (updationInfo.updatedCount === 0) {
-                    throw ("Deleted");
+                    throw new Error ("Deleted Entry with ${slug}");
                     }
+                else
+                {
+                    throw new Error ("Error in Deletion");
+                }
                 });
-            });
-        
+        });
     }
 };
 
@@ -179,9 +186,9 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-// exportedMethods.getEntryByEntrySlug("st4entry1").then(function(data){
-//   console.log(data);
-// })
+exportedMethods.getEntryByEntrySlug("total 2 Entry 1").then(function(data){
+  console.log(data);
+})
 
 
 // exportedMethods.getStructureBySlug("st1").then(function (data) {
