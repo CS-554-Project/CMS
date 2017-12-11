@@ -159,6 +159,28 @@ let exportedMethods = {
         });
     },
 
+
+    getEntryByEntryID(id) {
+        id = String(id);
+        //console.log(slug);
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne(
+                {'entries._id':id},
+                {  entries:1}
+            
+                    
+                ).then((entry) => {
+              // console.log(entry);
+                let result = entry.entries.filter(function (obj) {
+                    return obj._id == id;
+                })[0];
+                
+               return result;
+            });
+        });
+    },
+
+
     removeEntry(slug) {
         return structures().then((structuresCollection) => {
             return structuresCollection.update(
@@ -297,3 +319,8 @@ module.exports = exportedMethods;
 // exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
 //     console.log(data);
 // })
+
+
+exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
+    console.log(data);
+})
