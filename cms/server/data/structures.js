@@ -160,7 +160,7 @@ let exportedMethods = {
         return structures().then((structuresCollection) => {
             return structuresCollection.updateOne(
                 { "entries.slug": slug },
-                { $pull: { "entries.$.slug": slug } }
+                { $unset: { "entries.$.slug": slug } }
             ).then((updationInfo) => {
                 if (updationInfo.updatedCount === 0) {
                    // throw (`Could not ent with id of ${slug}`)

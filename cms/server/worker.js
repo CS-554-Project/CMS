@@ -151,22 +151,76 @@ redisConnection.on('list-all-structures:request:*', (message, channel) => {
     let successEvent = `${eventName}:success:${requestId}`;
     let failedEvent = `${eventName}:failed:${requestId}`;
     
-        structureData.getAllStructuresFromCollection().then(response => {
-            let successMessage = response;
-            redisConnection.emit(successEvent, {
-                requestId: requestId,
-                data: successMessage,
-                eventName: eventName
-            });
-        }).catch(err => {
-            let errorMessage = err.message
-            redisConnection.emit(failedEvent, {
-                requestId: requestId,
-                data: errorMessage,
-                eventName: eventName
-            });
-        });
+    structureData.getAllStructuresFromCollection().then(response => {
+        let successMessage = response;
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
+
+redisConnection.on('list-entries-by-slug:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+
+    let structure  = message.data.structure;
+
+    structureData.getAllEntriesByStructureSlugName(structure.slug).then(response => {
+        let successMessage = response;
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
     });
+});
+
+redisConnection.on('delete-entry:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+
+    let entry  = message.data.entry;
+
+    structureData.deleteEntry(entry.slug).then(response => {
+        let successMessage = "Entry Deleted Successfully";
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
 
 const server = app.listen(3002, () => {
     console.log("Worker is running on http://localhost:3002");

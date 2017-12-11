@@ -130,17 +130,36 @@ router.post("/addentry", async (req, res) => {
   }
 });
 
-router.get("/liststructures", async (req, res) => {
+router.get("/:slug/listentries", async (req, res) => {
   try {
     let response = await nrpSender.sendMessage({
       redis: redisConnection,
-      eventName: 'list-structures',
+      eventName: 'list-entries-by-slug',
+      data: {
+        structure: req.params
+      },
       expectsResponse: true  
     });
     res.status(200).json(response);
   } catch(err) {
     console.log("error" + err);
   }
+});
+
+router.delete("/deleteentry", async (req, res) => {
+  try {
+    let response = await nrpSender.sendMessage({
+      redis: redisConnection,
+      eventName: 'delete-entry',
+      data: {
+        entry: req.body
+      },
+      expectsResponse: true  
+    });
+    res.status(200).json(response);
+  } catch(err) {
+    console.log("error" + err);
+  } 
 });
 
 router.post("/uploadimage", uploadImage.single('image'),  async (req, res) => {
