@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-ro
 import "./App.css";
 import User from "./user";
 import Admin from "./admin";
-import Login from './login/Login';
+import Login from './login/login';
 
 class App extends Component {
   render() {

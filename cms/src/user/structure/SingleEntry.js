@@ -154,7 +154,7 @@ class SingleEntry extends Component {
        this.setState({ loading: true });
         let response = await axiosInstance.get("/user/entry", {
           params: {
-            slug: 'total Entry 1'
+            slug: 'total 3'
           }
         });
         console.log(response.data);
@@ -284,12 +284,12 @@ class SingleEntry extends Component {
           //     </div>
           // )
 
-          // case "link":
-          // return (
-          //     <div key={index}>
-          //         <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-          //     </div>
-          // )
+          case "link":
+          return (
+              <div key={index}>
+                  <Link data={field} />
+              </div>
+          )
 
           // case "wysiwyg-editor":
           // return (
