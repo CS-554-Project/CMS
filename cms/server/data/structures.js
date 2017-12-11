@@ -102,9 +102,7 @@ let exportedMethods = {
             });
         });
     },
-
     
-
     addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
 
         return structures().then((structuresCollection) => {
@@ -123,8 +121,6 @@ let exportedMethods = {
             });
     },
 
-
-   
     editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
@@ -160,16 +156,22 @@ let exportedMethods = {
 
     removeEntry(slug) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.updateOne({ slug: slug }, {
-                $pull: {
-                    entries: {
-                        slug: slug
+            return structuresCollection.update(
+                { },
+                { $pull: { entries: { slug: slug } }  },
+                { multi: true }
+                
+            ).then((updationInfo) => {
+               // console.log("Hi");
+                if (updationInfo.updatedCount === 0) {
+                    throw ("Deleted");
                     }
-                }
+                });
             });
-        });
+        
     }
-}
+};
+
 module.exports = exportedMethods;
 
 
@@ -275,8 +277,9 @@ module.exports = exportedMethods;
 // });
 
 
-// exportedMethods.deleteEntry("st3entry1").then(function(data){
-//     console.log(data);
+// exportedMethods.removeEntry("total Entry 4").then(function(data){
+   
+//    // console.log("removed");
 // });
 
 
@@ -284,6 +287,6 @@ module.exports = exportedMethods;
 
 
 
-// exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
+// exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
 //     console.log(data);
 // })
