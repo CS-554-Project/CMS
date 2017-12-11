@@ -15,7 +15,7 @@ class User extends Component {
 
     return (
       <Switch>
-        <Route path="/Structure" component={Structure} />
+        <Route path="/Structure/" component={Structure} />
         <Route path="/" component={UserWelcome} />
       </Switch>
     );

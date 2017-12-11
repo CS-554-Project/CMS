@@ -154,7 +154,7 @@ class SingleEntry extends Component {
        this.setState({ loading: true });
         let response = await axiosInstance.get("/user/entry", {
           params: {
-            slug: 'entry1'
+            slug: 'total Entry 2'
           }
         });
         console.log(response.data);

@@ -11,13 +11,16 @@ const path = require('path');
 const multer  = require('multer');
 const zip = new require('node-zip')();
 const elasticSearch = require('../data/elasticsearch');
+const xss = require("xss");
+const imagemagick = require('imagemagick');
+
 
 const storageImages = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/images')
   },
   filename: function (req, file, cb) {
-    cb(null,  file.originalname)
+    cb(null,  xss(file.originalname))
   }
 });
 
@@ -28,7 +31,7 @@ const storageFiles = multer.diskStorage({
     cb(null, './uploads/files')
   },
   filename: function (req, file, cb) {
-    cb(null,  file.originalname)
+    cb(null,  xss(file.originalname))
   }
 });
 
@@ -40,7 +43,7 @@ router.post('/addstructure', async (req, res) => {
       redis: redisConnection,
       eventName: 'add-structure',
       data: {
-        structure: req.body
+        structure: xss(req.body)
       },
       expectsResponse: true  
     });
@@ -56,7 +59,7 @@ router.put("/editstructure", async (req, res) => {
       redis: redisConnection,
       eventName: 'edit-structure',
       data: {
-        structure: req.body
+        structure: xss(req.body)
       },
       expectsResponse: true  
     });
@@ -85,7 +88,7 @@ router.delete("/deletestructure", async (req, res) => {
       redis: redisConnection,
       eventName: 'delete-structure',
       data: {
-        structure: req.body
+        structure: xss(req.body)
       },
       expectsResponse: true  
     });
@@ -101,7 +104,7 @@ router.post("/addentry", async (req, res) => {
       redis: redisConnection,
       eventName: 'add-entry',
       data: {
-        structure: req.body
+        structure: xss(req.body)
       },
       expectsResponse: true  
     });
@@ -136,7 +139,7 @@ router.get("/:slug/listentries", async (req, res) => {
       redis: redisConnection,
       eventName: 'list-entries-by-slug',
       data: {
-        structure: req.params
+        structure: xss(req.params)
       },
       expectsResponse: true  
     });
@@ -152,7 +155,7 @@ router.delete("/deleteentry", async (req, res) => {
       redis: redisConnection,
       eventName: 'delete-entry',
       data: {
-        entry: req.body
+        entry: xss(req.body)
       },
       expectsResponse: true  
     });
@@ -167,9 +170,9 @@ router.post("/uploadimage", uploadImage.single('image'),  async (req, res) => {
 });
 
 router.post("/uploadfile", uploadFile.single('file'),  async (req, res) => {
-  zip.file(req.file.filename, fs.readFileSync(path.join(__dirname, '../uploads/files/',  req.file.filename)));  
+  zip.file(xss(req.file.filename), fs.readFileSync(path.join(__dirname, '../uploads/files/',  req.file.filename)));  
   let data = zip.generate({ base64:false, compression: 'DEFLATE' });  
-  let fileName = path.parse(req.file.filename).name;
+  let fileName = path.parse(xss(req.file.filename)).name;
   fs.writeFileSync(path.join(__dirname, '../uploads/files/',  fileName.concat('.zip')), data, 'binary');
   console.log("File Zipped");
 });
