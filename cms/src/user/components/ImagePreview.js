@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Dropzone from 'react-dropzone';
 
 class ImagePreview extends Component {
   render() {
+    const server_url = "http://localhost:3001/images";
     return (
         <div className="form-group row">
           <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
           <div className="col-sm-10">
-            <img src={`http://localhost:3001/images/${this.props.data.value}`}/>
+            <img src={`${server_url}/${this.props.data.value}`}/>
           </div>
         </div>
     );

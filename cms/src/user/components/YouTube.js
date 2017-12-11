@@ -2,15 +2,12 @@ import React, { Component } from "react";
 import YouTubeModule from "react-youtube";
 
 class YouTube extends Component {
-
   _onReady(e) {
     // access to player in all event handlers via event.target
     e.target.stopVideo();
-    console.log(e.target);
   }
 
   render() {
-
     const opts = {
       height: "360",
       width: "640",

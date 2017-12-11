@@ -127,7 +127,7 @@ import WysiwygEditor from '../components/WysiwygEditor';
 import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
 import ReferenceEntry from '../components/ReferenceEntry';
-import FileUpload from '../components/FileUpload';
+import FileDownload from '../components/FileDownload';
 import moment from 'moment';
 
 const youTubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
@@ -291,12 +291,12 @@ class SingleEntry extends Component {
               </div>
           )
 
-          // case "wysiwyg-editor":
-          // return (
-          //     <div key={index}>
-          //         <WysiwygEditor data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-          //     </div>
-          // )
+          case "wysiwyg-editor":
+          return (
+              <div key={index}>
+                  <WysiwygEditor data={field} />
+              </div>
+          )
 
           case "datepicker":
           return (
@@ -319,12 +319,12 @@ class SingleEntry extends Component {
           //     </div>
           // );
 
-          // case "file-uploader":
-          // return (
-          //     <div key={index}>
-          //         <FileUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-          //     </div>
-          // )
+          case "file-uploader":
+          return (
+              <div key={index}>
+                  <FileDownload data={field} />
+              </div>
+          )
       
           default:
           break;

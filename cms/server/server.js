@@ -14,6 +14,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/images', express.static(__dirname + '/uploads/images'));
+app.use('/files', express.static(__dirname + '/uploads/files'));
 
 passport.use(
   new LocalStrategy(function(username, password, done) {
