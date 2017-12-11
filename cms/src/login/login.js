@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
 
-
-class login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -89,4 +88,4 @@ class login extends Component {
     }
 };
 
-export default login
+export default Login;

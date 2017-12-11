@@ -6,7 +6,9 @@ class ListEntries extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            entryList: []
+            structureSlug: this.props.location.state.structure.slug,
+            entryList: [],
+            
         }
         this._getEntryList = this._getEntryList.bind(this);
         this._editEntry = this._editEntry.bind(this);
@@ -14,14 +16,15 @@ class ListEntries extends Component {
     }
 
     componentWillMount() {
-        this._getEntryList()
+        this._getEntryList();
     }
 
     async _getEntryList() {
-        let response = await axiosInstance.get("/admin/listentries");
+        let response = await axiosInstance.get(`/admin/${this.state.structureSlug}/listentries`);
+        console.log(response);
         this.setState({
             entryList: response.data
-        });   
+        });
     }
 
     _editEntry(structure) {
@@ -31,41 +34,36 @@ class ListEntries extends Component {
         });
     }
 
-    async _deleteEntry(structure) {
+    async _deleteEntry(entry) {
         let payload = {
-            slug: structure.slug
+            slug: entry.slug
         }
         let response = await axiosInstance.delete("/admin/deleteentry", {data : payload});
-        this._getStructureList();
+        this._getEntryList();
     }
 
     render() {
         const { match } = this.props;
         const { url } = match;
-        if(this.state.structureList.length > 0) {
+        if(this.state.entryList.length > 0) {
             return (
                 <div>
-                <h1>Total Structures: {this.state.structureList.length}</h1>
                 <table className="table">
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Title</th>
                         <th>Description</th> 
                         <th>Edit</th>
                         <th>Delete</th>
-                        <th>New Entry</th> 
-                        <th>List Entries</th>
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.structureList.map((structure, index) =>
+                        {this.state.entryList.map((entry, index) =>
                             <tr key={index}>
-                                <td>{structure.name}</td>
-                                <td>{structure.description}</td> 
-                                <td><button className="btn btn-warning" onClick={() => this._editStructure(structure)}>Edit</button></td>                            
-                                <td><button className="btn btn-danger" onClick={() => this._deleteStructure(structure)}>Delete</button></td>                            
-                                <td><button className="btn btn-primary" onClick={() => this._newEntryForm(structure)}>Add Entry</button></td>
-                                <td><button className="btn btn-primary" onClick={() => this._listEntries(structure)}>List Entries</button></td>                
+                                <td>{entry.title}</td>
+                                <td>{entry.blurb}</td> 
+                                <td><button className="btn btn-warning" onClick={() => this._editEntry(entry)}>Edit</button></td>                            
+                                <td><button className="btn btn-danger" onClick={() => this._deleteEntry(entry)}>Delete</button></td>                            
                             </tr>
                         )}  
                     </tbody>          
