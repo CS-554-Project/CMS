@@ -102,9 +102,7 @@ let exportedMethods = {
             });
         });
     },
-
     
-
     addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
 
         return structures().then((structuresCollection) => {
@@ -123,8 +121,6 @@ let exportedMethods = {
             });
     },
 
-
-   
     editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
@@ -145,8 +141,10 @@ let exportedMethods = {
 
     getEntryByEntrySlug(slug) {
         slug = String(slug);
+       // console.log();
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((entry) => {
+              //  console.log(entry);
                 let result = entry.entries.filter(function (obj) {
                     return obj.slug == slug;
                 })[0];
@@ -156,20 +154,24 @@ let exportedMethods = {
         });
     },
 
-    deleteEntry(slug) {
+    removeEntry(slug) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.updateOne(
-                { "entries.slug": slug },
-                { $unset: { "entries.$.slug": slug } }
+            return structuresCollection.update(
+                { },
+                { $pull: { entries: { slug: slug } }  },
+                { multi: true }
+                
             ).then((updationInfo) => {
+               // console.log("Hi");
                 if (updationInfo.updatedCount === 0) {
-                   // throw (`Could not ent with id of ${slug}`)
-                   console.log("Deleted");
-                }
+                    throw ("Deleted");
+                    }
+                });
             });
-        });
+        
     }
-}
+};
+
 module.exports = exportedMethods;
 
 
@@ -275,9 +277,16 @@ module.exports = exportedMethods;
 // });
 
 
+// exportedMethods.removeEntry("total Entry 4").then(function(data){
+   
+//    // console.log("removed");
+// });
+
 
 // exportedMethods.editStructure("st4",data)
 
 
 
-
+// exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
+//     console.log(data);
+// })
