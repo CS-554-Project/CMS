@@ -13,6 +13,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use('/images', express.static(__dirname + '/uploads/images'));
+
 passport.use(
   new LocalStrategy(function(username, password, done) {
     let user = data.users.getUserByusername(username);

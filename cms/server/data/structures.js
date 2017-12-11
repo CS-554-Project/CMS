@@ -186,9 +186,9 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-exportedMethods.getEntryByEntrySlug("total 2 Entry 1").then(function(data){
-  console.log(data);
-})
+// exportedMethods.getEntryByEntrySlug("total 2 Entry 1").then(function(data){
+//   console.log(data);
+// })
 
 
 // exportedMethods.getStructureBySlug("st1").then(function (data) {

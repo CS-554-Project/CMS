@@ -121,7 +121,7 @@ import SmallTextInput from '../components/SmallTextInput';
 import NumberInput from '../components//NumberInput';
 import CheckBox from '../components/CheckBox';
 import TextArea from '../components/TextArea';
-import ImageUpload from '../components/ImageUpload';
+import ImagePreview from '../components/ImagePreview';
 import Link from '../components/Link';
 import WysiwygEditor from '../components/WysiwygEditor';
 import DatePicker from '../components/DatePicker';
@@ -136,8 +136,7 @@ class SingleEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          loading: true,
-          entrySlug: '', 
+          loading: true, 
           entry: undefined,
         }
         this._getEntry = this._getEntry.bind(this);
@@ -154,11 +153,11 @@ class SingleEntry extends Component {
        this.setState({ loading: true });
         let response = await axiosInstance.get("/user/entry", {
           params: {
-            slug: 'total Entry 1'
+            slug: 'entry1'
           }
         });
         console.log(response.data);
-        const entryData = response.data;
+        let entryData = response.data;
         this.setState({
           loading: false,
           entry: entryData
@@ -277,17 +276,17 @@ class SingleEntry extends Component {
               </div>
           )
 
-          // case "image-uploader":
-          // return (
-          //     <div key={index}>
-          //         <ImageUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-          //     </div>
-          // )
+          case "image-uploader":
+          return (
+              <div key={index}>
+                  <ImagePreview data={field} />
+              </div>
+          )
 
           // case "link":
           // return (
           //     <div key={index}>
-          //         <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+          //         <Link data={field} />
           //     </div>
           // )
 
@@ -298,19 +297,19 @@ class SingleEntry extends Component {
           //     </div>
           // )
 
-          // case "datepicker":
-          // return (
-          //     <div key={index}>
-          //         <DatePicker data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-          //     </div>
-          // )
+          case "datepicker":
+          return (
+              <div key={index}>
+                  <DatePicker data={field} />
+              </div>
+          )
 
-          // case "embeddable-youtube":
-          // return (
-          //     <div key={index}>
-          //         <YouTube data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-          //     </div>
-          // )
+          case "embeddable-youtube":
+          return (
+              <div key={index}>
+                  <YouTube data={field} />
+              </div>
+          )
 
           // case "reference-entry":
           // return (
