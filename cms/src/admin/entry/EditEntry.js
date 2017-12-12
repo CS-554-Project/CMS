@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import { Redirect } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 import SmallTextInput from '../components/SmallTextInput';
 import NumberInput from '../components//NumberInput';
@@ -17,7 +15,7 @@ import moment from 'moment';
 
 const youTubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
 
-class AddEntry extends Component {
+class EditEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -36,7 +34,8 @@ class AddEntry extends Component {
 
     async _addEntry(e) {
         e.preventDefault();
-        if(!this._validateFields()) return;
+        //if(!this._validateFields()) return;
+
         let payload = {
             structureslug: this.state.structureSlug,
             title: this.state.entryTitle,
@@ -47,36 +46,6 @@ class AddEntry extends Component {
             fields: this.state.structureFields
         }
         let response = await axiosInstance.post('/admin/addentry', payload);
-        if(!response.data.error) {
-            toast.success("Entry Added Successfully!", {
-                position: toast.POSITION.TOP_CENTER
-            });
-            let redirect = this.props.history;
-            setTimeout(function() {
-                redirect.push(`/admin`);
-            }, 2100);
-            
-        } else {
-            toast.error(response.data.error, {
-                position: toast.POSITION.TOP_CENTER
-            });
-        }
-    }
-
-    _validateFields() {
-        if(this.state.entryTitle === '' || this.state.entryTitle === undefined) {
-            alert('Entry Title Required');
-            return false;
-        }
-        if(this.state.entrySlug === '' || this.state.entrySlug === undefined) {
-            alert('Entry Slug Required');
-            return false;
-        }
-        if(this.state.entryBlurb === '' || this.state.entryBlurb === undefined) {
-            alert('Entry Blurb Required');
-            return false;
-        }
-        return true;
     }
 
     _handleChange(e) {
@@ -157,94 +126,93 @@ class AddEntry extends Component {
 
     _addFieldsToForm(field, index) {
 
-        switch (field.type) {
-            
-            case "small-text-input":
-            return (
-                <div key={index}>
-                    <SmallTextInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                </div>
-            )
-
-            case "number-input":
-            return (
-                <div key={index}>
-                    <NumberInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            )
-
-            case "checkbox":
-            return (
-                <div key={index}>
-                    <CheckBox data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            )
-
-            case "text-area":
-            return (
-                <div key={index}>
-                    <TextArea data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            )
-
-            case "image-uploader":
-            return (
-                <div key={index}>
-                    <ImageUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            )
-
-            case "link":
-            return (
-                <div key={index}>
-                    <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                </div>
-            )
-
-            case "wysiwyg-editor":
-            return (
-                <div key={index}>
-                    <WysiwygEditor data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                </div>
-            )
-
-            case "datepicker":
-            return (
-                <div key={index}>
-                    <DatePicker data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            )
-
-            case "embeddable-youtube":
-            return (
-                <div key={index}>
-                    <YouTube data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                </div>
-            )
-
-            case "reference-entry":
-            return (
-                <div key={index}>
-                    <ReferenceEntry data={field} structureSlug={this.state.structureSlug} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            );
-
-            case "file-uploader":
-            return (
-                <div key={index}>
-                    <FileUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                </div>
-            )
+                switch (field.type) {
+                    
+                    case "small-text-input":
+                    return (
+                        <div key={index}>
+                            <SmallTextInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                        </div>
+                    )
         
-            default:
-                break;
-        }
-    }
+                    case "number-input":
+                    return (
+                        <div key={index}>
+                            <NumberInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
+        
+                    case "checkbox":
+                    return (
+                        <div key={index}>
+                            <CheckBox data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
+        
+                    case "text-area":
+                    return (
+                        <div key={index}>
+                            <TextArea data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
+        
+                    case "image-uploader":
+                    return (
+                        <div key={index}>
+                            <ImageUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
+        
+                    case "link":
+                    return (
+                        <div key={index}>
+                            <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                        </div>
+                    )
+        
+                    case "wysiwyg-editor":
+                    return (
+                        <div key={index}>
+                            <WysiwygEditor data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                        </div>
+                    )
+        
+                    case "datepicker":
+                    return (
+                        <div key={index}>
+                            <DatePicker data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
+        
+                    case "embeddable-youtube":
+                    return (
+                        <div key={index}>
+                            <YouTube data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                        </div>
+                    )
+
+                    case "reference-entry":
+                    return (
+                        <div key={index}>
+                            <ReferenceEntry data={field} structureSlug={this.state.structureSlug} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    );
+
+                    case "file-uploader":
+                    return (
+                        <div key={index}>
+                            <FileUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                        </div>
+                    )
+                
+                    default:
+                        break;
+                }
+            }
 
     render() {
         return (
-            <div className="container">
-                <ToastContainer autoClose={2000} /> 
+            <div className="container"> 
                 <h1>Add Entry</h1>
                 <form>
                 <div className="form-group row">
@@ -262,7 +230,7 @@ class AddEntry extends Component {
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Entry Slug</label>
                     <div className="col-sm-10">
-                        <input type="text" id="entrySlug" className="form-control" placeholder="Entry Slug" value={this.state.entrySlug} onChange={this._handleChange} />
+                        <input type="text" id="entrySlug" className="form-control" readOnly placeholder="Entry Slug" value={this.state.entrySlug} onChange={this._handleChange} />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -288,4 +256,4 @@ class AddEntry extends Component {
     }
 }
 
-export default AddEntry;
+export default EditEntry;

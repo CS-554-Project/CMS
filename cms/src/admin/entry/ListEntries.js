@@ -73,7 +73,7 @@ class ListEntries extends Component {
         } else {
             return (
                 <div className="error">
-                    No Structure entry yet !!
+                    No Entries yet !!
                 </div>
             )
         }

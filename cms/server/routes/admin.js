@@ -11,8 +11,9 @@ const path = require('path');
 const multer  = require('multer');
 const zip = new require('node-zip')();
 const elasticSearch = require('../data/elasticsearch');
-const xss = require("xss");
+const xss = require('xss');
 const imagemagick = require('imagemagick');
+
 
 
 const storageImages = multer.diskStorage({
@@ -43,13 +44,13 @@ router.post('/addstructure', async (req, res) => {
       redis: redisConnection,
       eventName: 'add-structure',
       data: {
-        structure: xss(req.body)
+        structure: req.body
       },
       expectsResponse: true  
     });
-    console.log("response" + response);
+    res.json(response);
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   }
 });
 
@@ -59,7 +60,7 @@ router.put("/editstructure", async (req, res) => {
       redis: redisConnection,
       eventName: 'edit-structure',
       data: {
-        structure: xss(req.body)
+        structure: req.body
       },
       expectsResponse: true  
     });
@@ -88,7 +89,7 @@ router.delete("/deletestructure", async (req, res) => {
       redis: redisConnection,
       eventName: 'delete-structure',
       data: {
-        structure: xss(req.body)
+        structure: req.body
       },
       expectsResponse: true  
     });
@@ -104,13 +105,13 @@ router.post("/addentry", async (req, res) => {
       redis: redisConnection,
       eventName: 'add-entry',
       data: {
-        structure: xss(req.body)
+        structure: req.body
       },
       expectsResponse: true  
     });
-    let output = undefined;
-
-    console.log("response" + response);
+    elasticSearch.addEntryToIndex(xss(req.body.structureslug), xss(req.body.title), xss(req.body.slug), xss(req.body.blurb)).then((done) => {
+      res.json(response);
+    });
 
     // elasticSearch.addEntryToIndex(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb).then((output1) => {
     //   console.log("addEntryToIndex", output1);
@@ -129,7 +130,7 @@ router.post("/addentry", async (req, res) => {
     // });
     
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   }
 });
 
@@ -139,7 +140,7 @@ router.get("/:slug/listentries", async (req, res) => {
       redis: redisConnection,
       eventName: 'list-entries-by-slug',
       data: {
-        structure: xss(req.params)
+        structure: req.params
       },
       expectsResponse: true  
     });
@@ -155,11 +156,11 @@ router.delete("/deleteentry", async (req, res) => {
       redis: redisConnection,
       eventName: 'delete-entry',
       data: {
-        entry: xss(req.body)
+        entry: req.body
       },
       expectsResponse: true  
     });
-    res.status(200).json(response);
+    res.json(response);
   } catch(err) {
     console.log("error" + err);
   } 

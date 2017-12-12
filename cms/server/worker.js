@@ -4,6 +4,7 @@ const client = redis.createClient();
 const express = require('express');
 let app = express();
 const bluebird = require('bluebird');
+const xss = require('xss');
 const data = require('./data');
 const structureData = data.structures;
 
@@ -19,8 +20,8 @@ redisConnection.on('add-structure:request:*', (message, channel) => {
     let failedEvent = `${eventName}:failed:${requestId}`;
     
     let structure  = message.data.structure;
-
-    structureData.addStructure(structure.name, structure.slug, structure.description, structure.pagesize, structure.fields).then(response => {
+    
+    structureData.addStructure(xss(structure.name), xss(structure.slug), xss(structure.description), xss(structure.pagesize), structure.fields).then(response => {
         let successMessage = "Structure Added Successfully";
         redisConnection.emit(successEvent, {
             requestId: requestId,
@@ -47,7 +48,7 @@ redisConnection.on('edit-structure:request:*', (message, channel) => {
     
     let structure  = message.data.structure;
 
-    structureData.editStructure(structure.name, structure.slug, structure.description, structure.pagesize, structure.fields).then(response => {
+    structureData.editStructure(xss(structure.name), xss(structure.slug), xss(structure.description), xss(structure.pagesize), structure.fields).then(response => {
         let successMessage = "Structure Modified Successfully";
         redisConnection.emit(successEvent, {
             requestId: requestId,
@@ -99,7 +100,7 @@ redisConnection.on('delete-structure:request:*', (message, channel) => {
 
     let structure  = message.data.structure;
 
-    structureData.deleteStructure(structure.slug).then(response => {
+    structureData.deleteStructure(xss(structure.slug)).then(response => {
         let successMessage = "Structure Deleted Successfully";
         redisConnection.emit(successEvent, {
             requestId: requestId,
@@ -126,7 +127,7 @@ redisConnection.on('add-entry:request:*', (message, channel) => {
 
     let structure  = message.data.structure;
 
-    structureData.addStructureEntries(structure.structureslug, structure.title, structure.slug, structure.blurb, structure.author, structure.createdDate, structure.fields).then(response => {
+    structureData.addStructureEntries(xss(structure.structureslug), xss(structure.title), xss(structure.slug), xss(structure.blurb), xss(structure.author), xss(structure.createdDate), structure.fields).then(response => {
         let successMessage = "Entry Added Successfully";
         redisConnection.emit(successEvent, {
             requestId: requestId,
@@ -205,7 +206,7 @@ redisConnection.on('delete-entry:request:*', (message, channel) => {
 
     let entry  = message.data.entry;
 
-    structureData.deleteEntry(entry.slug).then(response => {
+    structureData.deleteEntry(xss(entry.slug)).then(response => {
         let successMessage = "Entry Deleted Successfully";
         redisConnection.emit(successEvent, {
             requestId: requestId,

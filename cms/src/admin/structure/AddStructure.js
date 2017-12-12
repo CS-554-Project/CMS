@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import axiosInstance from '../../utils/AxiosInstance';
 import ListFields from '../structure/ListFields';
 
@@ -23,7 +24,7 @@ class AddStructure extends Component {
 
     async _addStructure(e) {
         e.preventDefault();
-        //if(!this._validateFields()) return;
+        if(!this._validateFields()) return;
         let payload = {
             name: this.state.structureName,
             slug: this.state.structureSlug,
@@ -32,10 +33,35 @@ class AddStructure extends Component {
             fields: this.state.structureFields
         }
         let response = await axiosInstance.post('/admin/addstructure', payload);
+        if(!response.data.error) {
+            toast.success("Structure Added Successfully!", {
+                position: toast.POSITION.TOP_CENTER
+            });
+            this.setState({
+                structureName: '',
+                structureSlug: '',
+                structureDescription: '',
+                structurePageSize: 1,
+                structureFields: [],
+                fieldLabel: '',
+                selectedField: 'small-text-input'
+            });
+            let redirect = this.props.history;
+            setTimeout(function() {
+                redirect.push(`/admin`);
+            }, 2200);
+        } else {
+            toast.error(response.data.error, {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
     }
 
     _addField(e) {
         e.preventDefault();
+        if(this.state.fieldLabel === '' || this.state.fieldLabel === undefined) {
+            return false;
+        }
         this.setState({
             structureFields: [...this.state.structureFields, {
                 label: this.state.fieldLabel,
@@ -66,27 +92,43 @@ class AddStructure extends Component {
 
     _validateFields() {
         if(this.state.structureName === '' || this.state.structureName === undefined) {
-            alert('Structure Name Required');
+            toast.warn('Structure Name Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
         if(this.state.structureSlug === '' || this.state.structureSlug === undefined) {
-            alert('Structure Slug Required');
+            toast.warn('Structure Slug Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
         if(this.state.structureDescription === '' || this.state.structureDescription === undefined) {
-            alert('Structure Description Required');
+            toast.warn('Structure Description Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
-        if(this.state.structurePageSize === 0 || this.state.structurePageSize === undefined) {
-            alert('Structure Page Size Required');
+        if(this.state.structurePageSize == 0 || this.state.structurePageSize === undefined) {
+            toast.warn('Structure Page Size Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
+        if(this.state.structureFields.length === 0) {
+            toast.warn('Atleast One Field Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return false;
+        }
+        return true;
     }
 
     render() {
         return (
+            
             <div className='container'>
-                
+                <ToastContainer autoClose={2000} />
                 <h1>Create Structure</h1>
 
                 <form>
@@ -161,7 +203,6 @@ class AddStructure extends Component {
                 <form onSubmit={this._addStructure}>
                     <button className='btn btn-success'>Add Structure</button>
                 </form>
-
             </div>
         );
     }

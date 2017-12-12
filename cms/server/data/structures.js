@@ -50,29 +50,22 @@ let exportedMethods = {
 
     addStructure(name, slug, description, pagesize, fields) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
-                if(existingInformation)
-                    throw new Error("Structure with slug is already inserted");
-                else
-                {
-                    let newStructure = {
-                        _id: uuid(),
-                        name: name,
-                        slug: slug,
-                        description: description,
-                        pagesize:pagesize,
-                        entries:[],
-                        fields: fields
-                        
-                    };
-                   
-                    return structuresCollection.insertOne(newStructure).then((newInsertInformation) => { 
-                        return newInsertInformation.insertedId;
-
-                    }).then((newId) => {
-                        return this.getStructureByID(newId);
-                    });
-                }
+            return structuresCollection.findOne({slug:slug}).then((existingInformation) => {
+                if(existingInformation) throw new Error("Structure with slug already present");
+                let newStructure = {
+                    _id: uuid(),
+                    name: name,
+                    slug: slug,
+                    description: description,
+                    pagesize: pagesize,
+                    fields: fields.length > 0 ? fields: [],
+                    entries:[]
+                };
+                return structuresCollection.insertOne(newStructure).then((newInsertInformation) => { 
+                    return newInsertInformation.insertedId;
+                }).then((newId) => {
+                    return this.getStructureByID(newId);
+                });
             }); 
         });
     },
@@ -83,9 +76,9 @@ let exportedMethods = {
                 name: name,
                 slug: currentStructure.slug,
                 description: description,
-                pagesize:pagesize,
-                entries:[],
-                fields: fields
+                pagesize: pagesize,
+                fields: fields.length > 0 ? fields: [],
+                entries: []
             };
             return structures().then((structuresCollection) => {
                 return structuresCollection.updateOne({ slug: slug }, updatedStructure).then(() => {

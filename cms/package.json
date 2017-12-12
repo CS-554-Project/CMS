@@ -28,6 +28,7 @@
     "react-render-html": "^0.6.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
+    "react-toastify": "^3.1.0",
     "react-youtube": "^7.5.0",
     "reactstrap": "^4.8.0",
     "socket.io-client": "^2.0.4",
@@ -42,5 +43,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "devDependencies": {}
 }
