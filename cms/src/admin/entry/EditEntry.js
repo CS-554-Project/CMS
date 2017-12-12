@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { Redirect } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 import SmallTextInput from '../components/SmallTextInput';
 import NumberInput from '../components//NumberInput';
@@ -6,7 +8,7 @@ import CheckBox from '../components/CheckBox';
 import TextArea from '../components/TextArea';
 import ImageUpload from '../components/ImageUpload';
 import Link from '../components/Link';
-import WysiwygEditor from '../components/WysiwygEditor';
+import WysiwygEditorEdit from '../components/WysiwygEditorEdit';
 import DatePicker from '../components/DatePicker';
 import YouTube from '../components/YouTube';
 import ReferenceEntry from '../components/ReferenceEntry';
@@ -18,35 +20,65 @@ const youTubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch
 class EditEntry extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props);
         this.state = {
-            structureSlug: this.props.location.state.structure.slug,
-            entryTitle: "",
-            entrySlug: "",
-            entryBlurb: "",
-            author: "admin",
-            createdDate: moment().format('MM-DD-YYYY'),
-            structureFields: this.props.location.state.structure.fields
+            structureSlug: this.props.match.params.slug,
+            entryTitle: this.props.location.state.entry.title,
+            entrySlug: this.props.location.state.entry.slug,
+            entryBlurb: this.props.location.state.entry.blurb,
+            author: this.props.location.state.entry.author,
+            createdDate: this.props.location.state.entry.created_date,
+            entryFields: this.props.location.state.entry.fields
         }
-        this._addEntry = this._addEntry.bind(this);
-        this._handleChange = this._handleChange.bind(this);
-        this._addFieldsToForm = this._addFieldsToForm.bind(this);
+        // this._updateEntry = this._updateEntry.bind(this);
+        // this._handleChange = this._handleChange.bind(this);
+        // this._addFieldsToForm = this._addFieldsToForm.bind(this);
     }
 
-    async _addEntry(e) {
-        e.preventDefault();
-        //if(!this._validateFields()) return;
+    // async _updateEntry(e) {
+    //     e.preventDefault();
+    //     if(!this._validateFields()) return;
+    //     let payload = {
+    //         structureslug: this.state.structureSlug,
+    //         title: this.state.entryTitle,
+    //         slug: this.state.entrySlug,
+    //         blurb: this.state.entryBlurb,
+    //         author: this.state.author,
+    //         createdDate: this.state.createdDate,
+    //         fields: this.state.structureFields
+    //     }
+    //     let response = await axiosInstance.post('/admin/addentry', payload);
+    //     if(!response.data.error) {
+    //         toast.success("Entry Added Successfully!", {
+    //             position: toast.POSITION.TOP_CENTER
+    //         });
+    //         let redirect = this.props.history;
+    //         setTimeout(function() {
+    //             redirect.push(`/admin`);
+    //         }, 2100);
+            
+    //     } else {
+    //         toast.error(response.data.error, {
+    //             position: toast.POSITION.TOP_CENTER
+    //         });
+    //     }
+    // }
 
-        let payload = {
-            structureslug: this.state.structureSlug,
-            title: this.state.entryTitle,
-            slug: this.state.entrySlug,
-            blurb: this.state.entryBlurb,
-            author: this.state.author,
-            createdDate: this.state.createdDate,
-            fields: this.state.structureFields
-        }
-        let response = await axiosInstance.post('/admin/addentry', payload);
-    }
+    // _validateFields() {
+    //     if(this.state.entryTitle === '' || this.state.entryTitle === undefined) {
+    //         toast.warn('Entry Title Required', {
+    //             position: toast.POSITION.TOP_CENTER
+    //         });
+    //         return false;
+    //     }
+    //     if(this.state.entryBlurb === '' || this.state.entryBlurb === undefined) {
+    //         toast.warn('Entry Blurb Required', {
+    //             position: toast.POSITION.TOP_CENTER
+    //         });
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
     _handleChange(e) {
         e.preventDefault();
@@ -113,112 +145,113 @@ class EditEntry extends Component {
             break;
         }
 
-        for(let i = 0; i < this.state.structureFields.length; i++) {
-            if(this.state.structureFields[i].label === e.target.id) {
-                this.state.structureFields[i].value = value
+        for(let i = 0; i < this.state.entryFields.length; i++) {
+            if(this.state.entryFields[i].label === e.target.id) {
+                this.state.entryFields[i].value = value
             }
         }
 
         this.setState({
-            structureFields: this.state.structureFields
+            entryFields: this.state.entryFields
         });
     }
 
     _addFieldsToForm(field, index) {
 
-                switch (field.type) {
-                    
-                    case "small-text-input":
-                    return (
-                        <div key={index}>
-                            <SmallTextInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                        </div>
-                    )
-        
-                    case "number-input":
-                    return (
-                        <div key={index}>
-                            <NumberInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    )
-        
-                    case "checkbox":
-                    return (
-                        <div key={index}>
-                            <CheckBox data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    )
-        
-                    case "text-area":
-                    return (
-                        <div key={index}>
-                            <TextArea data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    )
-        
-                    case "image-uploader":
-                    return (
-                        <div key={index}>
-                            <ImageUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    )
-        
-                    case "link":
-                    return (
-                        <div key={index}>
-                            <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                        </div>
-                    )
-        
-                    case "wysiwyg-editor":
-                    return (
-                        <div key={index}>
-                            <WysiwygEditor data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                        </div>
-                    )
-        
-                    case "datepicker":
-                    return (
-                        <div key={index}>
-                            <DatePicker data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    )
-        
-                    case "embeddable-youtube":
-                    return (
-                        <div key={index}>
-                            <YouTube data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
-                        </div>
-                    )
+        switch (field.type) {
+            
+            case "small-text-input":
+            return (
+                <div key={index}>
+                    <SmallTextInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                </div>
+            )
 
-                    case "reference-entry":
-                    return (
-                        <div key={index}>
-                            <ReferenceEntry data={field} structureSlug={this.state.structureSlug} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    );
+            case "number-input":
+            return (
+                <div key={index}>
+                    <NumberInput data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            )
 
-                    case "file-uploader":
-                    return (
-                        <div key={index}>
-                            <FileUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
-                        </div>
-                    )
-                
-                    default:
-                        break;
-                }
-            }
+            case "checkbox":
+            return (
+                <div key={index}>
+                    <CheckBox data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            )
+
+            case "text-area":
+            return (
+                <div key={index}>
+                    <TextArea data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            )
+
+            case "image-uploader":
+            return (
+                <div key={index}>
+                    <ImageUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            )
+
+            case "link":
+            return (
+                <div key={index}>
+                    <Link data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                </div>
+            )
+
+            case "wysiwyg-editor":
+            return (
+                <div key={index}>
+                    <WysiwygEditorEdit data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                </div>
+            )
+
+            case "datepicker":
+            return (
+                <div key={index}>
+                    <DatePicker data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            )
+
+            case "embeddable-youtube":
+            return (
+                <div key={index}>
+                    <YouTube data={field} handleInputChange={e => this._handleInputChange(e, field.type)} />
+                </div>
+            )
+
+            case "reference-entry":
+            return (
+                <div key={index}>
+                    <ReferenceEntry data={field} structureSlug={this.state.structureSlug} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            );
+
+            case "file-uploader":
+            return (
+                <div key={index}>
+                    <FileUpload data={field} handleInputChange={e => this._handleInputChange(e, field.type)}/>
+                </div>
+            )
+        
+            default:
+                break;
+        }
+    }
 
     render() {
         return (
-            <div className="container"> 
-                <h1>Add Entry</h1>
+            <div className="container">
+                <ToastContainer autoClose={2000} /> 
+                <h1>Edit Entry</h1>
                 <form>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Structure Type</label>
                     <div className="col-sm-10">
-                        <input type="text" id="structureSlug" className="form-control" disabled placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
+                        <input type="text" id="structureSlug" className="form-control" disabled placeholder="Structure Slug" value={this.state.structureSlug} />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -230,7 +263,7 @@ class EditEntry extends Component {
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Entry Slug</label>
                     <div className="col-sm-10">
-                        <input type="text" id="entrySlug" className="form-control" readOnly placeholder="Entry Slug" value={this.state.entrySlug} onChange={this._handleChange} />
+                        <input type="text" id="entrySlug" className="form-control" disabled placeholder="Entry Slug" value={this.state.entrySlug} />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -243,7 +276,7 @@ class EditEntry extends Component {
 
                 <br/>
 
-                {this.state.structureFields.map((field, index) => (
+                {this.state.entryFields.map((field, index) => (
                     this._addFieldsToForm(field, index)
                 ))} 
 

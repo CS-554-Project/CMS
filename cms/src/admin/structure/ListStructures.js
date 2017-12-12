@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import axiosInstance from '../../utils/AxiosInstance';
 
@@ -37,7 +38,13 @@ class ListStructures extends Component {
             slug: structure.slug
         }
         let response = await axiosInstance.delete("/admin/deletestructure", {data : payload});
-        this._getStructureList();
+        if(!response.data.error) {
+            this._getStructureList();
+        } else {
+            toast.error(response.data.error, {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
     }
 
     _newEntryForm(structure) {
@@ -60,6 +67,8 @@ class ListStructures extends Component {
         if(this.state.structureList.length > 0) {
             return (
                 <div>
+                <ToastContainer autoClose={2000} />
+                <h1>List Structures</h1>
                 <table className="table">
                     <thead>
                     <tr>

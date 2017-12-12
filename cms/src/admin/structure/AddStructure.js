@@ -34,7 +34,7 @@ class AddStructure extends Component {
         }
         let response = await axiosInstance.post('/admin/addstructure', payload);
         if(!response.data.error) {
-            toast.success("Structure Added Successfully!", {
+            toast.success('Structure Added Successfully!', {
                 position: toast.POSITION.TOP_CENTER
             });
             this.setState({
@@ -48,8 +48,8 @@ class AddStructure extends Component {
             });
             let redirect = this.props.history;
             setTimeout(function() {
-                redirect.push(`/admin`);
-            }, 2200);
+                redirect.push(`/admin/structures`);
+            }, 1050);
         } else {
             toast.error(response.data.error, {
                 position: toast.POSITION.TOP_CENTER
@@ -128,7 +128,7 @@ class AddStructure extends Component {
         return (
             
             <div className='container'>
-                <ToastContainer autoClose={2000} />
+                <ToastContainer autoClose={1000} />
                 <h1>Create Structure</h1>
 
                 <form>

@@ -91,27 +91,26 @@ let exportedMethods = {
     deleteStructure(slug) {
         return structures().then((structuresCollection) => {
             return structuresCollection.removeOne({ slug: slug }).then((deletionInfo) => {
-                
+                return deletionInfo;
             });
         });
     },
 
     addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
-
         return structures().then((structuresCollection) => {
-                    let newEntryObject = {
-                        _id: uuid(),
-                        title: title,
-                        slug: slug,
-                        blurb: blurb,
-                        author:author,
-                        created_date:created_date,
-                        fields: fields,
-                        comments:[]
-                    };
-                    return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
-                    });        
-            });
+            let newEntryObject = {
+                _id: uuid(),
+                title: title,
+                slug: slug,
+                blurb: blurb,
+                author:author,
+                created_date:created_date,
+                fields: fields,
+                comments:[]
+            };
+            return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
+            });        
+        });
     },
 
     editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
@@ -134,7 +133,7 @@ let exportedMethods = {
 
     getEntryByEntrySlug(slug) {
         slug = String(slug);
-        //console.log(slug);
+        
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne(
                 {'entries.slug':slug},

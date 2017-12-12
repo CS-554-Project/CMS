@@ -21,16 +21,15 @@ class ListEntries extends Component {
 
     async _getEntryList() {
         let response = await axiosInstance.get(`/admin/${this.state.structureSlug}/listentries`);
-        console.log(response);
         this.setState({
             entryList: response.data
         });
     }
 
-    _editEntry(structure) {
+    _editEntry(entry) {
         this.props.history.push({
-            pathname: `/admin/structures/${structure.slug}`,
-            state: {structure: structure}
+            pathname: `/admin/structures/${this.state.structureSlug}/${entry.slug}`,
+            state: {entry: entry}
         });
     }
 
@@ -48,6 +47,7 @@ class ListEntries extends Component {
         if(this.state.entryList.length > 0) {
             return (
                 <div>
+                <h1>List Entries</h1>
                 <table className="table">
                     <thead>
                     <tr>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import axiosInstance from '../../utils/AxiosInstance';
 import ListFields from '../structure/ListFields';
 
@@ -23,7 +24,7 @@ class EditStructure extends Component {
 
     async _editStructure(e) {
         e.preventDefault();
-        //if(!this._validateFields()) return;
+        if(!this._validateFields()) return;
         let payload = {
             name: this.state.structureName,
             slug: this.state.structureSlug,
@@ -32,6 +33,19 @@ class EditStructure extends Component {
             fields: this.state.structureFields
         }
         let response = await axiosInstance.put("/admin/editstructure", payload);
+        if(!response.data.error) {
+            toast.success('Structure Updated Successfully!', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            let redirect = this.props.history;
+            setTimeout(function() {
+                redirect.push(`/admin/structures`);
+            }, 1050);
+        } else {
+            toast.error(response.data.error, {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
     }
 
     _addField(e) {
@@ -65,50 +79,78 @@ class EditStructure extends Component {
     }    
 
     _validateFields() {
-        if(this.state.structureName === "" || this.state.structureName === undefined) {
-            alert("Structure Name Required");
+        if(this.state.structureName === '' || this.state.structureName === undefined) {
+            toast.warn('Structure Name Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
-        if(this.state.structureDescription === "" || this.state.structureDescription === undefined) {
-            alert("Structure Description Required");
+        if(this.state.structureSlug === '' || this.state.structureSlug === undefined) {
+            toast.warn('Structure Slug Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
-        if(this.state.structurePageSize === 0 || this.state.structurePageSize === undefined) {
-            alert("Structure Page Size Required");
+        if(this.state.structureDescription === '' || this.state.structureDescription === undefined) {
+            toast.warn('Structure Description Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
+        if(this.state.structurePageSize == 0 || this.state.structurePageSize === undefined) {
+            toast.warn('Structure Page Size Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return false;
+        }
+        if(this.state.structureFields.length === 0) {
+            toast.warn('Atleast One Field Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return false;
+        }
+        return true;
     }
 
     render() {
         return (
             <div className="container">
+                <ToastContainer autoClose={1000} />
+                
                 <h1>Edit Structure</h1>
+                
                 <form>
+                
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Structure Name</label>
                     <div className="col-sm-10">
                         <input type="text" id="structureName" className="form-control" placeholder="Structure Name" value={this.state.structureName} onChange={this._handleChange} />
                     </div>
                 </div>         
+
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Structure Slug</label>
                     <div className="col-sm-10">
                         <input type="text" id="structureSlug" className="form-control" disabled placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Structure Desc</label>
                     <div className="col-sm-10">
                         <input type="text" id="structureDescription" className="form-control" placeholder="Structure Description" value={this.state.structureDescription} onChange={this._handleChange} />
                     </div>
                 </div>
+
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Structure Page Size</label>
                     <div className="col-sm-10">
                         <input type="number" id="structurePageSize" className="form-control" placeholder="Structure Page Size" value={this.state.structurePageSize} onChange={this._handleChange} />
                     </div>
                 </div>
+
                 </form>
+
                 <form onSubmit={this._addField}>                
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Field Label</label>

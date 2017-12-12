@@ -5,8 +5,8 @@ class Link extends Component {
   constructor(props) {
     super (props);
     this.state = {
-      title : '',
-      url : ''
+      title : this.props.data.value?this.props.data.value.title:'',
+      url : this.props.data.value?this.props.data.value.url:''
     }
   }
 

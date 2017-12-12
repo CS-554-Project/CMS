@@ -53,7 +53,7 @@ class AddEntry extends Component {
             });
             let redirect = this.props.history;
             setTimeout(function() {
-                redirect.push(`/admin`);
+                redirect.push(`/admin/structures`);
             }, 2100);
             
         } else {
@@ -65,15 +65,21 @@ class AddEntry extends Component {
 
     _validateFields() {
         if(this.state.entryTitle === '' || this.state.entryTitle === undefined) {
-            alert('Entry Title Required');
+            toast.warn('Entry Title Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
         if(this.state.entrySlug === '' || this.state.entrySlug === undefined) {
-            alert('Entry Slug Required');
+            toast.warn('Entry Slug Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
         if(this.state.entryBlurb === '' || this.state.entryBlurb === undefined) {
-            alert('Entry Blurb Required');
+            toast.warn('Entry Blurb Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
             return false;
         }
         return true;

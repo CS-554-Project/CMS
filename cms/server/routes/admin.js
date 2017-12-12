@@ -64,9 +64,9 @@ router.put("/editstructure", async (req, res) => {
       },
       expectsResponse: true  
     });
-    console.log("response" + response);
+    res.json(response);
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   }
 });
 
@@ -77,9 +77,9 @@ router.get("/liststructures", async (req, res) => {
       eventName: 'list-structures',
       expectsResponse: true  
     });
-    res.status(200).json(response);
+    res.json(response);
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   }
 });
 
@@ -93,9 +93,9 @@ router.delete("/deletestructure", async (req, res) => {
       },
       expectsResponse: true  
     });
-    res.status(200).json(response);
+    res.json(response);
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   } 
 });
 
