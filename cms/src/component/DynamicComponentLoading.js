@@ -17,10 +17,12 @@ class DynamicComponentLoading extends Component {
   constructor(props) {
     super(props);
   }
+
   dynamicMagic(field) {
     switch (field.type) {
       case "small-text-input":
-        return <Text data={field} />;
+      console.log("small");
+    return (<div className="row"><Text data={field} /></div>);
       case "number-input":
         return <Number data={field} />;
     //   case "checkbox":
@@ -45,10 +47,11 @@ class DynamicComponentLoading extends Component {
   render() {
     let body = "";
     if (this.props.fields.length !== 0) {
-      const integratefields = this.props.fields.map(field => {
-        return this.dynamicMagic(field);
+      body =  this.props.fields.map(field => {
+        //console.log(field);
+        this.dynamicMagic(field);
       });
-      body = { integratefields };
+      //body = { integratefields };
     }
     return body;
   }

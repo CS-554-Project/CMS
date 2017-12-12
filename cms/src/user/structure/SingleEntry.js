@@ -7,6 +7,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import EntriesListLeftNav from "../../component/EntriesListLeftNav";
 import axiosInstance from "../../utils/AxiosInstance";
+import DynamicComponentLoading from "../../component/DynamicComponentLoading";
 
 class SingleEntry extends Component {
   constructor(props) {
@@ -21,8 +22,8 @@ class SingleEntry extends Component {
   async getStructure(reqSlug) {
     try {
       this.setState({ loading: true });
-     //console.log("/user/entries?slug=" + reqSlug);
-      let response = await axiosInstance.get("/user/entries",{
+      //console.log("/user/entries?slug=" + reqSlug);
+      let response = await axiosInstance.get("/user/entries", {
         params: {
           slug: reqSlug
         }
@@ -37,7 +38,6 @@ class SingleEntry extends Component {
       this.setState({ loading: false });
     }
   }
-
 
   async getEntry(reqSlug) {
     try {
@@ -84,25 +84,110 @@ class SingleEntry extends Component {
     //   name: this.props.match.params.entry,
     //   blurb: "Harsh Kevadia"
     // };
+
+    let structure = {
+      _id: "f4f5c858-e311-4e47-8897-0452a49326bd",
+      name: "Struct1",
+      slug: "st1",
+      description: "Structure 1",
+      pagesize: 10,
+      entries: [
+        {
+          _id: "a318a70f-8d0f-40fc-9fae-235a7d446e8b",
+          title: "Struct1: Entry1",
+          slug: "st1entry1",
+          blurb: "Structure 1 In Entry 1",
+          author: "Test1",
+          fields: [
+            {
+              label: "Text Area",
+              type: "text-area",
+              value: "Hii..!"
+            },
+            {
+              label: "Link",
+              type: "link",
+              value: "www.link.com"
+            }
+          ],
+          comments: []
+        },
+        {
+          _id: "3b113043-5ac0-4aed-ab41-63176d6e8b18",
+          title: "Struct1: Entry1",
+          slug: "st1entry1",
+          blurb: "Structure 1 In Entry 1",
+          author: "Test1",
+          fields: [
+            {
+              label: "Name",
+              type: "small-text-input",
+              value: "Product 1"
+            },
+            {
+              label: "Number",
+              type: "number-input",
+              value: "10"
+            }
+          ],
+          comments: []
+        }
+      ],
+      fields: [
+        {
+          label: "Name",
+          type: "small-text-input"
+        },
+        {
+          label: "Number",
+          type: "number-input"
+        },
+        {
+          label: "CheckBox",
+          type: "checkbox"
+        }
+      ]
+    };
+    let entry = {
+      _id: "3b113043-5ac0-4aed-ab41-63176d6e8b18",
+      title: "Struct1: Entry1",
+      slug: "st1entry1",
+      blurb: "Structure 1 In Entry 1",
+      author: "Test1",
+      fields: [
+        {
+          label: "Name",
+          type: "small-text-input",
+          value: "Product 1"
+        },
+        {
+          label: "Number",
+          type: "number-input",
+          value: "10"
+        }
+      ],
+      comments: []
+    };
     let body = null;
     if (this.state.loading) {
       body = <div className="row">Loading...</div>;
-    } else if (this.state.structure && this.state.entry) {
+    } else if (this.state.structure || this.state.entry) {
       body = (
         <div className="row">
           <div className="col-md-2">
             <div className="mycontent-left">
-              <EntriesListLeftNav structure={this.state.structure} />
+              {/* <EntriesListLeftNav structure={this.state.structure} /> */}
             </div>
           </div>
           <div className="col-md-10">
             <div className="mycontent-right">
               <div className="row">
-                <h2>{this.state.entry.title}</h2>
+                <h2>{entry.title}</h2>
               </div>
               <div className="row">
-                <p>{this.state.entry.blurb}</p>
+                <p>{entry.blurb}</p>
               </div>
+              <DynamicComponentLoading fields={entry.fields} />
             </div>
           </div>
         </div>

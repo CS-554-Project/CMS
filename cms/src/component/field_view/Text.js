@@ -10,6 +10,7 @@ class Text extends Component {
     super(props);
   }
   render() {
+    console.log("Insight");
     return (
       <div className="row">
         <div className="col-md-2">{this.props.data.label}</div>
