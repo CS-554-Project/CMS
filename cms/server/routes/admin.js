@@ -12,7 +12,8 @@ const multer  = require('multer');
 const zip = new require('node-zip')();
 const elasticSearch = require('../data/elasticsearch');
 const xss = require('xss');
-const imagemagick = require('imagemagick');
+
+const imagemagick =require('../data/imagemagick');
 
 
 const storageImages = multer.diskStorage({
@@ -21,10 +22,14 @@ const storageImages = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null,  xss(file.originalname))
+    const image =imagemagick.convertImageToThumbnail(file.originalname);
   }
+   
 });
 
 const uploadImage = multer({ storage: storageImages});
+ 
+
 
 const storageFiles = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -35,7 +40,11 @@ const storageFiles = multer.diskStorage({
   }
 });
 
+
+
+
 const uploadFile = multer({ storage: storageFiles});
+
 
 router.post('/addstructure', async (req, res) => {
   try {
@@ -200,9 +209,9 @@ router.delete("/deleteentry", async (req, res) => {
   } 
 });
 
-router.post("/uploadimage", uploadImage.single('image'),  async (req, res) => {
-  console.log("Image Uploaded");
-});
+// router.post("/uploadimage", uploadImage.single('image'),  async (req, res) => {
+//   console.log("Image Uploaded");
+// });
 
 router.post("/uploadfile", uploadFile.single('file'),  async (req, res) => {
   zip.file(xss(req.file.filename), fs.readFileSync(path.join(__dirname, '../uploads/files/',  req.file.filename)));  
@@ -253,5 +262,9 @@ router.put("/updateuser", async (req, res) => {
       res.json({'error': err});
     }
 });
+
+
+
+
 
 module.exports = router;

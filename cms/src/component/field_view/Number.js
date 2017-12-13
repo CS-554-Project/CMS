@@ -12,7 +12,7 @@ class Number extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-2">{this.props.data.label}</div>
+        <div className="col-md-2"><h5>{this.props.data.label}</h5></div>
         <div className="col-md-10">{this.props.data.value}</div>
       </div>
     );

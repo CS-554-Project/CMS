@@ -17,7 +17,7 @@ let exportedMethods = {
     });
   },
 
-  addUser(firstname, lastname, username, password, isAdmin) {
+  addUser(firstname, lastname, username, password, biography) {
     return users().then(usersCollection => {
       let newUser = {
         _id: uuid(),
@@ -25,11 +25,14 @@ let exportedMethods = {
         lastname: lastname,
         username: username,
         hashedPassword: bcrypt.hashSync(password, saltRounds),
-        isAdmin: isAdmin
+        biography:biography,
+        favorites:[],
+        isAdmin: false
       };
       return usersCollection
         .insertOne(newUser)
         .then(newInsertInformation => {
+          console.log(newInsertInformation);
           return newInsertInformation.insertedId;
         })
         .then(newId => {
@@ -74,11 +77,11 @@ let exportedMethods = {
 
 module.exports = exportedMethods;
 
-// exportedMethods.addUser('Kishan', 'Gajjar', 'kishan', 'kishan', true).then(function(data){
+// exportedMethods.addUser('Ruchika', 'Sutariya', 'ruchika', 'ruchika', true).then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.addUser("Harsh","Kevadiya","user1","user1","user").then(function(data){
+// exportedMethods.addUser("Harsh","Kevadiya","user1","user1","Hiii","user").then(function(data){
 //     console.log(data);
 // });
 

@@ -34,6 +34,9 @@ class Login extends Component {
             password: this.state.password
         }
         
+
+
+
         let response = await axiosInstance.post('/login', payload);
         if(response !== undefined) {
             const token = response.data.token;
@@ -60,31 +63,47 @@ class Login extends Component {
         }
     }
 
+    _addUser(structure) {
+        this.props.history.push({
+            pathname: `/signup`,
+        });
+    }
+
     render() {
         return (
             <div className="container">
-
+            <div className='col-sm-10'>
                 <h1>Login</h1>
-                    
+            </div>
                 <form onSubmit={this._handleSubmit}>
-
-                    <div className='form-group row'>
+                    <div className='form-group'>
                         <label className='col-sm-2 col-form-label'>Username</label>
                         <div className='col-sm-10'>
                             <input type='text' id='username' className='form-control' placeholder='Username' value={this.state.username} onChange={this._handleChange} />
                         </div>
                     </div>
                         
-                    <div className='form-group row'>
+                    <div className='form-group'>
                         <label className='col-sm-2 col-form-label'>Password</label>
                         <div className='col-sm-10'>
-                            <input type='text' id='password' className='form-control' placeholder='Password' value={this.state.password} onChange={this._handleChange} />
+                            <input type='password' id='password' className='form-control' placeholder='Password' value={this.state.password} onChange={this._handleChange} />
                         </div>
                     </div>
+            
+                  
+                        <div className='col-sm-10 '>
+                            <button id="btnlogin"className="btn btn-success btn-md center-block">Login</button>
+                            </div>
+    
+                          
 
-                    <div className='form-group row'>
-                        <button className="btn btn-success">Login</button>
-                    </div> 
+                        <div className='col-sm-10 '>
+                            <button id="btnsignup" onClick={() => this._addUser()} className="btn btn-success btn-md center-block">SignUp</button>
+                        </div>
+
+                        
+                   
+                    
                 </form>
 
             </div>

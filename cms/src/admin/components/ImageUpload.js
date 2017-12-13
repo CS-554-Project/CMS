@@ -24,7 +24,11 @@ class ImageUpload extends Component {
           <div className="col-sm-10">
             <input type="file" id={this.props.data.label} className="form-control" onChange={this.props.handleInputChange} />
           </div>
+          <div className="col-xs-12 col-sm-4">
+                                    <img src={`${server_url}/${this.props.data.value}`}  className="img-circle img-responsive" />
+                                </div>
         </div>
+        
       );
     }
   }
