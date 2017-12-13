@@ -1,12 +1,13 @@
-const mongoCollections = require("../config/mongoCollections");
+const mongoCollections = require('../config/mongoCollections');
 const structures = mongoCollections.structures;
 
 const users = mongoCollections.users;
-const uuid = require("uuid/v4");
-const bcrypt = require("bcrypt");
+const uuid = require('uuid/v4');
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 let exportedMethods = {
+
   getUserById(id) {
     return users().then(usersCollection => {
       return usersCollection.findOne({ _id: id }).then(user => {
@@ -16,7 +17,7 @@ let exportedMethods = {
     });
   },
 
-  addUser(firstname, lastname, username, password, role) {
+  addUser(firstname, lastname, username, password, isAdmin) {
     return users().then(usersCollection => {
       let newUser = {
         _id: uuid(),
@@ -24,7 +25,7 @@ let exportedMethods = {
         lastname: lastname,
         username: username,
         hashedPassword: bcrypt.hashSync(password, saltRounds),
-        role: role
+        isAdmin: isAdmin
       };
 
       return usersCollection
@@ -56,7 +57,7 @@ let exportedMethods = {
 
 module.exports = exportedMethods;
 
-// exportedMethods.addUser("Ruchika","Sutariya","admin","admin","admin").then(function(data){
+// exportedMethods.addUser('Kishan', 'Gajjar', 'kishan', 'kishan', true).then(function(data){
 //     console.log(data);
 // });
 

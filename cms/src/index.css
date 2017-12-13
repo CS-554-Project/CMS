@@ -15,7 +15,7 @@ body {
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: #f5f5f5;
+  background-color: rgba(255, 255, 255, 0.952);/* Media Query*/
 }
 
 /* Custom page CSS
@@ -33,4 +33,26 @@ body > .container {
 
 code {
   font-size: 80%;
+}
+
+/* Media Query for CSS3*/
+
+@media (min-width: 481px) and (max-width: 768px) {
+  
+}
+
+@media (min-width: 321px) and (max-width: 480px) {
+  
+}
+
+@media (max-width: 320px) {
+ 
+}
+
+.rdw-editor-wrapper {
+  background-color: lightgray !important;
+}
+
+.Collapsible__trigger {
+  font-weight: bold;
 }

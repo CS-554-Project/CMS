@@ -1,7 +1,7 @@
-const structuresData = require("./structures");
-const usersdata = require("./users");
+const structuresData = require('./structures');
+const usersData = require('./users');
 
 module.exports = {
   structures: structuresData,
-  users: usersdata
+  users: usersData
 };

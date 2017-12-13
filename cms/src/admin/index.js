@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import AddStructure from './structure/AddStructure';
-import ListStructure from './structure/ListStructure';
+import ListStructures from './structure/ListStructures';
 import EditStructure from './structure/EditStructure';
 import AddEntry from './entry/AddEntry';
+import EditEntry from './entry/EditEntry';
+import ListEntries from './entry/ListEntries';
 
 class Admin extends Component {
+
     render() {
         const { match } = this.props;
         const { url } = match;
@@ -22,10 +25,12 @@ class Admin extends Component {
                             <li><Link to='/users'>List User(s)</Link></li>
                         </ul>
                         <Switch>
-                            <Route exact path={`${url}/structures/new`} component={AddStructure}/>
-                            <Route exact path={`${url}/structures/:slug/new`} component={AddEntry}/> 
+                            <Route exact path={`${url}/structures/new`} component={AddStructure} />
+                            <Route exact path={`${url}/structures/:slug/new`} component={AddEntry}/>
+                            <Route exact path={`${url}/structures/:slug/list`} component={ListEntries}/> 
+                            <Route exact path={`${url}/structures/:slug/:entryslug`} component={EditEntry}/>
                             <Route exact path={`${url}/structures/:slug`} component={EditStructure}/>                             
-                            <Route exact path={`${url}/structures`} component={ListStructure}/>
+                            <Route exact path={`${url}/structures`} component={ListStructures}/>
 
                             {/* <Route exact path='/admin/structures/:slug/new' component={EntryFormContainer}/>
                             <Route exact path='/admin/structures/:slug' component={EditStructurePage}/>

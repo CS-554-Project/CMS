@@ -11,7 +11,12 @@ let exportedMethods = {
         });
     },
 
-    
+    getAllStructuresFromCollection() {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.find({}).toArray()
+        });
+    },
+
     getStructureBySlug(slug) {
         if(typeof slug !== "string") return Promise.reject("No Slug provided");
 
@@ -45,28 +50,22 @@ let exportedMethods = {
 
     addStructure(name, slug, description, pagesize, fields) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({slug:slug}).then((existingInformation)=>{
-                if(existingInformation)
-                    throw("Structure with slug is already inserted");
-                else
-                {
-                    let newStructure = {
-                        _id: uuid(),
-                        name: name,
-                        slug: slug,
-                        description: description,
-                        pagesize:pagesize,
-                        entries:[],
-                        fields: fields
-                    };
-                   
-                    return structuresCollection.insertOne(newStructure).then((newInsertInformation) => { 
-                        return newInsertInformation.insertedId;
-
-                    }).then((newId) => {
-                        return this.getStructureByID(newId);
-                    });
-                }
+            return structuresCollection.findOne({slug:slug}).then((existingInformation) => {
+                if(existingInformation) throw new Error("Structure with slug already present");
+                let newStructure = {
+                    _id: uuid(),
+                    name: name,
+                    slug: slug,
+                    description: description,
+                    pagesize: pagesize,
+                    fields: fields.length > 0 ? fields: [],
+                    entries:[]
+                };
+                return structuresCollection.insertOne(newStructure).then((newInsertInformation) => { 
+                    return newInsertInformation.insertedId;
+                }).then((newId) => {
+                    return this.getStructureByID(newId);
+                });
             }); 
         });
     },
@@ -77,9 +76,9 @@ let exportedMethods = {
                 name: name,
                 slug: currentStructure.slug,
                 description: description,
-                pagesize:pagesize,
-                entries:[],
-                fields: fields
+                pagesize: pagesize,
+                fields: fields.length > 0 ? fields: [],
+                entries: []
             };
             return structures().then((structuresCollection) => {
                 return structuresCollection.updateOne({ slug: slug }, updatedStructure).then(() => {
@@ -92,66 +91,107 @@ let exportedMethods = {
     deleteStructure(slug) {
         return structures().then((structuresCollection) => {
             return structuresCollection.removeOne({ slug: slug }).then((deletionInfo) => {
-                
+                return deletionInfo;
             });
         });
     },
-    
-    addStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments) {
+
+    addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
         return structures().then((structuresCollection) => {
-            entryID = uuid()
             let newEntryObject = {
-                _id: entryID,
+                _id: uuid(),
                 title: title,
-                slug:slug,
-                url:url,
-                blurb:blurb,
+                slug: slug,
+                blurb: blurb,
                 author:author,
-                created_date:new Date(),
+                created_date:created_date,
+                fields: fields,
                 comments:[]
             };
-
             return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
-            });
+            });        
         });
     },
 
-    editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments) {
+    editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
                 _id: entryID,
                 title: title,
                 slug:slug,
-                url:url,
                 blurb:blurb,
                 author:author,
                 created_date:new Date(),
+                fields:fields,
                 comments:[]
             };
-
             return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
             });
         });
     },
 
     getEntryByEntrySlug(slug) {
+        slug = String(slug);
         
         return structures().then((structuresCollection) => {
-           
-            return structuresCollection.findOne({ $where: "this.entries.slug = '" + slug + "'" }).then((data) => {
-               
-                console.log(data.entries);
-                //console.log(data);
-               
+            return structuresCollection.findOne(
+                {'entries.slug':slug},
+                {  entries:1}
+            
+                    
+                ).then((entry) => {
+              // console.log(entry);
+                let result = entry.entries.filter(function (obj) {
+                    return obj.slug == slug;
+                })[0];
                 
-           });
+               return result;
+            });
         });
     },
 
-    
- 
-}
+
+    getEntryByEntryID(id) {
+        id = String(id);
+        //console.log(slug);
+        return structures().then((structuresCollection) => {
+            return structuresCollection.findOne(
+                {'entries._id':id},
+                {  entries:1}
+            
+                    
+                ).then((entry) => {
+              // console.log(entry);
+                let result = entry.entries.filter(function (obj) {
+                    return obj._id == id;
+                })[0];
+                
+               return result;
+            });
+        });
+    },
+
+
+    removeEntry(slug) {
+        return structures().then((structuresCollection) => {
+            return structuresCollection.update(
+                { },
+                { $pull: { entries: { slug: slug } }  },
+                { multi: true }
+            ).then((updationInfo) => {
+               // console.log("Hi");
+                if (updationInfo.updatedCount === 0) {
+                    throw new Error ("Deleted Entry with ${slug}");
+                    }
+                else
+                {
+                    throw new Error ("Error in Deletion");
+                }
+                });
+        });
+    }
+};
 
 module.exports = exportedMethods;
 
@@ -160,9 +200,9 @@ module.exports = exportedMethods;
 //     console.log(data);
 // });
 
-exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
-  //console.log(data);
-})
+// exportedMethods.getEntryByEntrySlug("total 2 Entry 1").then(function(data){
+//   console.log(data);
+// })
 
 
 // exportedMethods.getStructureBySlug("st1").then(function (data) {
@@ -171,9 +211,9 @@ exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
 
 
 // let fields=
-// [{ label: 'Name', type: 'small-text-input', number: 1 },
-// { label: 'Number', type: 'number-input', number: 2 },
-// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+// [{ label: 'Name', type: 'small-text-input' },
+// { label: 'Number', type: 'number-input' },
+// { label: 'CheckBox', type: 'checkbox'}];
 
 // exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
 //     console.log(data);
@@ -205,23 +245,40 @@ exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
 //     console.log(data);
 // });
 
-// exportedMethods.deleteStructure("st1");
 
-// // 
 
-// exportedMethods.addStructureEntries("st1","Struct1: Entry1","st1entry1", "Structure 1 In Entry 1","Test1").then(function(data){
+// exportedMethods.deleteStructure("st2");
+
+// let fields=
+// [{ label: 'Text Area', type: 'text-area', value: "Hii," },
+// { label: 'Link', type: 'link', value: "www.link.com" }];
+
+
+// exportedMethods.addStructureEntries("st1","Struct1: Entry1","st1entry1","Structure 1 In Entry 1","Test1").then(function(data){
+//     console.log(data);
+// });
+
+
+// let Entryfields=
+// [{ label: 'Name', type: 'small-text-input', number: 1 },
+// { label: 'Number', type: 'number-input', number: 2 },
+// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+// //console.log(Entryfields);
+// exportedMethods.addStructureEntries("st1","Struct1: Entry2","st1entry2", "Structure 1 In Entry 2","Test2",Entryfields).then(function(data){
 //     //console.log(data);
 // });
 
-// exportedMethods.addStructureEntries("st1","Struct1: Entry2","st1entry2", "Structure 1 In Entry 2","Test2").then(function(data){
+
+// let fields=
+// [{ label: 'Name', type: 'small-text-input', number: 1 },
+// { label: 'Number', type: 'number-input', number: 2 },
+// { label: 'CheckBox', type: 'checkbox', number: 3 }];
+
+// exportedMethods.addStructureEntries("st1","Struct1: Entry3","st1entry3", "Structure 1 In Entry 3","Test3",fields).then(function(data){
 //     //console.log(data);
 // });
 
-// exportedMethods.addStructureEntries("st1","Struct1: Entry3","st1entry3", "Structure 1 In Entry 3","Test3").then(function(data){
-//     //console.log(data);
-// });
-
-// exportedMethods.addStructureEntries("st2","Struct2: Entry1","st2entry1", "Structure 2 In Entry 1","Test1").then(function(data){
+// exportedMethods.addStructureEntries("st2","Struct2: Entry1","st1entry1", "Structure 2 In Entry 1","Test1").then(function(data){
 //     //console.log(data);
 // });
 
@@ -236,10 +293,26 @@ exportedMethods.getEntryByEntrySlug("st3entry1").then(function(data){
 //     //console.log(data);
 // });
 
+// exportedMethods.addStructureEntries("st4","Struct4: Entry1","st4entry1", "Structure 4 In Entry 1","Test1").then(function(data){
+//     //console.log(data);
+// });
+
+
+// exportedMethods.removeEntry("total Entry 4").then(function(data){
+   
+//    // console.log("removed");
+// });
 
 
 // exportedMethods.editStructure("st4",data)
 
 
 
+// exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
+//     console.log(data);
+// })
 
+
+exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
+    console.log(data);
+})

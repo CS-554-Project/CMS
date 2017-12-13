@@ -12,8 +12,8 @@ class ListFields extends Component {
         this.setState({structureFields: nextProps.data});
     }
 
-    _removeField(number) {
-        this.props.removeField(number);
+    _removeField(field) {
+        this.props.removeField(field);
     }
 
     render() {
@@ -28,12 +28,12 @@ class ListFields extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                        {this.state.structureFields.map((field, item) => {
+                        {this.state.structureFields.map((field, index) => {
                             return (
-                                <tr key = {item}>
+                                <tr key = {index}>
                                     <td>{field.label}</td>
                                     <td>{field.type}</td>
-                                    <td><button className="btn btn-danger" value={field.number} onClick={() => {this._removeField(field.number)}}>Remove</button></td>
+                                    <td><button className="btn btn-danger" onClick={() => {this._removeField(field)}}>Remove</button></td>
                                 </tr>
                             );
                         })}
