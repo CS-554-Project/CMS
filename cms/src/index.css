@@ -56,3 +56,21 @@ code {
 .Collapsible__trigger {
   font-weight: bold;
 }
+ 
+
+/*Login Form CSS*/
+#btnlogin{
+  width: 50%;
+  float: left;
+  margin:-4px -6px 0px 0px;
+ 
+  
+}
+
+#btnsignup{
+  width: 50%;
+  float: right;
+  margin:-4px -6px 0px 0px;
+  
+}
+

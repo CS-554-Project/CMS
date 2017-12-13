@@ -17,5 +17,12 @@ router.post('/',
     res.json({'token': token, 'admin': req.user.isAdmin});
 });
 
+
+
+
+
+
+
+
 module.exports = router;
 

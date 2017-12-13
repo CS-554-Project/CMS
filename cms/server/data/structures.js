@@ -138,8 +138,6 @@ let exportedMethods = {
             return structuresCollection.findOne(
                 {'entries.slug':slug},
                 {  entries:1}
-            
-                    
                 ).then((entry) => {
               // console.log(entry);
                 let result = entry.entries.filter(function (obj) {
@@ -313,6 +311,6 @@ module.exports = exportedMethods;
 // })
 
 
-exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
-    console.log(data);
-})
+// exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
+//     console.log(data);
+// })
