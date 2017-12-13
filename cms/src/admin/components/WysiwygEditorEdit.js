@@ -14,7 +14,7 @@ class WysiwygEditorEdit extends Component {
       const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
       const editorState = EditorState.createWithContent(contentState);
       this.state = {
-        editorState: editorState,
+        editorState,
       };
     }
   }
@@ -28,11 +28,13 @@ class WysiwygEditorEdit extends Component {
   }
   
   render() {
+    const { editorState } = this.state;
     return (
       <div className="form-group row">
             <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
             <div className="col-sm-10">
               <Editor
+                editorState={editorState}
                 wrapperClassName="demo-wrapper"
                 editorClassName="demo-editor"
                 onEditorStateChange={e => this.onEditorStateChange(e)}

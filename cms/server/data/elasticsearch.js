@@ -3,7 +3,6 @@ const es_client = require('../js/elastic-connection');
 module.exports = {
   
   addEntryToIndex(structureslug, title, slug, blurb) {
-    console.log(structureslug);
     return es_client.index({ 
       index: 'entries',
       type: 'entry',

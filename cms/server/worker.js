@@ -145,6 +145,33 @@ redisConnection.on('add-entry:request:*', (message, channel) => {
     });
 });
 
+redisConnection.on('update-entry:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+
+    let structure  = message.data.structure;
+
+    structureData.editStructureEntries(xss(structure.structureslug), xss(structure.title), xss(structure.slug), xss(structure.blurb), xss(structure.author), xss(structure.createdDate), structure.fields).then(response => {
+        let successMessage = "Entry Added Successfully";
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
+
 redisConnection.on('list-all-structures:request:*', (message, channel) => {
     
     let requestId = message.requestId;

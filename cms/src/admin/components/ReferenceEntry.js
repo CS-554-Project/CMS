@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Collapsible from 'react-collapsible';
 import axiosInstance from '../../utils/AxiosInstance';
 import {Button} from 'react-bootstrap';
@@ -14,6 +15,7 @@ class ReferenceEntry extends Component {
         this._fetchAllStructures().then(data => this.setState({
             allStructures: data
         }));
+        console.log(this.props);
     }
 
     async _fetchAllStructures() {

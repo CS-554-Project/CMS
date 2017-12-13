@@ -133,6 +133,41 @@ router.post("/addentry", async (req, res) => {
   }
 });
 
+router.post("/updateentry", async (req, res) => {
+  try {
+    let response = await nrpSender.sendMessage({
+      redis: redisConnection,
+      eventName: 'update-entry',
+      data: {
+        structure: req.body
+      },
+      expectsResponse: true  
+    });
+    elasticSearch.addEntryToIndex(xss(req.body.structureslug), xss(req.body.title), xss(req.body.slug), xss(req.body.blurb)).then((done) => {
+      res.json(response);
+    });
+
+    // elasticSearch.addEntryToIndex(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb).then((output1) => {
+    //   console.log("addEntryToIndex", output1);
+
+    //   setTimeout(function() {
+    //     console.log('Blah blah blah blah extra-blah');
+
+    //     elasticSearch.countIndex().then((output2) => {
+    //       console.log("countIndex", output2);
+    //       elasticSearch.searchIndex('temp1').then((output3) => {
+    //         console.log("searchIndex", output3.hits);
+    //         res.json(output3.hits);
+    //       });
+    //     });
+    //   }, 5000);
+    // });
+    
+  } catch(err) {
+    res.json({'error': err});
+  }
+});
+
 router.get("/:slug/listentries", async (req, res) => {
   try {
     let response = await nrpSender.sendMessage({

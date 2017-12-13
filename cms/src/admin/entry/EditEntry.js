@@ -20,7 +20,6 @@ const youTubeRegex = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch
 class EditEntry extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = {
             structureSlug: this.props.match.params.slug,
             entryTitle: this.props.location.state.entry.title,
@@ -30,55 +29,55 @@ class EditEntry extends Component {
             createdDate: this.props.location.state.entry.created_date,
             entryFields: this.props.location.state.entry.fields
         }
-        // this._updateEntry = this._updateEntry.bind(this);
-        // this._handleChange = this._handleChange.bind(this);
-        // this._addFieldsToForm = this._addFieldsToForm.bind(this);
+        this._updateEntry = this._updateEntry.bind(this);
+        this._handleChange = this._handleChange.bind(this);
+        this._addFieldsToForm = this._addFieldsToForm.bind(this);
     }
 
-    // async _updateEntry(e) {
-    //     e.preventDefault();
-    //     if(!this._validateFields()) return;
-    //     let payload = {
-    //         structureslug: this.state.structureSlug,
-    //         title: this.state.entryTitle,
-    //         slug: this.state.entrySlug,
-    //         blurb: this.state.entryBlurb,
-    //         author: this.state.author,
-    //         createdDate: this.state.createdDate,
-    //         fields: this.state.structureFields
-    //     }
-    //     let response = await axiosInstance.post('/admin/addentry', payload);
-    //     if(!response.data.error) {
-    //         toast.success("Entry Added Successfully!", {
-    //             position: toast.POSITION.TOP_CENTER
-    //         });
-    //         let redirect = this.props.history;
-    //         setTimeout(function() {
-    //             redirect.push(`/admin`);
-    //         }, 2100);
+    async _updateEntry(e) {
+        e.preventDefault();
+        if(!this._validateFields()) return;
+        let payload = {
+            structureslug: this.state.structureSlug,
+            title: this.state.entryTitle,
+            slug: this.state.entrySlug,
+            blurb: this.state.entryBlurb,
+            author: this.state.author,
+            createdDate: this.state.createdDate,
+            fields: this.state.structureFields
+        }
+        let response = await axiosInstance.post('/admin/updateentry', payload);
+        if(!response.data.error) {
+            toast.success("Entry Updated Successfully!", {
+                position: toast.POSITION.TOP_CENTER
+            });
+            let redirect = this.props.history;
+            setTimeout(function() {
+                redirect.push(`/admin/structures`);
+            }, 1050);
             
-    //     } else {
-    //         toast.error(response.data.error, {
-    //             position: toast.POSITION.TOP_CENTER
-    //         });
-    //     }
-    // }
+        } else {
+            toast.error(response.data.error, {
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
 
-    // _validateFields() {
-    //     if(this.state.entryTitle === '' || this.state.entryTitle === undefined) {
-    //         toast.warn('Entry Title Required', {
-    //             position: toast.POSITION.TOP_CENTER
-    //         });
-    //         return false;
-    //     }
-    //     if(this.state.entryBlurb === '' || this.state.entryBlurb === undefined) {
-    //         toast.warn('Entry Blurb Required', {
-    //             position: toast.POSITION.TOP_CENTER
-    //         });
-    //         return false;
-    //     }
-    //     return true;
-    // }
+    _validateFields() {
+        if(this.state.entryTitle === '' || this.state.entryTitle === undefined) {
+            toast.warn('Entry Title Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return false;
+        }
+        if(this.state.entryBlurb === '' || this.state.entryBlurb === undefined) {
+            toast.warn('Entry Blurb Required', {
+                position: toast.POSITION.TOP_CENTER
+            });
+            return false;
+        }
+        return true;
+    }
 
     _handleChange(e) {
         e.preventDefault();
@@ -245,7 +244,7 @@ class EditEntry extends Component {
     render() {
         return (
             <div className="container">
-                <ToastContainer autoClose={2000} /> 
+                <ToastContainer autoClose={1000} /> 
                 <h1>Edit Entry</h1>
                 <form>
                 <div className="form-group row">
