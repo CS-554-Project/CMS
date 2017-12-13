@@ -27,7 +27,6 @@ let exportedMethods = {
         hashedPassword: bcrypt.hashSync(password, saltRounds),
         isAdmin: isAdmin
       };
-
       return usersCollection
         .insertOne(newUser)
         .then(newInsertInformation => {
@@ -50,9 +49,27 @@ let exportedMethods = {
 
   getAllUsers() {
     return users().then(usersCollection => {
-      return usersCollection.find({}).toArray();
+      return usersCollection.find({}).project({ _id: 1, firstname: 1, lastname:1, isAdmin:1 }).toArray()
+    });
+  },
+
+  updateUser(id) {
+    return this.getUserById(id).then((user) => {
+      let updateUser = {
+          firstname: user.firstname,
+          lastname: user.lastname,
+          username: user.username,
+          hashedPassword: user.hashedPassword,
+          isAdmin: true
+      };
+      return users().then((usersCollection) => {
+          return usersCollection.updateOne({ _id: id}, updateUser).then((done) => {
+              return done;
+          });
+      });
     });
   }
+
 };
 
 module.exports = exportedMethods;

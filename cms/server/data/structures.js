@@ -98,18 +98,23 @@ let exportedMethods = {
 
     addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
         return structures().then((structuresCollection) => {
-            let newEntryObject = {
-                _id: uuid(),
-                title: title,
-                slug: slug,
-                blurb: blurb,
-                author:author,
-                created_date:created_date,
-                fields: fields,
-                comments:[]
-            };
-            return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
-            });        
+            return structuresCollection.findOne({'entries.slug':slug}).then((existingInformation) => {
+                if(existingInformation) throw new Error("Entry with slug already present");
+                let newEntryObject = {
+                    _id: uuid(),
+                    title: title,
+                    slug: slug,
+                    blurb: blurb,
+                    author: author,
+                    created_date: created_date,
+                    fields: fields,
+                    comments:[]
+                };
+                return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function (result) {
+                    console.log(result);
+                    return result;
+                });        
+            });
         });
     },
 
@@ -177,18 +182,12 @@ let exportedMethods = {
         return structures().then((structuresCollection) => {
             return structuresCollection.update(
                 { },
-                { $pull: { entries: { slug: slug } }  },
+                { $pull: { entries: { slug: slug } } },
                 { multi: true }
             ).then((updationInfo) => {
-               // console.log("Hi");
-                if (updationInfo.updatedCount === 0) {
-                    throw new Error ("Deleted Entry with ${slug}");
-                    }
-                else
-                {
-                    throw new Error ("Error in Deletion");
-                }
-                });
+                if (updationInfo.result.ok === 1) return updationInfo;
+                else { throw new Error ("Error in Deletion"); }
+            });
         });
     }
 };

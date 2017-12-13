@@ -7,6 +7,7 @@ const bluebird = require('bluebird');
 const xss = require('xss');
 const data = require('./data');
 const structureData = data.structures;
+const userData = data.users;
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
@@ -99,7 +100,7 @@ redisConnection.on('delete-structure:request:*', (message, channel) => {
     let failedEvent = `${eventName}:failed:${requestId}`;
 
     let structure  = message.data.structure;
-
+    console.log(structure);
     structureData.deleteStructure(xss(structure.slug)).then(response => {
         let successMessage = "Structure Deleted Successfully";
         redisConnection.emit(successEvent, {
@@ -179,7 +180,7 @@ redisConnection.on('list-entries-by-slug:request:*', (message, channel) => {
 
     let structure  = message.data.structure;
 
-    structureData.getAllEntriesByStructureSlugName(structure.slug).then(response => {
+    structureData.getAllEntriesByStructureSlugName(xss(structure.slug)).then(response => {
         let successMessage = response;
         redisConnection.emit(successEvent, {
             requestId: requestId,
@@ -204,9 +205,9 @@ redisConnection.on('delete-entry:request:*', (message, channel) => {
     let successEvent = `${eventName}:success:${requestId}`;
     let failedEvent = `${eventName}:failed:${requestId}`;
 
-    let entry  = message.data.entry;
+    let entry = message.data.entry;
 
-    structureData.deleteEntry(xss(entry.slug)).then(response => {
+    structureData.removeEntry(xss(entry.slug)).then(response => {
         let successMessage = "Entry Deleted Successfully";
         redisConnection.emit(successEvent, {
             requestId: requestId,
@@ -222,6 +223,58 @@ redisConnection.on('delete-entry:request:*', (message, channel) => {
         });
     });
 });
+
+redisConnection.on('list-users:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+
+    userData.getAllUsers().then(response => {
+        let successMessage = response;
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
+
+redisConnection.on('update-user:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+
+    let user = message.data.user;
+    userData.updateUser(user.id).then(response => {
+        let successMessage = response;
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
+
 
 const server = app.listen(3002, () => {
     console.log("Worker is running on http://localhost:3002");

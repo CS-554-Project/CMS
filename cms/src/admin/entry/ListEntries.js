@@ -7,8 +7,7 @@ class ListEntries extends Component {
         super(props);
         this.state = {
             structureSlug: this.props.location.state.structure.slug,
-            entryList: [],
-            
+            entryList: []   
         }
         this._getEntryList = this._getEntryList.bind(this);
         this._editEntry = this._editEntry.bind(this);

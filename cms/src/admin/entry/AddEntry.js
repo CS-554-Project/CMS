@@ -51,11 +51,10 @@ class AddEntry extends Component {
             toast.success("Entry Added Successfully!", {
                 position: toast.POSITION.TOP_CENTER
             });
-            let redirect = this.props.history;
+            const redirect = this.props.history;
             setTimeout(function() {
                 redirect.push(`/admin/structures`);
-            }, 2100);
-            
+            }, 1050);
         } else {
             toast.error(response.data.error, {
                 position: toast.POSITION.TOP_CENTER
@@ -250,7 +249,7 @@ class AddEntry extends Component {
     render() {
         return (
             <div className="container">
-                <ToastContainer autoClose={2000} /> 
+                <ToastContainer autoClose={1000} /> 
                 <h1>Add Entry</h1>
                 <form>
                 <div className="form-group row">
