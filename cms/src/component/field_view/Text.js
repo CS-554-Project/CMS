@@ -6,13 +6,11 @@
 import React, { Component } from "react";
 
 class Text extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
+    console.log("Harsh");
     return (
       <div className="row">
-        <div className="col-md-2">{this.props.data.label}</div>
+        <div className="col-md-2"><h5>{this.props.data.label}</h5></div>
         <div className="col-md-10">
           <p>{this.props.data.value}</p>
         </div>

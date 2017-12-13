@@ -6,6 +6,7 @@ import EditStructure from './structure/EditStructure';
 import AddEntry from './entry/AddEntry';
 import EditEntry from './entry/EditEntry';
 import ListEntries from './entry/ListEntries';
+import ListUsers from './users/ListUsers';
 
 class Admin extends Component {
 
@@ -22,7 +23,7 @@ class Admin extends Component {
                         <ul className="admin-panel-routes">
                             <li><Link to={`${url}/structures/new`}>Add Structure</Link></li>
                             <li><Link to={`${url}/structures`}>List Structures</Link></li>
-                            <li><Link to='/users'>List User(s)</Link></li>
+                            <li><Link to={`${url}/users`}>List User(s)</Link></li>
                         </ul>
                         <Switch>
                             <Route exact path={`${url}/structures/new`} component={AddStructure} />
@@ -31,6 +32,7 @@ class Admin extends Component {
                             <Route exact path={`${url}/structures/:slug/:entryslug`} component={EditEntry}/>
                             <Route exact path={`${url}/structures/:slug`} component={EditStructure}/>                             
                             <Route exact path={`${url}/structures`} component={ListStructures}/>
+                            <Route exact path={`${url}/users`} component={ListUsers}/>
 
                             {/* <Route exact path='/admin/structures/:slug/new' component={EntryFormContainer}/>
                             <Route exact path='/admin/structures/:slug' component={EditStructurePage}/>

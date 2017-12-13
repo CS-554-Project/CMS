@@ -16,27 +16,32 @@ import Link from "./field_view/Link";
 class DynamicComponentLoading extends Component {
   constructor(props) {
     super(props);
+    
   }
+
+
+
   dynamicMagic(field) {
     switch (field.type) {
       case "small-text-input":
+        console.log("Switch Runnig");
         return <Text data={field} />;
       case "number-input":
         return <Number data={field} />;
-    //   case "checkbox":
-    //     return <CheckBox data={field} />;
+      //   case "checkbox":
+      //     return <CheckBox data={field} />;
       case "text-area":
         return <Text data={field} />;
-      case "image-uploader":
-        return <ImageView data={field} />;
-      case "link":
-        return <Link data={field} />;
-    //   case "wysiwyg-editor":
-    //     return <WysiwygEditor component={component} />;
-    //   case "datepicker":
-    //     return <DateDisplay data={field} />;
-    //   case "embeddable-youtube":
-    //     return <YouTube component={component} />;
+      // case "image-uploader":
+      //   return <ImageView data={field} />;
+      // case "link":
+      //   return <Link data={field} />;
+      //   case "wysiwyg-editor":
+      //     return <WysiwygEditor component={component} />;
+      //   case "datepicker":
+      //     return <DateDisplay data={field} />;
+      //   case "embeddable-youtube":
+      //     return <YouTube component={component} />;
       default:
         break;
     }
@@ -45,10 +50,16 @@ class DynamicComponentLoading extends Component {
   render() {
     let body = "";
     if (this.props.fields.length !== 0) {
-      const integratefields = this.props.fields.map(field => {
+    body = this.props.fields.map(field => {
+        //console.log(field);
         return this.dynamicMagic(field);
+        
+        // <div>field.type</div>
+        // <div>{field.lable}</div>
+        // <div>{field.value}</div>
       });
-      body = { integratefields };
+      //body = { integratefields };
+      //console.log(JSON.stringify(body));
     }
     return body;
   }

@@ -16,7 +16,6 @@ const xss = require('xss');
 const imagemagick =require('../data/imagemagick');
 
 
-
 const storageImages = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads/images')
@@ -153,9 +152,9 @@ router.get("/:slug/listentries", async (req, res) => {
       },
       expectsResponse: true  
     });
-    res.status(200).json(response);
+    res.json(response);
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   }
 });
 
@@ -171,7 +170,7 @@ router.delete("/deleteentry", async (req, res) => {
     });
     res.json(response);
   } catch(err) {
-    console.log("error" + err);
+    res.json({'error': err});
   } 
 });
 
@@ -194,18 +193,40 @@ router.get("/listallstructures", async (req, res) => {
         eventName: 'list-all-structures',
         expectsResponse: true
       });
-      res.status(200).json(response);
+      res.json(response);
     } catch(err) {
-      console.log("error" + err);
+        res.json({'error': err});
     }
 });
 
-// router.get("/getstructuredetails/:slug", (req, res) => {
-//   structureData.getStructureBySlug(req.params.slug).then(response => {
-//     res.status(200).json(response);
-//   });
-// });
+router.get("/listusers", async (req, res) => {
+  try {
+      let response = await nrpSender.sendMessage({
+        redis: redisConnection,
+        eventName: 'list-users',
+        expectsResponse: true
+      });
+      res.json(response);
+    } catch(err) {
+      res.json({'error': err});
+    }
+});
 
+router.put("/updateuser", async (req, res) => {
+  try {
+    let response = await nrpSender.sendMessage({
+      redis: redisConnection,
+      eventName: 'update-user',
+      data: {
+        user: req.body
+      },
+      expectsResponse: true
+    });
+    res.json(response);
+   } catch(err) {
+      res.json({'error': err});
+    }
+});
 
 
 
