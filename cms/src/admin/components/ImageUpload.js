@@ -13,7 +13,6 @@ class ImageUpload extends Component {
               <input type="file" id={this.props.data.label} className="form-control" onChange={this.props.handleInputChange} />
             </div>
           </div>
-        </div>
       );
     } else {
       return (
