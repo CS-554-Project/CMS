@@ -1,4 +1,5 @@
 const mongoCollections = require("../config/mongoCollections");
+const esClient = require("../config/connection.js");
 const structures = mongoCollections.structures;
 
 const users = mongoCollections.users;
@@ -225,6 +226,26 @@ let exportedMethods = {
             throw new Error("Error in Deletion");
           }
         });
+    });
+  },
+
+  search(search) {
+    return new Promise((data, err) => {
+      esClient
+        .search({
+          q: "*" + search + "*"
+        })
+        .then(
+          function(body) {
+            let hits = body.hits.hits;
+            console.log(JSON.stringify(hits));
+            data(hits);
+          },
+          function(error) {
+            //console.trace(error.message);
+            err(error.message);
+          }
+        );
     });
   }
 };

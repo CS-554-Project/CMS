@@ -14,7 +14,7 @@ import Link from "./field_view/Link";
 import Download from "./field_view/Download";
 import DateView from "./field_view/DateView";
 import YouTubeVideoEmbedded from "./field_view/YouTubeVideoEmbedded";
-//import ReferenceEntry from "./field_view/ReferenceEntry";
+import ReferenceEntry from "./field_view/ReferenceEntry";
 
 class DynamicComponentLoading extends Component {
   dynamicMagic(field) {
@@ -39,8 +39,8 @@ class DynamicComponentLoading extends Component {
         return <YouTubeVideoEmbedded data={field} />;
       case "file-uploader":
         return <Download data={field} />;
-      // case "reference-entry":
-      //   return <ReferenceEntry data={field} />;
+      case "reference-entry":
+        return <ReferenceEntry data={field} />;
       default:
         break;
     }
@@ -48,18 +48,15 @@ class DynamicComponentLoading extends Component {
 
   render() {
     let body = "";
-    if (this.props.fields.length !== 0) {
-      body = this.props.fields.map(field => {
-        //console.log(field);
-        return this.dynamicMagic(field);
-
-        // <div>field.type</div>
-        // <div>{field.lable}</div>
-        // <div>{field.value}</div>
-      });
-      //body = { integratefields };
-      //console.log(JSON.stringify(body));
-    }
+    //if (this.props.fields) {
+      if (this.props.fields.length !== 0) {
+        body = this.props.fields.map(field => {
+          return this.dynamicMagic(field);
+        });
+        //body = { integratefields };
+        //console.log(JSON.stringify(body));
+      }
+    //}
     return body;
   }
 }

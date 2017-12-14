@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const structureData = data.structures;
+const search = data.search;
 const xss = require("xss");
 const imagemagick = require("imagemagick");
 
@@ -17,6 +18,14 @@ router.get("/entries", (req, res) => {
     res.status(200).json(response);
   });
 });
+
+router.get("/search", (req, res) => {
+  let search = xss(req.query.search);
+  structureData.search(search).then(response => {
+    res.status(200).json(response);
+  });
+});
+
 
 router.get("/entry", (req, res) => {
   let slug = xss(req.query.slug);

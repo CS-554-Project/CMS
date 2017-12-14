@@ -5,7 +5,7 @@
  *******************************************/
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import UserWelcome from "./userWelcome/UserWelcome";
+import UserWelcome from "./userWelcome";
 import Structure from "./structure";
 
 class User extends Component {
