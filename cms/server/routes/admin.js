@@ -117,22 +117,6 @@ router.post("/addentry", async (req, res) => {
       .then(done => {
         res.json(response);
       });
-
-    // elasticSearch.addEntryToIndex(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb).then((output1) => {
-    //   console.log("addEntryToIndex", output1);
-
-    //   setTimeout(function() {
-    //     console.log('Blah blah blah blah extra-blah');
-
-    //     elasticSearch.countIndex().then((output2) => {
-    //       console.log("countIndex", output2);
-    //       elasticSearch.searchIndex('temp1').then((output3) => {
-    //         console.log("searchIndex", output3.hits);
-    //         res.json(output3.hits);
-    //       });
-    //     });
-    //   }, 5000);
-    // });
   } catch (err) {
     res.json({ error: err });
   }
@@ -148,7 +132,9 @@ router.post("/updateentry", async (req, res) => {
       },
       expectsResponse: true
     });
-    elasticSearch
+
+    elasticSearch.deleteEntry(xss(req.body.slug)).then(() => {
+      elasticSearch
       .addEntryToIndex(
         xss(req.body.structureslug),
         xss(req.body.title),
@@ -158,22 +144,7 @@ router.post("/updateentry", async (req, res) => {
       .then(done => {
         res.json(response);
       });
-
-    // elasticSearch.addEntryToIndex(req.body.structureslug, req.body.title, req.body.slug, req.body.blurb).then((output1) => {
-    //   console.log("addEntryToIndex", output1);
-
-    //   setTimeout(function() {
-    //     console.log('Blah blah blah blah extra-blah');
-
-    //     elasticSearch.countIndex().then((output2) => {
-    //       console.log("countIndex", output2);
-    //       elasticSearch.searchIndex('temp1').then((output3) => {
-    //         console.log("searchIndex", output3.hits);
-    //         res.json(output3.hits);
-    //       });
-    //     });
-    //   }, 5000);
-    // });
+    });
   } catch (err) {
     res.json({ error: err });
   }
@@ -205,7 +176,9 @@ router.delete("/deleteentry", async (req, res) => {
       },
       expectsResponse: true
     });
-    res.json(response);
+    elasticSearch.deleteEntry(xss(req.body.slug)).then(done => {
+      res.json(response);
+    });
   } catch (err) {
     res.json({ error: err });
   }
@@ -235,7 +208,6 @@ router.post("/uploadfile", uploadFile.single("file"), async (req, res) => {
     data,
     "binary"
   );
-  console.log("File Zipped");
 });
 
 router.get("/listallstructures", async (req, res) => {

@@ -132,7 +132,6 @@ class EditEntry extends Component {
             default:
                 if(fieldType === 'embeddable-youtube') {
                     let videoId = (e.target.value).match(youTubeRegex);
-                    console.log(videoId);
                     if(videoId) {
                         value = videoId[1];
                     }
@@ -278,7 +277,7 @@ class EditEntry extends Component {
                 ))} 
 
                 <form onSubmit={this._addEntry}>
-                    <button className="btn btn-success">Add Entry</button>
+                    <button className="btn btn-success">Update Entry</button>
                 </form>
                 
             </div>

@@ -191,11 +191,10 @@ redisConnection.on("update-entry:request:*", (message, channel) => {
       xss(structure.slug),
       xss(structure.blurb),
       xss(structure.author),
-      xss(structure.createdDate),
       structure.fields
     )
     .then(response => {
-      let successMessage = "Entry Added Successfully";
+      let successMessage = "Entry Updated Successfully";
       redisConnection.emit(successEvent, {
         requestId: requestId,
         data: successMessage,

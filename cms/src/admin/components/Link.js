@@ -11,7 +11,6 @@ class Link extends Component {
 
   handleChange2(title, url) {
     if (this.state.title.length > 0) {
-      console.log(title);
       this.setState({ title: title });
     } else if (this.state.url.length > 0) {
       this.setState({ url: url });
