@@ -13,6 +13,9 @@ const zip = new require("node-zip")();
 const elasticSearch = require("../data/elasticsearch");
 const xss = require("xss");
 const imagemagick = require("../data/imagemagick");
+const bluebird = require("bluebird");
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
 
 const storageImages = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -133,6 +136,8 @@ router.post("/updateentry", async (req, res) => {
       expectsResponse: true
     });
 
+    await client.delete(req.body.slug);
+
     elasticSearch.deleteEntry(xss(req.body.slug)).then(() => {
       elasticSearch
       .addEntryToIndex(
@@ -142,6 +147,7 @@ router.post("/updateentry", async (req, res) => {
         xss(req.body.blurb)
       )
       .then(done => {
+
         res.json(response);
       });
     });
