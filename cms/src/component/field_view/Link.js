@@ -13,7 +13,7 @@ class Link extends Component {
     return (
       <div className="row">
         <div className="col-md-2">
-          <h5>{this.props.data.label}: </h5>
+          <h5>{this.props.data.label} </h5>
         </div>
         <div className="col-md-10">
           <div className="row">

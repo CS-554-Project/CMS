@@ -6,12 +6,15 @@
 import React, { Component } from "react";
 
 import Text from "./field_view/Text";
+import WysiwygEditor from "./field_view/WysiwygEditor";
 import Number from "./field_view/Number";
 //import CheckBox from "./field_view/CheckBox";
 import ImageView from "./field_view/ImageView";
 import Link from "./field_view/Link";
-//import DateDisplay from "./field_view/DateDisplay";
-//import YouTube from "./field_view/YouTube";
+import Download from "./field_view/Download";
+import DateView from "./field_view/DateView";
+import YouTubeVideoEmbedded from "./field_view/YouTubeVideoEmbedded";
+//import ReferenceEntry from "./field_view/ReferenceEntry";
 
 class DynamicComponentLoading extends Component {
   dynamicMagic(field) {
@@ -24,16 +27,20 @@ class DynamicComponentLoading extends Component {
       //     return <CheckBox data={field} />;
       case "text-area":
         return <Text data={field} />;
-      // case "image-uploader":
-      //   return <ImageView data={field} />;
+      case "image-uploader":
+        return <ImageView data={field} />;
       case "link":
         return <Link data={field} />;
-      //   case "wysiwyg-editor":
-      //     return <WysiwygEditor component={component} />;
-      //   case "datepicker":
-      //     return <DateDisplay data={field} />;
-      //   case "embeddable-youtube":
-      //     return <YouTube component={component} />;
+      case "wysiwyg-editor":
+        return <WysiwygEditor data={field} />;
+      case "datepicker":
+        return <DateView data={field} />;
+      case "embeddable-youtube":
+        return <YouTubeVideoEmbedded data={field} />;
+      case "file-uploader":
+        return <Download data={field} />;
+      // case "reference-entry":
+      //   return <ReferenceEntry data={field} />;
       default:
         break;
     }
