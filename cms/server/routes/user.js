@@ -26,16 +26,21 @@ router.get("/search", (req, res) => {
   });
 });
 
-
 router.get("/entry", (req, res) => {
   let slug = xss(req.query.slug);
   let id = xss(req.query.id);
+  let responseJSON = null;
+  let responseStructureSlug = null;
+  let responseEntrySlug = null;
   if (slug) {
     structureData.getEntryByEntrySlug(slug).then(response => {
+      responseJSON = response;
+      responseEntrySlug = slug;
       res.status(200).json(response);
     });
   } else if (id) {
     structureData.getEntryByEntryID(id).then(response => {
+      responseJSON = response;
       res.status(200).json(response);
     });
   }
