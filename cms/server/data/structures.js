@@ -188,15 +188,15 @@ let exportedMethods = {
 
   getEntryByEntrySlug(slug) {
     slug = String(slug);
-
     return structures().then(structuresCollection => {
       return structuresCollection
-        .findOne({ "entries.slug": slug }, { entries: 1 })
-        .then(entry => {
-          let result = entry.entries.filter(function(obj) {
+        .findOne({ "entries.slug": slug })
+        .then(data => {
+          let result = data.entries.filter(function(obj) {
             return obj.slug == slug;
           })[0];
-
+          result.structslug=data.slug;
+          
           return result;
         });
     });
@@ -204,16 +204,20 @@ let exportedMethods = {
 
   getEntryByEntryID(id) {
     id = String(id);
+   // let entryslug =getEntrySlugNameByID(id);
     return structures().then(structuresCollection => {
       return structuresCollection
-        .findOne({ "entries._id": id }, { entries: 1 })
-        .then(entry => {
-          let result = entry.entries.filter(function(obj) {
+        .findOne({ "entries._id": id })
+        .then(data => {
+          let result = data.entries.filter(function(obj) {
             return obj._id == id;
           })[0];
+          result.structslug=data.slug;
+         // result.entryslug=entryslug;
           return result;
         });
-    });
+    })
+  
   },
 
   removeEntry(slug) {
@@ -238,7 +242,7 @@ let exportedMethods = {
         .then(
           function(body) {
             let hits = body.hits.hits;
-            console.log(JSON.stringify(hits));
+           // console.log(JSON.stringify(hits));
             data(hits);
           },
           function(error) {
@@ -356,6 +360,12 @@ module.exports = exportedMethods;
 //     console.log(data);
 // })
 
-// exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
+
+// exportedMethods.getEntryByEntryID("95b3b721-842a-44e8-8e7b-d8976ce002e4").then(function(data){
 //     console.log(data);
 // })
+
+
+
+
+

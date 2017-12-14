@@ -35,12 +35,11 @@ class EditStructure extends Component {
         let response = await axiosInstance.put("/admin/editstructure", payload);
         if(!response.data.error) {
             toast.success('Structure Updated Successfully!', {
-                position: toast.POSITION.TOP_CENTER
+                position: toast.POSITION.TOP_CENTER,
+                onClose: () => {
+                    this.props.history.push(`/admin/structures`);
+                }
             });
-            let redirect = this.props.history;
-            setTimeout(function() {
-                redirect.push(`/admin/structures`);
-            }, 1050);
         } else {
             toast.error(response.data.error, {
                 position: toast.POSITION.TOP_CENTER

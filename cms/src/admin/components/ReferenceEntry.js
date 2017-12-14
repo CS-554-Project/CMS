@@ -12,12 +12,9 @@ class ReferenceEntry extends Component {
       activeButton: ""
     };
 
-    this._fetchAllStructures().then(data =>
-      this.setState({
-        allStructures: data
-      })
-    );
-    console.log(this.props);
+    this._fetchAllStructures().then(data => this.setState({
+      allStructures: data
+    }));
   }
 
   async _fetchAllStructures() {
