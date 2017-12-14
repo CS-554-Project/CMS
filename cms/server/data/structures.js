@@ -154,17 +154,32 @@ let exportedMethods = {
     },
 
 
+    // getEntryByEntryID(id) {
+    //     id = String(id);
+    //     return structures().then((structuresCollection) => {
+    //         return structuresCollection.findOne(
+    //             {'entries._id':id},
+    //             {  entries:1}
+    //             ).then((entry) => {
+    //             let result = entry.entries.filter(function (obj) {
+    //                 return obj._id == id;
+    //             })[0];
+
+
+    //            return result;
+    //         });
+    //     });
+    // },
+
+
     getEntryByEntryID(id) {
         id = String(id);
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne(
-                {'entries._id':id},
-                {  entries:1}
-                ).then((entry) => {
-                let result = entry.entries.filter(function (obj) {
+            return structuresCollection.findOne({'entries._id':id}).then((data) => {
+                let result = data.entries.filter(function (obj) {
                     return obj._id == id;
                 })[0];
-                
+                result.slug=data.slug;
                return result;
             });
         });
@@ -305,6 +320,6 @@ module.exports = exportedMethods;
 // })
 
 
-// exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
+// exportedMethods.getEntryByEntryID("59200f6a-e850-4a4e-8a05-a49da7d4dfa1").then(function(data){
 //     console.log(data);
 // })
