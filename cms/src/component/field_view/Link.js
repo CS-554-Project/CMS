@@ -1,5 +1,5 @@
 /******************************************
- *  Author : Harsh Jagdishbhai Kevadia   
+ *  Author : Harsh Jagdishbhai Kevadia
  *  Created On : Fri Dec 08 2017
  *  File : Link.js
  *******************************************/
@@ -12,13 +12,24 @@ class Link extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-2">{this.props.data.label}: </div>
+        <div className="col-md-2">
+          <h5>{this.props.data.label}: </h5>
+        </div>
         <div className="col-md-10">
-          <a href={this.props.data.value} target="_blank"> {this.props.data.label} Link </a>
+          <div className="row">
+            <div className="col-md-3">
+              <h6>{this.props.data.value.title}</h6>
+            </div>
+            <div className="col-md-8">
+              <a href={this.props.data.value.url} target="_blank">
+                {this.props.data.value.title} Link
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default Text;
+export default Link;

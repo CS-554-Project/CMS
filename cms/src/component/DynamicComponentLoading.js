@@ -14,17 +14,9 @@ import Link from "./field_view/Link";
 //import YouTube from "./field_view/YouTube";
 
 class DynamicComponentLoading extends Component {
-  constructor(props) {
-    super(props);
-    
-  }
-
-
-
   dynamicMagic(field) {
     switch (field.type) {
       case "small-text-input":
-        console.log("Switch Runnig");
         return <Text data={field} />;
       case "number-input":
         return <Number data={field} />;
@@ -34,8 +26,8 @@ class DynamicComponentLoading extends Component {
         return <Text data={field} />;
       // case "image-uploader":
       //   return <ImageView data={field} />;
-      // case "link":
-      //   return <Link data={field} />;
+      case "link":
+        return <Link data={field} />;
       //   case "wysiwyg-editor":
       //     return <WysiwygEditor component={component} />;
       //   case "datepicker":
@@ -50,10 +42,10 @@ class DynamicComponentLoading extends Component {
   render() {
     let body = "";
     if (this.props.fields.length !== 0) {
-    body = this.props.fields.map(field => {
+      body = this.props.fields.map(field => {
         //console.log(field);
         return this.dynamicMagic(field);
-        
+
         // <div>field.type</div>
         // <div>{field.lable}</div>
         // <div>{field.value}</div>

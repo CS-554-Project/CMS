@@ -68,6 +68,10 @@ class SingleEntry extends Component {
   }
 
   render() {
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //////                             Testing - Object                                   //////
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
     // let structure = {
     //   name: this.props.match.params.structure,
     //   blurb: "This is Structure Discription",
@@ -169,6 +173,10 @@ class SingleEntry extends Component {
     //   ],
     //   comments: []
     // };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    //////                     Testing - Object -End                                      //////
+    ////////////////////////////////////////////////////////////////////////////////////////////
     let body = null;
     if (this.state.entryLoading && this.state.structureLoading) {
       body = <div className="row">Loading...</div>;
