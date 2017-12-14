@@ -356,9 +356,9 @@ module.exports = exportedMethods;
 
 // exportedMethods.editStructure("st4",data)
 
-exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
-    console.log(data);
-})
+// exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
+//     console.log(data);
+// })
 
 
 // exportedMethods.getEntryByEntryID("95b3b721-842a-44e8-8e7b-d8976ce002e4").then(function(data){
