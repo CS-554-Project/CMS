@@ -188,123 +188,45 @@ let exportedMethods = {
 
   getEntryByEntrySlug(slug) {
     slug = String(slug);
-
     return structures().then(structuresCollection => {
       return structuresCollection
-        .findOne({ "entries.slug": slug }, { entries: 1 })
-        .then(entry => {
-          let result = entry.entries.filter(function(obj) {
+        .findOne({ "entries.slug": slug })
+        .then(data => {
+          let result = data.entries.filter(function(obj) {
             return obj.slug == slug;
           })[0];
-
+          result.slug=data.slug;
+          result.entryslug=slug;
           return result;
         });
-<<<<<<< HEAD
-    },
-
-    addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
-        return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({'entries.slug' : slug}).then((existingInformation) => {
-                if(existingInformation) throw new Error('Entry with slug already present');
-                let newEntryObject = {
-                    _id: uuid(),
-                    title: title,
-                    slug: slug,
-                    blurb: blurb,
-                    author: author,
-                    created_date: created_date,
-                    fields: fields,
-                    comments:[]
-                };
-                return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function (result) {
-                    if(result.result.ok === 1) return result.result;
-                    else throw new Error("Error Adding New Entry");
-                });        
-            });
-        });
-    },
-
-    editStructureEntries(structure_slug, title, slug, blurb, author, created_date, comments, fields) {
-        return structures().then((structuresCollection) => {
-            entryID = uuid()
-            let newEntryObject = {
-                _id: entryID,
-                title: title,
-                slug:slug,
-                blurb:blurb,
-                author:author,
-                created_date:new Date(),
-                fields:fields,
-                comments:[]
-            };
-            return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function () {
-            });
-        });
-    },
-
-    getEntryByEntrySlug(slug) {
-        slug = String(slug);
-        
-        return structures().then((structuresCollection) => {
-            return structuresCollection.findOne(
-                {'entries.slug':slug},
-                {  entries:1}
-                ).then((entry) => {
-                let result = entry.entries.filter(function (obj) {
-                    return obj.slug == slug;
-                })[0];
-                
-               return result;
-            });
-        });
-    },
-
-
-    // getEntryByEntryID(id) {
-    //     id = String(id);
-    //     return structures().then((structuresCollection) => {
-    //         return structuresCollection.findOne(
-    //             {'entries._id':id},
-    //             {  entries:1}
-    //             ).then((entry) => {
-    //             let result = entry.entries.filter(function (obj) {
-    //                 return obj._id == id;
-    //             })[0];
-
-
-    //            return result;
-    //         });
-    //     });
-    // },
-
-
-    getEntryByEntryID(id) {
-        id = String(id);
-        return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({'entries._id':id}).then((data) => {
-                let result = data.entries.filter(function (obj) {
-                    return obj._id == id;
-                })[0];
-                result.slug=data.slug;
-               return result;
-            });
-=======
     });
+  },
+
+  getEntrySlugNameByID(id)
+  {
+        return structures().then(structuresCollection => {
+          return structuresCollection.findOne({ "entries._id": id }).then(data => {
+           return data.entries;
+          });
+        });
   },
 
   getEntryByEntryID(id) {
     id = String(id);
+    let entryslug =getEntrySlugNameByID(id);
     return structures().then(structuresCollection => {
       return structuresCollection
-        .findOne({ "entries._id": id }, { entries: 1 })
-        .then(entry => {
-          let result = entry.entries.filter(function(obj) {
+        .findOne({ "entries._id": id })
+        .then(data => {
+          let result = data.entries.filter(function(obj) {
             return obj._id == id;
           })[0];
+          result.slug=data.slug;
+          result.entryslug=entryslug;
           return result;
->>>>>>> 8eae21a3db4bdeced204c9a842fc35814a6f980a
         });
-    });
+    })
+  
   },
 
   removeEntry(slug) {
@@ -329,7 +251,7 @@ let exportedMethods = {
         .then(
           function(body) {
             let hits = body.hits.hits;
-            console.log(JSON.stringify(hits));
+           // console.log(JSON.stringify(hits));
             data(hits);
           },
           function(error) {
@@ -447,11 +369,14 @@ module.exports = exportedMethods;
 //     console.log(data);
 // })
 
-<<<<<<< HEAD
 
-// exportedMethods.getEntryByEntryID("59200f6a-e850-4a4e-8a05-a49da7d4dfa1").then(function(data){
-=======
-// exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
->>>>>>> 8eae21a3db4bdeced204c9a842fc35814a6f980a
+// exportedMethods.getEntryByEntryID("95b3b721-842a-44e8-8e7b-d8976ce002e4").then(function(data){
 //     console.log(data);
 // })
+
+
+exportedMethods.getEntrySlugNameByID("95b3b721-842a-44e8-8e7b-d8976ce002e4").then(function(data){
+  console.log(data);
+})
+
+
