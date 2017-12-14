@@ -1,37 +1,27 @@
 const imagemagick = require('imagemagick');
-const desPath ="C:/Users/HP/Desktop/Stevens Study/Sem 4/CS -554/LABs/CMS/cms/server/uploads/images/";
-const srcPath="C:/Users/HP/Desktop/Stevens Study/Sem 4/CS -554/LABs/CMS/cms/server/uploads/images/";
-const image="Capture.PNG";
+const srcPath ="../uploads/images/";
+const desPath ="../uploads/resized_images/";
+var fs = require('fs');
 
 module.exports = {
     convertImageToThumbnail(image) {
-     
-      var optionsObj = {
-          srcPath: srcPath,
-          dstPath: desPath + image +".png",
-         
-          quality: 100.0,
-          width: "275",
-          height: "183",
-          format: 'png',
-          customArgs: [
-              '-gravity', 'center',
-              "-bordercolor", "black",
-              "-border", "5x5",
-          ]
-  
-      };
- 
-      imagemagick.resize(optionsObj, function (err, stdout) {
+    imagemagick.resize({
+      srcPath: srcPath+image,
+      dstPath: desPath+image,
+      width:   256
+      }, function(err, stdout, stderr){
+      if (err) throw err;
+      console.log('resized kittens.jpg to fit within 256x256px');
+    });
 
-        console.log(optionsObj);
-          if (err) return "Could not convert user image file";
-          console.log("image successfully converted and stored at " + desPath);
-          return "image successfully converted and stored at " + desPath;
-      });
-  
-    }
+    // imagemagick.resize({
+    //   srcData: fs.readFileSync(srcPath+image, 'binary'),
+    //   width:   256
+    // }, function(err, stdout, stderr){
+    //   if (err) throw err
+    //   fs.writeFileSync(desPath+image, stdout, 'binary');
+    //   console.log('resized kittens.jpg to fit within 256x256px')
+    // });
+
   }
-
-
-module.exports.convertImageToThumbnail("Capture.PNG")
+}

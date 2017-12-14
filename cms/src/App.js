@@ -11,7 +11,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/admin" render={(props) => (localStorage.admin ? <Admin {...props} /> : <Redirect to="/login"/>)} /> 
+          <Route path="/admin" render={(props) => (localStorage.admin === 'true' ? <Admin {...props} /> : <Redirect to="/login"/>)} /> 
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <Route path="/" component={User} />
