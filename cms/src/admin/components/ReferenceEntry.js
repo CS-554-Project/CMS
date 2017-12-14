@@ -49,10 +49,10 @@ class ReferenceEntry extends Component {
                   <div key={entry.title + eidx}>
                     <Button
                       type="button"
-                      onClick={e => this.handleClick(e, entry, eidx)}
+                      onClick={e => this.handleClick(e, entry, entry.title + eidx)}
                       style={styles.indentLeft}
                       bsStyle={
-                        this.state.activeButton === eidx ? "primary" : undefined
+                        this.state.activeButton === entry.title + eidx ? "primary" : undefined
                       }
                     >
                       {entry.title}
