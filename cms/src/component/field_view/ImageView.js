@@ -9,6 +9,10 @@ import { API_ROOT } from "../../utils/AxiosInstance";
 class ImageView extends Component {
   render() {
     let imageSrc = API_ROOT + "/images/";
+    // let imageSrcAlt = API_ROOT + "/resizedimage/";
+    // if(imageSrcAlt + "IMG_06983.JPG"){
+    //   console.log("Resized Image found");
+    // }
     let index = 0;
     let imageIndex = 0;
     let indicators = null;
