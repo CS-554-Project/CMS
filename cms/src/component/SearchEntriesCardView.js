@@ -23,7 +23,7 @@ class SearchEntriesCardView extends Component {
                 <p className="card-text">{result._source._blurb}</p>
                 <Link
                   to={
-                    "/Structure/" +
+                    "/" +
                     result._source._structureslug +
                     "/" +
                     result._source._slug

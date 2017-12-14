@@ -19,7 +19,7 @@ class StructureEntriesListLeftNav extends Component {
         entry => {
           return (
             <li className="nav-item">
-              <Link to={"/Structure/" + structureSlug + "/" + entry.slug}>
+              <Link to={"/" + structureSlug + "/" + entry.slug}>
                 {entry.name}
               </Link>
             </li>

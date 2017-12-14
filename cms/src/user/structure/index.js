@@ -23,8 +23,8 @@ class Structure extends Component {
     const { url } = match;
     return (
       <Switch>
-        <Route path={`${url}/:structure/:entry`} component={SingleEntry} />
-        <Route path={`${url}/:structure`} component={SingleStructure} />
+        <Route path={`/:structure/:entry`} component={SingleEntry} />
+        <Route path={`/:structure`} component={SingleStructure} />
         <Redirect from="/" to={`/`} />
       </Switch>
     );
