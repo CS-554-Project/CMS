@@ -202,18 +202,9 @@ let exportedMethods = {
     });
   },
 
-  getEntrySlugNameByID(id)
-  {
-        return structures().then(structuresCollection => {
-          return structuresCollection.findOne({ "entries._id": id }).then(data => {
-           return data.entries;
-          });
-        });
-  },
-
   getEntryByEntryID(id) {
     id = String(id);
-    let entryslug =getEntrySlugNameByID(id);
+   // let entryslug =getEntrySlugNameByID(id);
     return structures().then(structuresCollection => {
       return structuresCollection
         .findOne({ "entries._id": id })
@@ -221,8 +212,8 @@ let exportedMethods = {
           let result = data.entries.filter(function(obj) {
             return obj._id == id;
           })[0];
-          result.slug=data.slug;
-          result.entryslug=entryslug;
+          result.structslug=data.slug;
+         // result.entryslug=entryslug;
           return result;
         });
     })
@@ -375,8 +366,6 @@ module.exports = exportedMethods;
 // })
 
 
-exportedMethods.getEntrySlugNameByID("95b3b721-842a-44e8-8e7b-d8976ce002e4").then(function(data){
-  console.log(data);
-})
+
 
 
