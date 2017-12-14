@@ -6,9 +6,6 @@
 import React, { Component } from "react";
 
 class ImageView extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     let index = 0;
     let imageIndex = 0;
