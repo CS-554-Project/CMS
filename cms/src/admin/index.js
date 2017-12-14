@@ -33,13 +33,6 @@ class Admin extends Component {
                             <Route exact path={`${url}/structures/:slug`} component={EditStructure}/>                             
                             <Route exact path={`${url}/structures`} component={ListStructures}/>
                             <Route exact path={`${url}/users`} component={ListUsers}/>
-
-                            {/* <Route exact path='/admin/structures/:slug/new' component={EntryFormContainer}/>
-                            <Route exact path='/admin/structures/:slug' component={EditStructurePage}/>
-                            <Route exact path="/admin/structures/:slug/list" component={StructureEntries} /> 
-                            <Route exact path="/admin/structures/:slug/:entrySlug" component={EditEntryContainer} /> 
-                            <Route path='/admin/structures' component={StructureList}/>
-                            <Route exact path='/admin/users' component={UserList}/>                            */}
                         </Switch>
                     </div>
                 </Router>

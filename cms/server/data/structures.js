@@ -98,8 +98,8 @@ let exportedMethods = {
 
     addStructureEntries(structure_slug, title, slug, blurb, author, created_date, fields) {
         return structures().then((structuresCollection) => {
-            return structuresCollection.findOne({'entries.slug':slug}).then((existingInformation) => {
-                if(existingInformation) throw new Error("Entry with slug already present");
+            return structuresCollection.findOne({'entries.slug' : slug}).then((existingInformation) => {
+                if(existingInformation) throw new Error('Entry with slug already present');
                 let newEntryObject = {
                     _id: uuid(),
                     title: title,
@@ -111,14 +111,14 @@ let exportedMethods = {
                     comments:[]
                 };
                 return structuresCollection.updateOne({ slug: structure_slug }, { $push: { "entries": newEntryObject } }).then(function (result) {
-                    console.log(result);
-                    return result;
+                    if(result.result.ok === 1) return result.result;
+                    else throw new Error("Error Adding New Entry");
                 });        
             });
         });
     },
 
-    editStructureEntries(structure_slug,title,slug,url, blurb,author,created_date,comments,fields) {
+    editStructureEntries(structure_slug, title, slug, blurb, author, created_date, comments, fields) {
         return structures().then((structuresCollection) => {
             entryID = uuid()
             let newEntryObject = {
@@ -143,10 +143,7 @@ let exportedMethods = {
             return structuresCollection.findOne(
                 {'entries.slug':slug},
                 {  entries:1}
-            
-                    
                 ).then((entry) => {
-              // console.log(entry);
                 let result = entry.entries.filter(function (obj) {
                     return obj.slug == slug;
                 })[0];
@@ -159,15 +156,11 @@ let exportedMethods = {
 
     getEntryByEntryID(id) {
         id = String(id);
-        //console.log(slug);
         return structures().then((structuresCollection) => {
             return structuresCollection.findOne(
                 {'entries._id':id},
                 {  entries:1}
-            
-                    
                 ).then((entry) => {
-              // console.log(entry);
                 let result = entry.entries.filter(function (obj) {
                     return obj._id == id;
                 })[0];
@@ -312,6 +305,6 @@ module.exports = exportedMethods;
 // })
 
 
-exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
-    console.log(data);
-})
+// exportedMethods.getEntryByEntryID("c594719e-d4df-4b9e-9ab3-af5039c42647").then(function(data){
+//     console.log(data);
+// })

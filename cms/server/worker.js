@@ -145,6 +145,33 @@ redisConnection.on('add-entry:request:*', (message, channel) => {
     });
 });
 
+redisConnection.on('update-entry:request:*', (message, channel) => {
+    
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+
+    let structure  = message.data.structure;
+
+    structureData.editStructureEntries(xss(structure.structureslug), xss(structure.title), xss(structure.slug), xss(structure.blurb), xss(structure.author), xss(structure.createdDate), structure.fields).then(response => {
+        let successMessage = "Entry Added Successfully";
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
+
 redisConnection.on('list-all-structures:request:*', (message, channel) => {
     
     let requestId = message.requestId;
@@ -224,6 +251,32 @@ redisConnection.on('delete-entry:request:*', (message, channel) => {
     });
 });
 
+
+redisConnection.on('add-user:request:*', (message, channel) => {
+    let requestId = message.requestId;
+    let eventName = message.eventName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+    let failedEvent = `${eventName}:failed:${requestId}`;
+    
+    let user  = message.data.user;
+    userData.addUser(xss(user.firstName), xss(user.lastName), xss(user.userName), xss(user.password), xss(user.biography)).then(response => {
+        let successMessage = "User Added Successfully";
+        redisConnection.emit(successEvent, {
+            requestId: requestId,
+            data: successMessage,
+            eventName: eventName
+        });
+    }).catch(err => {
+        let errorMessage = err.message
+        redisConnection.emit(failedEvent, {
+            requestId: requestId,
+            data: errorMessage,
+            eventName: eventName
+        });
+    });
+});
+
 redisConnection.on('list-users:request:*', (message, channel) => {
     
     let requestId = message.requestId;
@@ -231,7 +284,7 @@ redisConnection.on('list-users:request:*', (message, channel) => {
 
     let successEvent = `${eventName}:success:${requestId}`;
     let failedEvent = `${eventName}:failed:${requestId}`;
-
+    
     userData.getAllUsers().then(response => {
         let successMessage = response;
         redisConnection.emit(successEvent, {
@@ -248,6 +301,8 @@ redisConnection.on('list-users:request:*', (message, channel) => {
         });
     });
 });
+
+
 
 redisConnection.on('update-user:request:*', (message, channel) => {
     
