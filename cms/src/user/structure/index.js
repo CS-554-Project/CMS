@@ -22,13 +22,11 @@ class Structure extends Component {
     const { match } = this.props;
     const { url } = match;
     return (
-      <div className="pokemon-page">
-        <Switch>
-          <Route path={`${url}/:structure/:entry`} component={SingleEntry} />
-          <Route path={`${url}/:structure`} component={SingleStructure} />
-          <Redirect from="/" to={`/`} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route path={`${url}/:structure/:entry`} component={SingleEntry} />
+        <Route path={`${url}/:structure`} component={SingleStructure} />
+        <Redirect from="/" to={`/`} />
+      </Switch>
     );
   }
 }

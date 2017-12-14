@@ -69,6 +69,8 @@ class UserWelcome extends Component {
         </div>
         <div className="col-md-10">
           <div className="mycontent-right">
+            <h2>Total Structures: {this.state.structures.length}</h2>
+            <hr />
             <StructuresListCardView structures={this.state.structures} />
           </div>
         </div>

@@ -20,16 +20,22 @@ class DatePicker extends Component {
       startDate: date
     });
 
-    date.target = {type: 'date-picker', id: this.props.data.label};
+    date.target = { type: "date-picker", id: this.props.data.label };
     this.props.handleInputChange(date);
   }
 
   render() {
     return (
       <div className="form-group row">
-        <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
+        <label className="col-sm-2 col-form-label">
+          {this.props.data.label}
+        </label>
         <div className="col-sm-10">
-          <DatePickerModule id={this.props.data.label} selected={this.state.startDate} onChange={e => this.handleChange(e)} />
+          <DatePickerModule
+            id={this.props.data.label}
+            selected={this.state.startDate}
+            onChange={e => this.handleChange(e)}
+          />
         </div>
       </div>
     );

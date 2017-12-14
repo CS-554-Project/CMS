@@ -1,5 +1,5 @@
 /******************************************
- *  Author : Harsh Jagdishbhai Kevadia   
+ *  Author : Harsh Jagdishbhai Kevadia
  *  Created On : Fri Dec 01 2017
  *  File : EntriesListCardView.js
  *******************************************/
