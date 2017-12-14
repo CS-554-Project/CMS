@@ -1,27 +1,18 @@
+const path = require('path');
+const fs = require('fs');
 const imagemagick = require('imagemagick');
-const srcPath ="../uploads/images/";
-const desPath ="../uploads/resized_images/";
-var fs = require('fs');
+const _srcPath = path.join(__dirname, '../uploads/images/');
+const _desPath = path.join(__dirname, '../uploads/resized_images/');
 
 module.exports = {
-    convertImageToThumbnail(image) {
-    imagemagick.resize({
-      srcPath: srcPath+image,
-      dstPath: desPath+image,
-      width:   256
-      }, function(err, stdout, stderr){
-      if (err) throw err;
-      console.log('resized kittens.jpg to fit within 256x256px');
-    });
-
-    // imagemagick.resize({
-    //   srcData: fs.readFileSync(srcPath+image, 'binary'),
-    //   width:   256
-    // }, function(err, stdout, stderr){
-    //   if (err) throw err
-    //   fs.writeFileSync(desPath+image, stdout, 'binary');
-    //   console.log('resized kittens.jpg to fit within 256x256px')
-    // });
-
+    convertImageToThumbnail(image, cb) {
+      imagemagick.resize({
+        srcPath: path.join(_srcPath, image),
+        dstPath: path.join(_desPath, image),
+        width:   256
+        }, (err, stdout, stderr) => {
+        if (err) throw err;
+        else return cb('Image Resized');
+      });
   }
 }

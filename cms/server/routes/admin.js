@@ -199,11 +199,14 @@ router.delete("/deleteentry", async (req, res) => {
   } 
 });
 
-router.post("/uploadimage", uploadImage.single('image'), afterUpload, async (req, res) => {
-  //res.json({'data': 'Image Resized'}); 
-  //imagemagick.convertImageToThumbnail(req.file.originalname);
-  console.log("Image Uploaded");
-  res.json('Image Resized'); 
+router.post("/uploadimage", uploadImage.single('image'), async (req, res) => {
+  res.json('Image Uploaded'); 
+});
+
+router.post("/resizeimage", async (req, res) => {
+  imagemagick.convertImageToThumbnail(req.body.image, (response) => {
+    res.json('Image Resized');
+  });
 });
 
 router.post("/uploadfile", uploadFile.single('file'),  async (req, res) => {
@@ -255,14 +258,5 @@ router.put("/updateuser", async (req, res) => {
       res.json({'error': err});
     }
 });
-
-
-function afterUpload(req, res, next) {
-  setTimeout(()=> {
-    console.log("Inside");
-    imagemagick.convertImageToThumbnail(req.file.originalname);
-  }, 2000);
-}
-
 
 module.exports = router;

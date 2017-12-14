@@ -35,21 +35,20 @@ class AddStructure extends Component {
         let response = await axiosInstance.post('/admin/addstructure', payload);
         if(!response.data.error) {
             toast.success('Structure Added Successfully!', {
-                position: toast.POSITION.TOP_CENTER
+                position: toast.POSITION.TOP_CENTER,
+                onClose: () => {
+                    this.setState({
+                        structureName: '',
+                        structureSlug: '',
+                        structureDescription: '',
+                        structurePageSize: 1,
+                        structureFields: [],
+                        fieldLabel: '',
+                        selectedField: 'small-text-input'
+                    });
+                    this.props.history.push(`/admin/structures`);
+                }
             });
-            this.setState({
-                structureName: '',
-                structureSlug: '',
-                structureDescription: '',
-                structurePageSize: 1,
-                structureFields: [],
-                fieldLabel: '',
-                selectedField: 'small-text-input'
-            });
-            let redirect = this.props.history;
-            setTimeout(function() {
-                redirect.push(`/admin/structures`);
-            }, 1050);
         } else {
             toast.error(response.data.error, {
                 position: toast.POSITION.TOP_CENTER
@@ -109,7 +108,7 @@ class AddStructure extends Component {
             });
             return false;
         }
-        if(this.state.structurePageSize == 0 || this.state.structurePageSize === undefined) {
+        if(this.state.structurePageSize === 0 || this.state.structurePageSize === undefined) {
             toast.warn('Structure Page Size Required', {
                 position: toast.POSITION.TOP_CENTER
             });

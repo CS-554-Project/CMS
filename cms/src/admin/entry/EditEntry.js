@@ -49,13 +49,11 @@ class EditEntry extends Component {
         let response = await axiosInstance.post('/admin/updateentry', payload);
         if(!response.data.error) {
             toast.success("Entry Updated Successfully!", {
-                position: toast.POSITION.TOP_CENTER
+                position: toast.POSITION.TOP_CENTER,
+                onClose: () => {
+                    this.props.history.push(`/admin/structures`);
+                }
             });
-            let redirect = this.props.history;
-            setTimeout(function() {
-                redirect.push(`/admin/structures`);
-            }, 1050);
-            
         } else {
             toast.error(response.data.error, {
                 position: toast.POSITION.TOP_CENTER

@@ -15,7 +15,6 @@ class ReferenceEntry extends Component {
         this._fetchAllStructures().then(data => this.setState({
             allStructures: data
         }));
-        console.log(this.props);
     }
 
     async _fetchAllStructures() {
