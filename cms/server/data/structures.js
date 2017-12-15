@@ -95,7 +95,7 @@ let exportedMethods = {
         description: description,
         pagesize: pagesize,
         fields: fields.length > 0 ? fields : [],
-        entries: []
+        entries: currentStructure.entries
       };
       return structures().then(structuresCollection => {
         return structuresCollection
