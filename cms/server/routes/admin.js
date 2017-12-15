@@ -131,7 +131,7 @@ router.post("/updateentry", async (req, res) => {
       redis: redisConnection,
       eventName: "update-entry",
       data: {
-        structure: req.body
+        entry: req.body
       },
       expectsResponse: true
     });

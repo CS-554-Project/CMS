@@ -188,7 +188,6 @@ let exportedMethods = {
           let result = data.entries.filter(function(obj) {
             return obj.slug == slug;
           })[0];
-          console.log(result);
           result.structslug=data.slug;
           return result;
         });

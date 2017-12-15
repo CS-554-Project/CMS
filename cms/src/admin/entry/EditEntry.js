@@ -30,6 +30,7 @@ class EditEntry extends Component {
             entryFields: this.props.location.state.entry.fields
         }
         this._updateEntry = this._updateEntry.bind(this);
+        this._validateFields = this._validateFields.bind(this);
         this._handleChange = this._handleChange.bind(this);
         this._addFieldsToForm = this._addFieldsToForm.bind(this);
     }
@@ -44,7 +45,7 @@ class EditEntry extends Component {
             blurb: this.state.entryBlurb,
             author: this.state.author,
             createdDate: this.state.createdDate,
-            fields: this.state.structureFields
+            fields: this.state.entryFields
         }
         let response = await axiosInstance.post('/admin/updateentry', payload);
         if(!response.data.error) {
@@ -276,7 +277,7 @@ class EditEntry extends Component {
                     this._addFieldsToForm(field, index)
                 ))} 
 
-                <form onSubmit={this._addEntry}>
+                <form onSubmit={this._updateEntry}>
                     <button className="btn btn-success">Update Entry</button>
                 </form>
                 

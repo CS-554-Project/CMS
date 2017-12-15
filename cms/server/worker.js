@@ -181,16 +181,15 @@ redisConnection.on("update-entry:request:*", (message, channel) => {
   let successEvent = `${eventName}:success:${requestId}`;
   let failedEvent = `${eventName}:failed:${requestId}`;
 
-  let structure = message.data.structure;
-
+  let entry = message.data.entry;
   structureData
     .editStructureEntries(
-      xss(structure.structureslug),
-      xss(structure.title),
-      xss(structure.slug),
-      xss(structure.blurb),
-      xss(structure.author),
-      structure.fields
+      xss(entry.structureslug),
+      xss(entry.slug),
+      xss(entry.title),
+      xss(entry.blurb),
+      xss(entry.author),
+      entry.fields
     )
     .then(response => {
       let successMessage = "Entry Updated Successfully";
