@@ -83,7 +83,6 @@ class signup extends Component {
     return true;
   }
 
-<<<<<<< HEAD
  
 
     render() {
@@ -125,78 +124,6 @@ class signup extends Component {
                         <input type="text" id="biography" className="form-control" placeholder="Enter Biography" value={this.state.biography} onChange={this._handleChange} />
                     </div>
                 </div>
-=======
-  _handleChange(e) {
-    e.preventDefault();
-    const target = e.target;
-    const value = target.value;
-    const name = target.id;
-    this.setState({
-      [name]: value
-    });
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <ToastContainer autoClose={2000} />
-        <h1>Add User Entry</h1>
-        <br />
-        <br />
-        <form>
-          <div className="form-group row">
-            <label className="col-sm-2 col-form-label"> FirstName </label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                id="firstName"
-                className="form-control"
-                placeholder="Enter FirstName"
-                value={this.state.firstName}
-                onChange={this._handleChange}
-              />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-2 col-form-label"> LastName</label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                id="lastName"
-                className="form-control"
-                placeholder="Enter LastName"
-                value={this.state.lastName}
-                onChange={this._handleChange}
-              />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-2 col-form-label"> UserName</label>
-            <div className="col-sm-10">
-              <input
-                type="text"
-                id="userName"
-                className="form-control"
-                placeholder="Enter UserName"
-                value={this.state.userName}
-                onChange={this._handleChange}
-              />
-            </div>
-          </div>
-          <div className="form-group row">
-            <label className="col-sm-2 col-form-label"> Password</label>
-            <div className="col-sm-10">
-              <input
-                type="password"
-                id="password"
-                className="form-control"
-                placeholder="Enter Password"
-                value={this.state.password}
-                onChange={this._handleChange}
-              />
-            </div>
-          </div>
->>>>>>> eb7a80ec68a8e373788e96137396903fd0e6bb1d
 
           <div className="form-group row">
             <label className="col-sm-2 col-form-label"> Biography</label>
