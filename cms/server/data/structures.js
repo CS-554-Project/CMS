@@ -274,14 +274,14 @@ module.exports = exportedMethods;
 
 
 
-exportedMethods.editStructureEntries("total 3","total 3 Entry 1","title","blurb","author","fields").then(function(data){
-   console.log(data);
-})
-
-
-// exportedMethods.addCommentsByEntrySlug("total 1 Entry 1","comments1").then(function(data){
+// exportedMethods.editStructureEntries("total 3","total 3 Entry 1","title","blurb","author","fields").then(function(data){
 //    console.log(data);
 // })
+
+
+exportedMethods.addCommentsByEntrySlug("total 3 Entry 1","comments1").then(function(data){
+   console.log(data);
+})
 
 
 
