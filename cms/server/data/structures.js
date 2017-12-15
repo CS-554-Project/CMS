@@ -276,9 +276,9 @@ module.exports = exportedMethods;
 // })
 
 
-exportedMethods.addCommentsByEntrySlug("total 2 Entry 1","comments").then(function(data){
-   console.log(data);
-})
+// exportedMethods.addCommentsByEntrySlug("total 2 Entry 1","comments").then(function(data){
+//    console.log(data);
+// })
 
 
 
