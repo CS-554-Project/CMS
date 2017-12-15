@@ -44,3 +44,14 @@
 .row {
   margin-bottom: 25px;
 }
+
+.btn-success {
+  color: #fff !important;
+  background-color: #008a00   !important;
+  border-color: #008a00 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+color: rgb(160, 163, 165) !important;  
+background-color: rgb(52, 58, 64) !important;
+}

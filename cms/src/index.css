@@ -18,6 +18,20 @@ body {
   background-color: rgba(255, 255, 255, 0.952); /* Media Query*/
 }
 
+.text-muted {
+  color: #6e7881!important;
+}
+
+li > a {
+  color: #0072ee !important;
+}
+
+.btn-primary {
+  color: #fff !important;
+  background-color: #0072ee  !important;
+  border-color: #0072ee  !important;
+}
+
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */

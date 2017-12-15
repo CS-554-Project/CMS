@@ -155,14 +155,7 @@ let exportedMethods = {
     });
   },
 
-  editStructureEntries(
-    structure_slug,
-    entry_slug,
-    title,
-    blurb,
-    author,
-    fields
-  ) {
+  editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
     return this.getEntryByEntrySlug(entry_slug).then(currentEntry => {
       let updatedEntry = {
         title: title,
@@ -170,21 +163,21 @@ let exportedMethods = {
         blurb: blurb,
         author: author,
         fields: fields,
-        created_date: currentEntry.created_date,
-        comments: currentEntry.comments
+        created_date:currentEntry.created_date,
+        comments:currentEntry.comments,
+        
       };
       return structures().then(structuresCollection => {
         return structuresCollection
           .updateOne(
             { "entries.slug": entry_slug },
-            { $set: { "entries.$": updatedEntry } }
-          )
+            {$set :{"entries.$":updatedEntry} })
           .then(() => {
             return this.getStructureBySlug(structure_slug);
           });
       });
     });
-  },
+},
 
   getEntryByEntrySlug(slug) {
     slug = String(slug);
@@ -195,7 +188,7 @@ let exportedMethods = {
           let result = data.entries.filter(function(obj) {
             return obj.slug == slug;
           })[0];
-          result.structslug = data.slug;
+          result.structslug=data.slug;
           return result;
         });
     });
@@ -204,14 +197,17 @@ let exportedMethods = {
   getEntryByEntryID(id) {
     id = String(id);
     return structures().then(structuresCollection => {
-      return structuresCollection.findOne({ "entries._id": id }).then(data => {
-        let result = data.entries.filter(function(obj) {
-          return obj._id == id;
-        })[0];
-        result.structslug = data.slug;
-        return result;
-      });
-    });
+      return structuresCollection
+        .findOne({ "entries._id": id })
+        .then(data => {
+          let result = data.entries.filter(function(obj) {
+            return obj._id == id;
+          })[0];
+          result.structslug=data.slug;
+          return result;
+        });
+    })
+  
   },
 
   removeEntry(slug) {
@@ -227,11 +223,11 @@ let exportedMethods = {
     });
   },
 
-  addCommentsByEntrySlug(slug, comments) {
+  addCommentsByEntrySlug(slug,comments){
     return structures().then(structuresCollection => {
       let newEntryObject = {
         _id: uuid(),
-        comments: comments
+        comments: comments,
       };
       return structuresCollection
         .updateOne(
@@ -243,6 +239,7 @@ let exportedMethods = {
           else throw new Error("Error Adding New Comment");
         });
     });
+
   },
 
   search(search) {

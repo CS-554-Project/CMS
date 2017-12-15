@@ -113,6 +113,7 @@ class SingleEntry extends Component {
     if (localStorage.jwtToken != null) {
       return (
         <div>
+          <label for="comment"></label>
           <input
             type="text"
             id="comment"
