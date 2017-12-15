@@ -18,7 +18,7 @@ class EntriesListLeftNav extends Component {
       const entriesNavigation = this.props.structure.entries.map(entry => {
         return (
           <li className="nav-item">
-            <Link to={"/Structure/" + structureSlug + "/" + entry.slug}>{entry.title}</Link>
+            <Link to={"/" + structureSlug + "/" + entry.slug}>{entry.title}</Link>
           </li>
         );
       });

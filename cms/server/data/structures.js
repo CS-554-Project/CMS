@@ -155,10 +155,26 @@ let exportedMethods = {
     });
   },
 
+<<<<<<< HEAD
   editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
   
      
       let updatedEntry = {
+=======
+  editStructureEntries(
+    structure_slug,
+    title,
+    slug,
+    blurb,
+    author,
+    fields
+    ) 
+  {
+    return structures().then(structuresCollection => {
+      entryID = uuid();
+      let newEntryObject = {
+        _id: entryID,
+>>>>>>> 280a4874b72311c6ee544c8dd47bbfb03ecd9be1
         title: title,
         slug:entry_slug,
         blurb: blurb,

@@ -8,15 +8,9 @@ import htmlToDraft from "html-to-draftjs";
 class WysiwygEditor extends Component {
   constructor(props) {
     super(props);
-    // const html = '<p>Hey this <strong>editor</strong> rocks 😀</p>';
-    // const contentBlock = htmlToDraft(html);
-    // if (contentBlock) {
-    // const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
-    // const editorState = EditorState.createWithContent(contentState);
     this.state = {
       editorState: EditorState.createEmpty()
     };
-    // }
   }
 
   onEditorStateChange(editorState) {
