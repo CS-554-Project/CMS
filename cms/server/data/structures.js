@@ -155,26 +155,10 @@ let exportedMethods = {
     });
   },
 
-<<<<<<< HEAD
   editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
   
      
       let updatedEntry = {
-=======
-  editStructureEntries(
-    structure_slug,
-    title,
-    slug,
-    blurb,
-    author,
-    fields
-    ) 
-  {
-    return structures().then(structuresCollection => {
-      entryID = uuid();
-      let newEntryObject = {
-        _id: entryID,
->>>>>>> 280a4874b72311c6ee544c8dd47bbfb03ecd9be1
         title: title,
         slug:entry_slug,
         blurb: blurb,
@@ -241,6 +225,27 @@ let exportedMethods = {
     });
   },
 
+  addCommentsByEntrySlug(slug,comments){
+    return structures().then(structuresCollection => {
+     
+          let newEntryObject = {
+            _id: uuid(),
+            comments: comments,
+          };
+          return structuresCollection
+            .updateOne(
+              { "entries.slug": slug },
+              { $push: { "entries.comments": newEntryObject } }
+            )
+            .then(function(result) {
+              if (result.result.ok === 1) return result.result;
+              else throw new Error("Error Adding New Entry");
+            });
+      
+    });
+
+  },
+
   search(search) {
     return new Promise((data, err) => {
       esClient
@@ -270,6 +275,10 @@ module.exports = exportedMethods;
 //    console.log(data);
 // })
 
+
+exportedMethods.addCommentsByEntrySlug("total 2 Entry 1","comments").then(function(data){
+   console.log(data);
+})
 
 
 
