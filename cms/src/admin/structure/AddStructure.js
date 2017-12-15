@@ -133,30 +133,30 @@ class AddStructure extends Component {
                 <form>
 
                 <div className='form-group row'>
-                    <label className='col-sm-2 col-form-label'>Structure Name</label>
+                    <label className='col-sm-2 col-form-label' for="structureName">Structure Name</label>
                     <div className='col-sm-10'>
                         <input type='text' id='structureName' className='form-control' placeholder='Structure Name' value={this.state.structureName} onChange={this._handleChange} />
                     </div>
                 </div>         
 
                 <div className='form-group row'>
-                    <label className='col-sm-2 col-form-label'>Structure Slug</label>
+                    <label className='col-sm-2 col-form-label' for="structureSlug">Structure Slug</label>
                     <div className='col-sm-10'>
-                        <input type='text' id='structureSlug' className='form-control' placeholder='Structure Slug' value={this.state.structureSlug} onChange={this._handleChange} />
+                        <input type='text' id='structureSlug' className='form-control'  placeholder='Structure Slug' value={this.state.structureSlug} onChange={this._handleChange} />
                     </div>
                 </div>
 
                 <div className='form-group row'>
-                    <label className='col-sm-2 col-form-label'>Structure Desc</label>
+                    <label className='col-sm-2 col-form-label' for="structureDescription">Structure Desc</label>
                     <div className='col-sm-10'>
                         <input type='text' id='structureDescription' className='form-control' placeholder='Structure Description' value={this.state.structureDescription} onChange={this._handleChange} />
                     </div>
                 </div>
 
                 <div className='form-group row'>
-                    <label className='col-sm-2 col-form-label'>Structure Page Size</label>
+                    <label className='col-sm-2 col-form-label' for="structurePageSize">Structure Page Size</label>
                     <div className='col-sm-10'>
-                        <input type='number' id='structurePageSize' className='form-control' placeholder='Structure Page Size' value={this.state.structurePageSize} onChange={this._handleChange} />
+                        <input type='number' id='structurePageSize' className='form-control'  placeholder='Structure Page Size' value={this.state.structurePageSize} onChange={this._handleChange} />
                     </div>
                 </div>
                 
@@ -165,9 +165,9 @@ class AddStructure extends Component {
                 <form onSubmit={this._addField}>
                 
                     <div className='form-group row'>
-                        <label className='col-sm-2 col-form-label'>Field Label</label>
+                        <label className='col-sm-2 col-form-label' for="fieldLabel">Field Label</label>
                         <div className='col-sm-10'>
-                            <input type='text' className='form-control' id='fieldLabel' placeholder='Field Label' value={this.state.fieldLabel} onChange={this._handleChange}/>
+                            <input type='text' className='form-control' id='fieldLabel'  placeholder='Field Label' value={this.state.fieldLabel} onChange={this._handleChange}/>
                         </div>
                     </div>
 

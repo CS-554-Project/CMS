@@ -263,25 +263,25 @@ class AddEntry extends Component {
                 <h1>Add Entry</h1>
                 <form>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Structure Type</label>
+                    <label className="col-sm-2 col-form-label" for="structureSlug">Structure Type</label>
                     <div className="col-sm-10">
                         <input type="text" id="structureSlug" className="form-control" disabled placeholder="Structure Slug" value={this.state.structureSlug} onChange={this._handleChange} />
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Entry Title</label>
+                    <label className="col-sm-2 col-form-label" for="entryTitle">Entry Title</label>
                     <div className="col-sm-10">
                         <input type="text" id="entryTitle" className="form-control" placeholder="Entry Title" value={this.state.entryTitle} onChange={this._handleChange} />
                     </div>
                 </div>         
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Entry Slug</label>
+                    <label className="col-sm-2 col-form-label" for="entrySlug">Entry Slug</label>
                     <div className="col-sm-10">
                         <input type="text" id="entrySlug" className="form-control" placeholder="Entry Slug" value={this.state.entrySlug} onChange={this._handleChange} />
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Entry Blurb</label>
+                    <label className="col-sm-2 col-form-label" for="entryBlurb">Entry Blurb</label>
                     <div className="col-sm-10">
                         <input type="text" id="entryBlurb" className="form-control" placeholder="Entry Blurb" value={this.state.entryBlurb} onChange={this._handleChange} />
                     </div>
