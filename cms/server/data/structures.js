@@ -197,7 +197,6 @@ let exportedMethods = {
 
   getEntryByEntryID(id) {
     id = String(id);
-   // let entryslug =getEntrySlugNameByID(id);
     return structures().then(structuresCollection => {
       return structuresCollection
         .findOne({ "entries._id": id })
@@ -206,7 +205,6 @@ let exportedMethods = {
             return obj._id == id;
           })[0];
           result.structslug=data.slug;
-         // result.entryslug=entryslug;
           return result;
         });
     })
@@ -254,11 +252,9 @@ let exportedMethods = {
         .then(
           function(body) {
             let hits = body.hits.hits;
-           // console.log(JSON.stringify(hits));
             data(hits);
           },
           function(error) {
-            //console.trace(error.message);
             err(error.message);
           }
         );
@@ -267,27 +263,3 @@ let exportedMethods = {
 };
 
 module.exports = exportedMethods;
-
-<<<<<<< HEAD
-
-
-// exportedMethods.editStructureEntries("total 3","total 3 Entry 1","title","blurb","author","fields").then(function(data){
-=======
-// exportedMethods.editStructureEntries('Comment', 'Kishan 1', 'Kishan', 'Kishan 1', 'admin', { "label" : "Comment", "type" : "small-text-input", "value" : "Kishan" }).then(function(data){
->>>>>>> 39d8eb48fa6b981fc4b85616b39754259dc470d3
-//    console.log(data);
-// })
-
-
-<<<<<<< HEAD
-exportedMethods.addCommentsByEntrySlug("total 3 Entry 1","comments1").then(function(data){
-   console.log(data);
-})
-
-
-
-=======
-// exportedMethods.addCommentsByEntrySlug("1", "comments").then(function(data){
-//    console.log(data);
-// })
->>>>>>> 39d8eb48fa6b981fc4b85616b39754259dc470d3
