@@ -24,7 +24,7 @@ class ReferenceEntry extends Component {
           id: reqID
         }
       });
-      if(response.data.fields){
+      if (response.data.fields) {
         this.setState({
           refEntryLoading: false,
           refEntry: response.data
@@ -92,7 +92,7 @@ class ReferenceEntry extends Component {
     // let testingObject = JSON.parse(realJSON);
     let body = null;
     if (this.state.refEntryLoading) {
-      body = <div className="row">Loading...</div>;
+      //body = <div className="row">Loading...</div>;
     } else if (this.state.refEntry) {
       body = <DynamicComponentLoading fields={this.state.refEntry.fields} />;
       // body = <DynamicComponentLoading fields={testingObject.fields} />;

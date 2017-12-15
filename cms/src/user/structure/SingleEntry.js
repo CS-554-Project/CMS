@@ -5,13 +5,12 @@
  *******************************************/
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import EntriesListLeftNav from "../../component/EntriesListLeftNav";
 import axiosInstance from "../../utils/AxiosInstance";
 import DynamicComponentLoading from "../../component/DynamicComponentLoading";
 
 class SingleEntry extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +18,7 @@ class SingleEntry extends Component {
       structure: undefined,
       structureLoading: false,
       entryLoading: false,
-      comment: ''
+      comment: ""
     };
 
     this._showComment = this._showComment.bind(this);
@@ -85,51 +84,67 @@ class SingleEntry extends Component {
       [name]: value
     });
   }
-  
+
   _validateFields() {
-    if(this.state.comment === '' || this.state.comment === undefined) {
-        toast.warn('Comment Text Required', {
-            position: toast.POSITION.TOP_CENTER
-        });
-        return false;
+    if (this.state.comment === "" || this.state.comment === undefined) {
+      toast.warn("Comment Text Required", {
+        position: toast.POSITION.TOP_CENTER
+      });
+      return false;
     }
     return true;
   }
 
   async _addComment() {
-    console.log('inside');
-    if(!this._validateFields()) return;
+    console.log("inside");
+    if (!this._validateFields()) return;
     let payload = {
       slug: this.state.entry.slug,
       comment: this.state.comment
-    }
-    let response = await axiosInstance.post('/user/addcomment', payload);
+    };
+    let response = await axiosInstance.post("/user/addcomment", payload);
     this.setState({
-      comment: ''
+      comment: ""
     });
     this.getEntry(this.props.match.params.entry);
   }
 
   _showComment() {
-    if(localStorage.jwtToken != null) {
-        return (
-          <div>
-            <input type='text' id='comment' className='form-control' placeholder='Add Comment' value={this.state.comment} onChange={this._handleChange} />
-            <br/>
-            <button className="btn btn-success" onClick={() => {this._addComment()}}>Add</button>
-          </div>
-        );
-      }
+    if (localStorage.jwtToken != null) {
+      return (
+        <div>
+          <input
+            type="text"
+            id="comment"
+            className="form-control"
+            placeholder="Add Comment"
+            value={this.state.comment}
+            onChange={this._handleChange}
+          />
+          <br />
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              this._addComment();
+            }}
+          >
+            Add
+          </button>
+        </div>
+      );
+    }
   }
 
   _addCommentBox() {
-    if(localStorage.jwtToken != null) {
-      if(this.state.entry.comments.length > 0) {
+    if (localStorage.jwtToken != null) {
+      if (this.state.entry.comments.length > 0) {
         return (
           <table>
             <tbody>
               {this.state.entry.comments.map((comment, index) => {
-                <tr key={index}><td>{comment.comments}</td></tr>
+                <tr key={index}>
+                  <td>{comment.comments}</td>
+                </tr>;
               })}
             </tbody>
           </table>
@@ -137,7 +152,6 @@ class SingleEntry extends Component {
       }
     }
   }
-
 
   render() {
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,27 +319,25 @@ class SingleEntry extends Component {
     //////                     Testing - Object -End                                      //////
     ////////////////////////////////////////////////////////////////////////////////////////////
     let body = null;
-    
+
     if (this.state.entryLoading && this.state.structureLoading) {
       body = <div className="row">Loading...</div>;
     } else if (this.state.structure && this.state.entry) {
       let comment = null;
-      if(localStorage.jwtToken != null) { 
-        if(this.state.entry.comments.length !== 0){
-          <table>
-            <tbody>
-              {
-                comment = this.state.entry.comments.map((commentData, index) => {
-                  return <tr key={index}><td>{commentData.comments}</td></tr>;
-                })
-              }
-          </tbody>
-          </table>
+      if (localStorage.jwtToken != null) {
+        if (this.state.entry.comments.length !== 0) {
+          comment = this.state.entry.comments.map((commentData, index) => {
+            return (
+              // <div className="row" key={index}>
+              <div className="col-md-12">{commentData.comments}</div>
+              // </div>
+            );
+          });
         }
       }
       body = (
         <div className="row">
-        <ToastContainer autoClose={1000} />
+          <ToastContainer autoClose={1000} />
           <div className="col-md-2">
             <div className="mycontent-left">
               <EntriesListLeftNav structure={this.state.structure} />
@@ -341,10 +353,16 @@ class SingleEntry extends Component {
               </div>
               <DynamicComponentLoading fields={this.state.entry.fields} />
               {/* <DynamicComponentLoading fields={testingObject.fields} /> */}
-              {comment}
-              <br/>
-              {this._showComment()}
-              
+              <div className="row">
+                <h5>Comments: </h5>
+              </div>
+              <div className="row">
+                <div className="col-md-12">{comment}</div>
+              </div>
+              <br />
+              <div className="row">
+                <div className="col-md-12">{this._showComment()}</div>
+              </div>
             </div>
           </div>
         </div>

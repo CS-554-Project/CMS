@@ -17,14 +17,9 @@ class Link extends Component {
         </div>
         <div className="col-md-10">
           <div className="row">
-            <div className="col-md-3">
-              <h6>{this.props.data.value.title}</h6>
-            </div>
-            <div className="col-md-8">
-              <a href={this.props.data.value.url} target="_blank">
-                {this.props.data.value.title} Link
-              </a>
-            </div>
+            <a href={this.props.data.value.url} target="_blank">
+              {this.props.data.value.title} Link
+            </a>
           </div>
         </div>
       </div>
