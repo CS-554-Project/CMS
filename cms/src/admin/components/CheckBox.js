@@ -5,7 +5,7 @@ class CheckBox extends Component {
     return (
       <div className="form-group">
         <div className="form-check">
-          <label className="form-check-label">
+          <label className="form-check-label" for={this.props.data.label}>
             <input
               type="checkbox"
               id={this.props.data.label}
