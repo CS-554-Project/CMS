@@ -159,7 +159,7 @@ let exportedMethods = {
     return this.getEntryByEntrySlug(entry_slug).then(currentEntry => {
       let updatedEntry = {
         title: title,
-        slug:entry_slug,
+        slug: currentEntry.slug,
         blurb: blurb,
         author: author,
         fields: fields,
@@ -176,7 +176,6 @@ let exportedMethods = {
             return this.getStructureBySlug(structure_slug);
           });
       });
-      
     });
 },
 
@@ -189,6 +188,7 @@ let exportedMethods = {
           let result = data.entries.filter(function(obj) {
             return obj.slug == slug;
           })[0];
+          console.log(result);
           result.structslug=data.slug;
           return result;
         });
@@ -227,25 +227,21 @@ let exportedMethods = {
   },
 
   addCommentsByEntrySlug(slug,comments){
-      return structures().then(structuresCollection => {
-            let newEntryObject = {
-              _id: uuid(),
-              comments: comments
-            };
-            return structuresCollection
-              .updateOne(
-                { "entries.slug": slug },
-                  {
-                    $set: {"entries.$.comments" :newEntryObject}
-                  }
-              )
-              .then(function(result) {
-                if (result.result.ok === 1) return result.result;
-                else throw new Error("Error Adding New Entry");
-              });
-          
-      });
-   
+    return structures().then(structuresCollection => {
+      let newEntryObject = {
+        _id: uuid(),
+        comments: comments,
+      };
+      return structuresCollection
+        .updateOne(
+          { "entries.slug": slug },
+          { $push: { "entries.$.comments": newEntryObject } }
+        )
+        .then(function(result) {
+          if (result.result.ok === 1) return result.result;
+          else throw new Error("Error Adding New Comment");
+        });
+    });
 
   },
 
@@ -272,16 +268,26 @@ let exportedMethods = {
 
 module.exports = exportedMethods;
 
+<<<<<<< HEAD
 
 
 // exportedMethods.editStructureEntries("total 3","total 3 Entry 1","title","blurb","author","fields").then(function(data){
+=======
+// exportedMethods.editStructureEntries('Comment', 'Kishan 1', 'Kishan', 'Kishan 1', 'admin', { "label" : "Comment", "type" : "small-text-input", "value" : "Kishan" }).then(function(data){
+>>>>>>> 39d8eb48fa6b981fc4b85616b39754259dc470d3
 //    console.log(data);
 // })
 
 
+<<<<<<< HEAD
 exportedMethods.addCommentsByEntrySlug("total 3 Entry 1","comments1").then(function(data){
    console.log(data);
 })
 
 
 
+=======
+// exportedMethods.addCommentsByEntrySlug("1", "comments").then(function(data){
+//    console.log(data);
+// })
+>>>>>>> 39d8eb48fa6b981fc4b85616b39754259dc470d3

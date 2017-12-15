@@ -117,7 +117,6 @@ redisConnection.on("delete-structure:request:*", (message, channel) => {
   let failedEvent = `${eventName}:failed:${requestId}`;
 
   let structure = message.data.structure;
-  console.log(structure);
   structureData
     .deleteStructure(xss(structure.slug))
     .then(response => {
@@ -369,6 +368,37 @@ redisConnection.on("update-user:request:*", (message, channel) => {
     .updateUser(user.id)
     .then(response => {
       let successMessage = response;
+      redisConnection.emit(successEvent, {
+        requestId: requestId,
+        data: successMessage,
+        eventName: eventName
+      });
+    })
+    .catch(err => {
+      let errorMessage = err.message;
+      redisConnection.emit(failedEvent, {
+        requestId: requestId,
+        data: errorMessage,
+        eventName: eventName
+      });
+    });
+});
+
+redisConnection.on("add-comment:request:*", (message, channel) => {
+  let requestId = message.requestId;
+  let eventName = message.eventName;
+
+  let successEvent = `${eventName}:success:${requestId}`;
+  let failedEvent = `${eventName}:failed:${requestId}`;
+
+  let entry = message.data.entry;
+  structureData.
+    addCommentsByEntrySlug(
+      xss(entry.slug),
+      xss(entry.comment)
+    )
+    .then(response => {
+      let successMessage = "Comment Added Successfully";
       redisConnection.emit(successEvent, {
         requestId: requestId,
         data: successMessage,
