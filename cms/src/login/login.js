@@ -77,14 +77,14 @@ class Login extends Component {
             </div>
                 <form onSubmit={this._handleSubmit}>
                     <div className='form-group'>
-                        <label className='col-sm-2 col-form-label'>Username</label>
+                        <label className='col-sm-2 col-form-label'for="username">Username</label>
                         <div className='col-sm-10'>
                             <input type='text' id='username' className='form-control' placeholder='Username' value={this.state.username} onChange={this._handleChange} />
                         </div>
                     </div>
                         
                     <div className='form-group'>
-                        <label className='col-sm-2 col-form-label'>Password</label>
+                        <label className='col-sm-2 col-form-label'for="password">Password</label>
                         <div className='col-sm-10'>
                             <input type='password' id='password' className='form-control' placeholder='Password' value={this.state.password} onChange={this._handleChange} />
                         </div>

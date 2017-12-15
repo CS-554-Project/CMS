@@ -107,32 +107,32 @@ class signup extends Component {
                 <br/>
                 <form>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label"> FirstName </label>
+                    <label className="col-sm-2 col-form-label" for="firstName"> FirstName </label>
                     <div className="col-sm-10">
                         <input type="text" id="firstName" className="form-control"  placeholder="Enter FirstName" value={this.state.firstName} onChange={this._handleChange} />
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label"> LastName</label>
+                    <label className="col-sm-2 col-form-label" for="lastName"> LastName</label>
                     <div className="col-sm-10">
                         <input type="text" id="lastName" className="form-control" placeholder="Enter LastName" value={this.state.lastName} onChange={this._handleChange} />
                     </div>
                 </div>         
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label"> UserName</label>
+                    <label className="col-sm-2 col-form-label" for="userName"> UserName</label>
                     <div className="col-sm-10">
                         <input type="text" id="userName" className="form-control" placeholder="Enter UserName" value={this.state.userName} onChange={this._handleChange} />
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label"> Password</label>
+                    <label className="col-sm-2 col-form-label" for="password"> Password</label>
                     <div className="col-sm-10">
                         <input type="password" id="password" className="form-control" placeholder="Enter Password" value={this.state.password} onChange={this._handleChange} />
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label"> Biography</label>
+                    <label className="col-sm-2 col-form-label" for="biography"> Biography</label>
                     <div className="col-sm-10">
                         <input type="text" id="biography" className="form-control" placeholder="Enter Biography" value={this.state.biography} onChange={this._handleChange} />
                     </div>
