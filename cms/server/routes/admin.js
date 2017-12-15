@@ -136,7 +136,7 @@ router.post("/updateentry", async (req, res) => {
       expectsResponse: true
     });
 
-    await client.delete(req.body.slug);
+    await client.del(req.body.slug);
 
     elasticSearch.deleteEntry(xss(req.body.slug)).then(() => {
       elasticSearch

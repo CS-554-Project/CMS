@@ -155,21 +155,23 @@ let exportedMethods = {
     });
   },
 
-  editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
-  
-     
+  editStructureEntries(structure_slug, title, slug, blurb, author, fields) {
+    return this.getEntryByEntrySlug(slug).then(currentEntry => {
       let updatedEntry = {
         title: title,
-        slug:entry_slug,
+        slug: currentEntry.slug,
         blurb: blurb,
         author: author,
-        fields: fields,
+        created_date: currentEntry.created_date,
+        fields: currentEntry.fields,
+        comments: currentEntry.comments
       };
+    });
       return structures().then(structuresCollection => {
         return structuresCollection
           .update(
-            { "entries.slug": entry_slug },
-            {$set :{"entries":updatedEntry} })
+            { "entries.slug": slug },
+            {$set :{"entries": updatedEntry} })
           .then(() => {
             return this.getStructureBySlug(structure_slug);
           });
@@ -187,6 +189,7 @@ let exportedMethods = {
           let result = data.entries.filter(function(obj) {
             return obj.slug == slug;
           })[0];
+          console.log(result);
           result.structslug=data.slug;
           
           return result;
@@ -227,21 +230,19 @@ let exportedMethods = {
 
   addCommentsByEntrySlug(slug,comments){
     return structures().then(structuresCollection => {
-     
-          let newEntryObject = {
-            _id: uuid(),
-            comments: comments,
-          };
-          return structuresCollection
-            .updateOne(
-              { "entries.slug": slug },
-              { $push: { "entries.comments": newEntryObject } }
-            )
-            .then(function(result) {
-              if (result.result.ok === 1) return result.result;
-              else throw new Error("Error Adding New Entry");
-            });
-      
+      let newEntryObject = {
+        _id: uuid(),
+        comments: comments,
+      };
+      return structuresCollection
+        .updateOne(
+          { "entries.slug": slug },
+          { $push: { "entries.$.comments": newEntryObject } }
+        )
+        .then(function(result) {
+          if (result.result.ok === 1) return result.result;
+          else throw new Error("Error Adding New Comment");
+        });
     });
 
   },
@@ -269,16 +270,11 @@ let exportedMethods = {
 
 module.exports = exportedMethods;
 
-
-
-// exportedMethods.editStructureEntries("total 2","total 2 Entry 1","title","blurb","author","fields").then(function(data){
+// exportedMethods.editStructureEntries('Comment', 'Kishan 1', 'Kishan', 'Kishan 1', 'admin', { "label" : "Comment", "type" : "small-text-input", "value" : "Kishan" }).then(function(data){
 //    console.log(data);
 // })
 
 
-// exportedMethods.addCommentsByEntrySlug("total 2 Entry 1","comments").then(function(data){
+// exportedMethods.addCommentsByEntrySlug("1", "comments").then(function(data){
 //    console.log(data);
 // })
-
-
-

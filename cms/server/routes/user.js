@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const redisConnection = require("../js/redis-connection");
+const redis = require("redis");
+const client = redis.createClient();
+const nrpSender = require("../js/nrp-sender-shim");
 const data = require("../data");
 const structureData = data.structures;
 const search = data.search;
 const xss = require("xss");
 const imagemagick = require("imagemagick");
-const redis = require("redis");
 
-const client = redis.createClient();
 
 router.get("/structures", (req, res) => {
   structureData.getAllStructures().then(response => {
@@ -56,6 +58,24 @@ router.get("/entry", (req, res) => {
       responseJSON = response;
       res.status(200).json(response);
     });
+  }
+});
+
+router.post("/addcomment", async (req, res) => {
+  try {
+    let response = await nrpSender.sendMessage({
+      redis: redisConnection,
+      eventName: "add-comment",
+      data: {
+        entry: req.body
+      },
+      expectsResponse: true
+    });
+    client.del(req.body.slug).then(()=>{
+      res.json(response);
+    });
+  } catch (err) {
+    res.json({ error: err });
   }
 });
 
