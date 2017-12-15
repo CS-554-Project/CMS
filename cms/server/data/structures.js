@@ -155,36 +155,28 @@ let exportedMethods = {
     });
   },
 
-  editStructureEntries(
-    structure_slug,
-    title,
-    slug,
-    blurb,
-    author,
-    created_date,
-    comments,
-    fields
-  ) {
-    return structures().then(structuresCollection => {
-      entryID = uuid();
-      let newEntryObject = {
-        _id: entryID,
+  editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
+  
+     
+      let updatedEntry = {
         title: title,
-        slug: slug,
+        slug:entry_slug,
         blurb: blurb,
         author: author,
-        created_date: new Date(),
         fields: fields,
-        comments: []
       };
-      return structuresCollection
-        .updateOne(
-          { slug: structure_slug },
-          { $push: { entries: newEntryObject } }
-        )
-        .then(function() {});
-    });
-  },
+      return structures().then(structuresCollection => {
+        return structuresCollection
+          .update(
+            { "entries.slug": entry_slug },
+            {$set :{"entries":updatedEntry} })
+          .then(() => {
+            return this.getStructureBySlug(structure_slug);
+          });
+      });
+      
+  
+},
 
   getEntryByEntrySlug(slug) {
     slug = String(slug);
@@ -256,115 +248,11 @@ let exportedMethods = {
 
 module.exports = exportedMethods;
 
-// exportedMethods.getAllStructures().then(function (data) {
-//     console.log(data);
-// });
 
-// exportedMethods.getEntryByEntrySlug("total 2 Entry 1").then(function(data){
-//   console.log(data);
+
+// exportedMethods.editStructureEntries("total 2","total 2 Entry 1","title","blurb","author","fields").then(function(data){
+//    console.log(data);
 // })
-
-// exportedMethods.getStructureBySlug("st1").then(function (data) {
-//     console.log(data);
-// });
-
-// let fields=
-// [{ label: 'Name', type: 'small-text-input' },
-// { label: 'Number', type: 'number-input' },
-// { label: 'CheckBox', type: 'checkbox'}];
-
-// exportedMethods.addStructure("Struct1", "st1", "Structure 1", 10, fields).then(function(data){
-//     console.log(data);
-// });
-
-// let fields=
-// [{ label: 'Text Area', type: 'text-area', number: 1 },
-// { label: 'Link', type: 'link', number: 2 }];
-
-// exportedMethods.addStructure("Struct2", "st2", "Structure 2", 5,fields).then(function(data){
-//     console.log(data);
-// });
-
-// let fields=
-// [{ label: 'Name', type: 'small-text-input', number: 1 },
-// { label: 'Number', type: 'number-input', number: 2 },
-// { label: 'CheckBox', type: 'checkbox', number: 3 }];
-
-// exportedMethods.addStructure("Struct3", "st3", "Structure 3", 6,fields).then(function(data){
-//     console.log(data);
-// });
-
-// let fields=
-// [{ label: 'Text Area', type: 'text-area', number: 1 },
-// { label: 'Link', type: 'link', number: 2 }];
-
-// exportedMethods.addStructure("Struct4", "st4", "Structure 4 ", 6, fields).then(function(data){
-//     console.log(data);
-// });
-
-// exportedMethods.deleteStructure("st2");
-
-// let fields=
-// [{ label: 'Text Area', type: 'text-area', value: "Hii," },
-// { label: 'Link', type: 'link', value: "www.link.com" }];
-
-// exportedMethods.addStructureEntries("st1","Struct1: Entry1","st1entry1","Structure 1 In Entry 1","Test1").then(function(data){
-//     console.log(data);
-// });
-
-// let Entryfields=
-// [{ label: 'Name', type: 'small-text-input', number: 1 },
-// { label: 'Number', type: 'number-input', number: 2 },
-// { label: 'CheckBox', type: 'checkbox', number: 3 }];
-// //console.log(Entryfields);
-// exportedMethods.addStructureEntries("st1","Struct1: Entry2","st1entry2", "Structure 1 In Entry 2","Test2",Entryfields).then(function(data){
-//     //console.log(data);
-// });
-
-// let fields=
-// [{ label: 'Name', type: 'small-text-input', number: 1 },
-// { label: 'Number', type: 'number-input', number: 2 },
-// { label: 'CheckBox', type: 'checkbox', number: 3 }];
-
-// exportedMethods.addStructureEntries("st1","Struct1: Entry3","st1entry3", "Structure 1 In Entry 3","Test3",fields).then(function(data){
-//     //console.log(data);
-// });
-
-// exportedMethods.addStructureEntries("st2","Struct2: Entry1","st1entry1", "Structure 2 In Entry 1","Test1").then(function(data){
-//     //console.log(data);
-// });
-
-// exportedMethods.addStructureEntries("st2","Struct2: Entry2","st2entry2", "Structure 2 In Entry 2","Test2").then(function(data){
-//     //console.log(data);
-// });
-// exportedMethods.addStructureEntries("st2","Struct2: Entry3","st2entry3", "Structure 2 In Entry 3","Test3").then(function(data){
-//     //console.log(data);
-// });
-
-// exportedMethods.addStructureEntries("st3","Struct3: Entry1","st3entry1", "Structure 3 In Entry 1","Test1").then(function(data){
-//     //console.log(data);
-// });
-
-// exportedMethods.addStructureEntries("st4","Struct4: Entry1","st4entry1", "Structure 4 In Entry 1","Test1").then(function(data){
-//     //console.log(data);
-// });
-
-// exportedMethods.removeEntry("total Entry 4").then(function(data){
-
-//    // console.log("removed");
-// });
-
-// exportedMethods.editStructure("st4",data)
-
-// exportedMethods.getEntryByEntrySlug("total 1 Entry 1").then(function(data){
-//     console.log(data);
-// })
-
-
-// exportedMethods.getEntryByEntryID("95b3b721-842a-44e8-8e7b-d8976ce002e4").then(function(data){
-//     console.log(data);
-// })
-
 
 
 
