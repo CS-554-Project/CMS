@@ -156,26 +156,28 @@ let exportedMethods = {
   },
 
   editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
-  
-     
+    return this.getEntryByEntrySlug(entry_slug).then(currentEntry => {
       let updatedEntry = {
         title: title,
         slug:entry_slug,
         blurb: blurb,
         author: author,
         fields: fields,
+        created_date:currentEntry.created_date,
+        comments:currentEntry.comments,
+        
       };
       return structures().then(structuresCollection => {
         return structuresCollection
-          .update(
+          .updateOne(
             { "entries.slug": entry_slug },
-            {$set :{"entries":updatedEntry} })
+            {$set :{"entries.$":updatedEntry} })
           .then(() => {
             return this.getStructureBySlug(structure_slug);
           });
       });
       
-  
+    });
 },
 
   getEntryByEntrySlug(slug) {
@@ -188,7 +190,6 @@ let exportedMethods = {
             return obj.slug == slug;
           })[0];
           result.structslug=data.slug;
-          
           return result;
         });
     });
@@ -226,23 +227,25 @@ let exportedMethods = {
   },
 
   addCommentsByEntrySlug(slug,comments){
-    return structures().then(structuresCollection => {
-     
-          let newEntryObject = {
-            _id: uuid(),
-            comments: comments,
-          };
-          return structuresCollection
-            .updateOne(
-              { "entries.slug": slug },
-              { $push: { "entries.comments": newEntryObject } }
-            )
-            .then(function(result) {
-              if (result.result.ok === 1) return result.result;
-              else throw new Error("Error Adding New Entry");
-            });
-      
-    });
+      return structures().then(structuresCollection => {
+            let newEntryObject = {
+              _id: uuid(),
+              comments: comments
+            };
+            return structuresCollection
+              .updateOne(
+                { "entries.slug": slug },
+                  {
+                    $set: {"entries.$.comments" :newEntryObject}
+                  }
+              )
+              .then(function(result) {
+                if (result.result.ok === 1) return result.result;
+                else throw new Error("Error Adding New Entry");
+              });
+          
+      });
+   
 
   },
 
@@ -271,12 +274,12 @@ module.exports = exportedMethods;
 
 
 
-// exportedMethods.editStructureEntries("total 2","total 2 Entry 1","title","blurb","author","fields").then(function(data){
-//    console.log(data);
-// })
+exportedMethods.editStructureEntries("total 3","total 3 Entry 1","title","blurb","author","fields").then(function(data){
+   console.log(data);
+})
 
 
-// exportedMethods.addCommentsByEntrySlug("total 2 Entry 1","comments").then(function(data){
+// exportedMethods.addCommentsByEntrySlug("total 1 Entry 1","comments1").then(function(data){
 //    console.log(data);
 // })
 
