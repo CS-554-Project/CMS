@@ -4,6 +4,6 @@ This project is to create a content management system that offers configurable d
 
 ## Contributors:
 
-- Harsh Kevadia
-- Kishan Gajjar
-- Ruchika Sutariya
+* Harsh Kevadia
+* Kishan Gajjar
+* Ruchika Sutariya

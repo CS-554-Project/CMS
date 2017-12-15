@@ -21,8 +21,8 @@ class SingleStructure extends Component {
   async getStructure(reqSlug) {
     try {
       this.setState({ loading: true });
-     //console.log("/user/entries?slug=" + reqSlug);
-      let response = await axiosInstance.get("/user/entries",{
+      //console.log("/user/entries?slug=" + reqSlug);
+      let response = await axiosInstance.get("/user/entries", {
         params: {
           slug: reqSlug
         }
@@ -76,9 +76,7 @@ class SingleStructure extends Component {
 
     let body = null;
     if (this.state.loading) {
-      body = (
-        <div className="row">Loading...</div>
-      );
+      body = <div className="row">Loading...</div>;
     } else if (this.state.structure) {
       body = (
         <div className="row">

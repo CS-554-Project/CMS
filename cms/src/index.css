@@ -15,7 +15,7 @@ body {
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
-  background-color: rgba(255, 255, 255, 0.952);/* Media Query*/
+  background-color: rgba(255, 255, 255, 0.952); /* Media Query*/
 }
 
 /* Custom page CSS
@@ -38,15 +38,12 @@ code {
 /* Media Query for CSS3*/
 
 @media (min-width: 481px) and (max-width: 768px) {
-  
 }
 
 @media (min-width: 321px) and (max-width: 480px) {
-  
 }
 
 @media (max-width: 320px) {
- 
 }
 
 .rdw-editor-wrapper {
@@ -56,21 +53,16 @@ code {
 .Collapsible__trigger {
   font-weight: bold;
 }
- 
 
 /*Login Form CSS*/
-#btnlogin{
+#btnlogin {
   width: 50%;
   float: left;
-  margin:-4px -6px 0px 0px;
- 
-  
+  margin: -4px -6px 0px 0px;
 }
 
-#btnsignup{
+#btnsignup {
   width: 50%;
   float: right;
-  margin:-4px -6px 0px 0px;
-  
+  margin: -4px -6px 0px 0px;
 }
-
