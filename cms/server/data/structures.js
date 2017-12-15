@@ -155,29 +155,28 @@ let exportedMethods = {
     });
   },
 
-  editStructureEntries(structure_slug, title, slug, blurb, author, fields) {
-    return this.getEntryByEntrySlug(slug).then(currentEntry => {
+  editStructureEntries(structure_slug,entry_slug,title,blurb,author,fields) {
+    return this.getEntryByEntrySlug(entry_slug).then(currentEntry => {
       let updatedEntry = {
         title: title,
         slug: currentEntry.slug,
         blurb: blurb,
         author: author,
-        created_date: currentEntry.created_date,
-        fields: currentEntry.fields,
-        comments: currentEntry.comments
+        fields: fields,
+        created_date:currentEntry.created_date,
+        comments:currentEntry.comments,
+        
       };
-    });
       return structures().then(structuresCollection => {
         return structuresCollection
-          .update(
-            { "entries.slug": slug },
-            {$set :{"entries": updatedEntry} })
+          .updateOne(
+            { "entries.slug": entry_slug },
+            {$set :{"entries.$":updatedEntry} })
           .then(() => {
             return this.getStructureBySlug(structure_slug);
           });
       });
-      
-  
+    });
 },
 
   getEntryByEntrySlug(slug) {
@@ -191,7 +190,6 @@ let exportedMethods = {
           })[0];
           console.log(result);
           result.structslug=data.slug;
-          
           return result;
         });
     });
