@@ -12,9 +12,11 @@ class ReferenceEntry extends Component {
       activeButton: ""
     };
 
-    this._fetchAllStructures().then(data => this.setState({
-      allStructures: data
-    }));
+    this._fetchAllStructures().then(data =>
+      this.setState({
+        allStructures: data
+      })
+    );
   }
 
   async _fetchAllStructures() {
@@ -46,10 +48,14 @@ class ReferenceEntry extends Component {
                   <div key={entry.title + eidx}>
                     <Button
                       type="button"
-                      onClick={e => this.handleClick(e, entry, entry.title + eidx)}
+                      onClick={e =>
+                        this.handleClick(e, entry, entry.title + eidx)
+                      }
                       style={styles.indentLeft}
                       bsStyle={
-                        this.state.activeButton === entry.title + eidx ? "primary" : undefined
+                        this.state.activeButton === entry.title + eidx
+                          ? "primary"
+                          : undefined
                       }
                     >
                       {entry.title}

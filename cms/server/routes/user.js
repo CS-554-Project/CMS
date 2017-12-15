@@ -10,7 +10,6 @@ const search = data.search;
 const xss = require("xss");
 const imagemagick = require("imagemagick");
 
-
 router.get("/structures", (req, res) => {
   structureData.getAllStructures().then(response => {
     res.status(200).json(response);
@@ -71,7 +70,7 @@ router.post("/addcomment", async (req, res) => {
       },
       expectsResponse: true
     });
-    client.del(req.body.slug).then(()=>{
+    client.del(req.body.slug).then(() => {
       res.json(response);
     });
   } catch (err) {

@@ -1,7 +1,6 @@
 const es_client = require("../js/elastic-connection");
 
 let exportedMethods = {
-
   addEntryToIndex(structureslug, title, slug, blurb) {
     return es_client.index({
       index: "entries",
@@ -26,7 +25,6 @@ let exportedMethods = {
       }
     });
   }
-
 };
 
 module.exports = exportedMethods;

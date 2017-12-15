@@ -1,11 +1,11 @@
-const elasticsearch = require('elasticsearch');
+const elasticsearch = require("elasticsearch");
 
-const es_client = new elasticsearch.Client( {  
-    host: 'localhost:9200/',
-    log: 'info'
+const es_client = new elasticsearch.Client({
+  host: "localhost:9200/",
+  log: "info"
 });
 
-// es_client.indices.delete({ index: 'entries' }, (err, res, status) => {  
+// es_client.indices.delete({ index: 'entries' }, (err, res, status) => {
 //   es_client.indices.create({ index: 'entries' }, (err, res, status) => {
 //     if(err) {
 //       console.log(err);
@@ -15,4 +15,4 @@ const es_client = new elasticsearch.Client( {
 //   });
 // });
 
-module.exports = es_client; 
+module.exports = es_client;

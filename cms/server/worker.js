@@ -391,11 +391,8 @@ redisConnection.on("add-comment:request:*", (message, channel) => {
   let failedEvent = `${eventName}:failed:${requestId}`;
 
   let entry = message.data.entry;
-  structureData.
-    addCommentsByEntrySlug(
-      xss(entry.slug),
-      xss(entry.comment)
-    )
+  structureData
+    .addCommentsByEntrySlug(xss(entry.slug), xss(entry.comment))
     .then(response => {
       let successMessage = "Comment Added Successfully";
       redisConnection.emit(successEvent, {

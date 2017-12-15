@@ -11,7 +11,9 @@ class DatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: this.props.data.value? moment(this.props.data.value): moment()
+      startDate: this.props.data.value
+        ? moment(this.props.data.value)
+        : moment()
     };
   }
 
