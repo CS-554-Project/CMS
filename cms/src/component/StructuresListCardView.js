@@ -19,7 +19,7 @@ class StructuresListCardView extends Component {
           <div className="col-md-4 custom-card">
             <div className="card">
               <div className="card-block custom-card">
-                <h3 className="card-title">{structure.name}</h3>
+                <h2 className="card-title">{structure.name}</h2>
                 <p className="card-text">{structure.description}</p>
                 <Link to={"/" + structure.slug}>
                   <button className="btn btn-primary">{structure.name}</button>

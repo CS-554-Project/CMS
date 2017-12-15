@@ -19,9 +19,15 @@ class YouTube extends Component {
 
     return (
       <div className="form-group row">
-        <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
+        <label className="col-sm-2 col-form-label">
+          {this.props.data.label}
+        </label>
         <div className="col-sm-10">
-          <YouTubeModule videoId={this.props.data.value} opts={opts} onReady={this._onReady} />
+          <YouTubeModule
+            videoId={this.props.data.value}
+            opts={opts}
+            onReady={this._onReady}
+          />
         </div>
       </div>
     );

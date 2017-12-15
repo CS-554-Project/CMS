@@ -13,13 +13,18 @@ class DatePicker extends Component {
       startDate: moment(this.props.data.value)
     };
   }
-  
+
   render() {
     return (
       <div className="form-group row">
-        <label className="col-sm-2 col-form-label">{this.props.data.label}</label>
+        <label className="col-sm-2 col-form-label">
+          {this.props.data.label}
+        </label>
         <div className="col-sm-10">
-          <DatePickerModule id={this.props.data.label} selected={this.state.startDate} />
+          <DatePickerModule
+            id={this.props.data.label}
+            selected={this.state.startDate}
+          />
         </div>
       </div>
     );

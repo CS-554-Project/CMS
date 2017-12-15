@@ -140,16 +140,15 @@ router.post("/updateentry", async (req, res) => {
 
     elasticSearch.deleteEntry(xss(req.body.slug)).then(() => {
       elasticSearch
-      .addEntryToIndex(
-        xss(req.body.structureslug),
-        xss(req.body.title),
-        xss(req.body.slug),
-        xss(req.body.blurb)
-      )
-      .then(done => {
-
-        res.json(response);
-      });
+        .addEntryToIndex(
+          xss(req.body.structureslug),
+          xss(req.body.title),
+          xss(req.body.slug),
+          xss(req.body.blurb)
+        )
+        .then(done => {
+          res.json(response);
+        });
     });
   } catch (err) {
     res.json({ error: err });
@@ -190,13 +189,13 @@ router.delete("/deleteentry", async (req, res) => {
   }
 });
 
-router.post("/uploadimage", uploadImage.single('image'), async (req, res) => {
-  res.json('Image Uploaded'); 
+router.post("/uploadimage", uploadImage.single("image"), async (req, res) => {
+  res.json("Image Uploaded");
 });
 
 router.post("/resizeimage", async (req, res) => {
-  imagemagick.convertImageToThumbnail(req.body.image, (response) => {
-    res.json('Image Resized');
+  imagemagick.convertImageToThumbnail(req.body.image, response => {
+    res.json("Image Resized");
   });
 });
 
