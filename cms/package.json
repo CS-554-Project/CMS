@@ -27,7 +27,7 @@
     "react-file-download": "^0.3.5",
     "react-render-html": "^0.6.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17",
+    "react-scripts": "5.0.1",
     "react-toastify": "^3.1.0",
     "react-youtube": "^7.5.0",
     "reactstrap": "^4.8.0",
